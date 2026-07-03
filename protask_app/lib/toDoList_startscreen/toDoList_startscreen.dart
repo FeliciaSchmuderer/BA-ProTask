@@ -14,28 +14,28 @@ class _TodolistStartscreenState extends State<TodolistStartscreen> {
       appBar: AppBar(
         title: const Text('ProTask'),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem> [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.wb_sunny_rounded),
-            label: 'Today'),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month),
-            label: 'Calendar',
-            ),
-
-          BottomNavigationBarItem(
+      // App Menu for navigation
+      bottomNavigationBar:
+          BottomNavigationBar(items: const <BottomNavigationBarItem>[
+        // ToDoList Startscreen
+        BottomNavigationBarItem(
+            icon: Icon(Icons.wb_sunny_rounded), label: 'Today'),
+        // Weekly and monthly calendar view screens
+        BottomNavigationBarItem(
+          icon: Icon(Icons.calendar_month),
+          label: 'Calendar',
+        ),
+        // controll screen
+        BottomNavigationBarItem(
             icon: Icon(Icons.check_circle_outline_rounded),
             label: 'accomplishments'),
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.auto_graph_outlined),
-            label: 'Goals'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.flag),
-            label: 'Priority'),
-        ]),
+        // graphic view screen
+        BottomNavigationBarItem(
+            icon: Icon(Icons.auto_graph_outlined), label: 'Goals'),
+        // Eisenhowermatrix but optinal still
+        BottomNavigationBarItem(icon: Icon(Icons.flag), label: 'Priority'),
+      ]),
     );
   }
 }
