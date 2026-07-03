@@ -22,15 +22,19 @@ class _TodolistStartscreenState extends State<TodolistStartscreen> {
 
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
+            label: 'Calendar',
             ),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.check_circle_outline_rounded)),
+            icon: Icon(Icons.check_circle_outline_rounded),
+            label: 'accomplishments'),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.auto_graph_outlined),),
+            icon: Icon(Icons.auto_graph_outlined),
+            label: 'Goals'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.flag)),
+            icon: Icon(Icons.flag),
+            label: 'Priority'),
         ]),
     );
   }
