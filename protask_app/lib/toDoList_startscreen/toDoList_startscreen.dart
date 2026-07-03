@@ -14,10 +14,15 @@ class _TodolistStartscreenState extends State<TodolistStartscreen> {
       appBar: AppBar(
         title: const Text('ProTask'),
       ),
+      //backgroundColor: Colors.grey,
 
       // App Menu for navigation
       bottomNavigationBar:
-          BottomNavigationBar(items: const <BottomNavigationBarItem>[
+          BottomNavigationBar(
+            backgroundColor: Colors.blueGrey,
+            selectedItemColor: Colors.white,
+            type: BottomNavigationBarType.fixed,
+            items: const <BottomNavigationBarItem>[
         // ToDoList Startscreen
         BottomNavigationBarItem(
             icon: Icon(Icons.wb_sunny_rounded), label: 'Today'),
