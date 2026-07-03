@@ -10,6 +10,28 @@ class TodolistStartscreen extends StatefulWidget {
 class _TodolistStartscreenState extends State<TodolistStartscreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('ProTask'),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem> [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.wb_sunny_rounded),
+            label: 'Today'),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month),
+            ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.check_circle_outline_rounded)),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.auto_graph_outlined),),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.flag)),
+        ]),
+    );
   }
 }
