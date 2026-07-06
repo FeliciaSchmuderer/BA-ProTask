@@ -39,6 +39,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ProTask'),
+        centerTitle: true,
+        leading: const Icon(Icons.menu_rounded),
+        actions: const [Icon(Icons.account_circle_rounded)],
       ),
       //backgroundColor: Colors.grey,
 
