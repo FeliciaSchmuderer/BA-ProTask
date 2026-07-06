@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/toDoList_startscreen/todo_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
@@ -15,14 +16,16 @@ class _NavigationScreenState extends State<NavigationScreen> {
   int _selectedIndex = 0;
 
   // list of widgets for bottom navigation items
-  // placeholder widgets -> later screens
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text('Index 0: Today'),
-    Text('Index 1: Calendar'),
-    Text('Index 2: Accomplishments'),
-    Text('Index 3: Goals'),
-    Text('Index 4: Priorities'),
+  //-> screens for navigations
+  final List<Widget> _pages = [
+    const TodoScreen(),
+    // const CalendarScreen(),
+    // const AccomplishmentsScreen(),
+    // const GoalsScreen(),
+    // const PriorityScreen(),
   ];
+
+  // list of widgets for bottom navigation items
 
   // updates the selected navigation item
   void _onItemTapped(int index) {
@@ -40,10 +43,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
       //backgroundColor: Colors.grey,
 
       // App Menu for navigation
-      body: Center(
-        // shows widget responding to the selected navigation item
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      // reference to screens
+      body: _pages[_selectedIndex],
+
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.blueGrey,
         type: BottomNavigationBarType.fixed,
