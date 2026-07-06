@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:protask_app/toDoList_startscreen/toDoList_startscreen.dart';
+import 'package:protask_app/navigation_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: TodolistStartscreen(),
+      home: NavigationScreen(),
     );
   }
 }
