@@ -10,6 +10,7 @@ class TodoScreen extends StatefulWidget {
 }
 
 class _TodoScreenState extends State<TodoScreen> {
+  // test todos
   final List<TodoItem> todos = [
     TodoItem(title: "kontrollscreen machen"),
     TodoItem(title: "boden wischen"),
@@ -36,41 +37,42 @@ class _TodoScreenState extends State<TodoScreen> {
                 const Text(
                   "Dienstag, 04.08.2026",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
-
-                  // todo list in the middle of the screen
                 ),
+                // todo list in the middle of the screen
                 Expanded(
-                    child: TodoList(
-                  todos: todos,
-                ))
+                  child: TodoList(
+                    todos: todos,
+                  ),
+                ),
               ],
             ),
           ),
 
           // Container for layout for textbox on the bottom for adding todos (+ add task)
           Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                margin: const EdgeInsets.all(20),
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: 45,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: Colors.grey[350],
-                ),
-                child: const Row(
-                  children: [
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Icon(Icons.add),
-                    Text(
-                      "Add Task",
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ],
-                ),
-              ))
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.all(20),
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: 45,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: Colors.grey[350],
+              ),
+              child: const Row(
+                children: [
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Icon(Icons.add),
+                  Text(
+                    "Add Task",
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
