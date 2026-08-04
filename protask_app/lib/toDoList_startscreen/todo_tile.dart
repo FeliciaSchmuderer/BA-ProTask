@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 
+// displays one single todo item
 class TodoTile extends StatelessWidget {
   final TodoItem todo;
   final Function(bool?) onChanged;
@@ -9,17 +10,24 @@ class TodoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // adds space between todos
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
+      // checkbox - todo item
       child: Row(
         children: [
+          // shows current checkbox state
           Checkbox(
             value: todo.isChecked,
             onChanged: onChanged,
           ),
+
+          // space between checkbox and title
           const SizedBox(
             width: 5,
           ),
+
+          // displays todo title
           Text(
             todo.title,
             style: const TextStyle(fontSize: 15),

@@ -27,25 +27,33 @@ class _TodoScreenState extends State<TodoScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // displays the current page title
                 const Text(
                   "Today",
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
+
+                // space between title and date
                 const SizedBox(
                   height: 3,
                 ),
+
+                // displays current date
                 const Text(
                   "Dienstag, 04.08.2026",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                 ),
 
+                // space before the todo list
                 const SizedBox(
                   height: 20,
                 ),
-                // todo list in the middle of the screen
+                // displays todo list in the middle of the screen and handles checkbox changes
                 Expanded(
                   child: TodoList(
                     todos: todos,
+
+                    // updates the checked state of the selected todo
                     onChanged: (value, index) {
                       setState(() {
                         todos[index].isChecked = value!;
