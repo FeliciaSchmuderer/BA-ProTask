@@ -9,9 +9,21 @@ class TodoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.only(bottom: 5),
       child: Row(
-       // children: [Checkbox(value: todo.isChecked, onChanged: (value))],
+        children: [
+          Checkbox(
+            value: todo.isChecked,
+            onChanged: (value) {},
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          Text(
+            todo.title,
+            style: const TextStyle(fontSize: 15),
+          )
+        ],
       ),
     );
   }

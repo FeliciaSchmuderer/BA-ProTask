@@ -38,6 +38,10 @@ class _TodoScreenState extends State<TodoScreen> {
                   "Dienstag, 04.08.2026",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
                 ),
+
+                const SizedBox(
+                  height: 20,
+                ),
                 // todo list in the middle of the screen
                 Expanded(
                   child: TodoList(
