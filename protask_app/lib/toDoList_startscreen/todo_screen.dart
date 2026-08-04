@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/toDoList_startscreen/todo_item.dart';
+import 'package:protask_app/toDoList_startscreen/todo_list.dart';
 
 class TodoScreen extends StatefulWidget {
   const TodoScreen({super.key});
@@ -8,28 +10,39 @@ class TodoScreen extends StatefulWidget {
 }
 
 class _TodoScreenState extends State<TodoScreen> {
+  final List<TodoItem> todos = [
+    TodoItem(title: "kontrollscreen machen"),
+    TodoItem(title: "boden wischen"),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // Stack for title "Today" and date below
       body: Stack(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(20),
+          Padding(
+            padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Today",
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 3,
                 ),
-                Text(
+                const Text(
                   "Dienstag, 04.08.2026",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
-                )
+
+                  // todo list in the middle of the screen
+                ),
+                Expanded(
+                    child: TodoList(
+                  todos: todos,
+                ))
               ],
             ),
           ),
