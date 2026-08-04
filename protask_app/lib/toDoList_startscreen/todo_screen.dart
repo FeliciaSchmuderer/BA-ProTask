@@ -46,6 +46,11 @@ class _TodoScreenState extends State<TodoScreen> {
                 Expanded(
                   child: TodoList(
                     todos: todos,
+                    onChanged: (value, index) {
+                      setState(() {
+                        todos[index].isChecked = value!;
+                      });
+                    },
                   ),
                 ),
               ],
