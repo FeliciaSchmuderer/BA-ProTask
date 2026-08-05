@@ -10,11 +10,28 @@ class TodoScreen extends StatefulWidget {
 }
 
 class _TodoScreenState extends State<TodoScreen> {
+// makes textfield active
+  final TextEditingController _controller = TextEditingController();
   // test todos
   final List<TodoItem> todos = [
     TodoItem(title: "kontrollscreen machen"),
     TodoItem(title: "boden wischen"),
   ];
+
+// function to check if text exists. If there is text a new todo will be created, list will be updated and textfield will be deleted
+  void addTodo() {
+    if (_controller.text.trim().isEmpty) {
+      return;
+    }
+
+    setState(() {
+      todos.add(
+        TodoItem(title: _controller.text),
+      );
+
+      _controller.clear();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,16 +93,27 @@ class _TodoScreenState extends State<TodoScreen> {
                 borderRadius: BorderRadius.circular(25),
                 color: Colors.grey[350],
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
-                  Icon(Icons.add),
-                  Text(
-                    "Add Task",
-                    style: TextStyle(fontSize: 14),
+
+                  // interactive textfield
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      decoration: const InputDecoration(
+                        hintText: "Add Task",
+                        border: InputBorder.none,
+                      ),
+                      onSubmitted: (value) {
+                        addTodo();
+                      },
+                    ),
                   ),
+                  IconButton(
+                      onPressed: addTodo, icon: const Icon(Icons.send_rounded))
                 ],
               ),
             ),
