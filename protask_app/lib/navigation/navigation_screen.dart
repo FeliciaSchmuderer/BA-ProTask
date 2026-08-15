@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/accomplishments/accomplishments_screen.dart';
 import 'package:protask_app/toDoList_startscreen/todo_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -20,9 +21,20 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final List<Widget> _pages = [
     const TodoScreen(),
     // const CalendarScreen(),
-    // const AccomplishmentsScreen(),
+    const Center(
+      child: Text("Calendar"),
+    ),
+
+    const AccomplishmentsScreen(),
     // const GoalsScreen(),
+
+    const Center(
+      child: Text("Goals"),
+    ),
     // const PriorityScreen(),
+    const Center(
+      child: Text("Priority"),
+    ),
   ];
 
   // list of widgets for bottom navigation items
