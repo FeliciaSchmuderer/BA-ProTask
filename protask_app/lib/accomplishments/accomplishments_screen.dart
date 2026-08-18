@@ -28,11 +28,13 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
   @override
   Widget build(BuildContext context) {
     // gets all todos from the central provider and only shows the completed todos
-    final accomplishments = context
-        .watch<TodoProvider>()
-        .todos
-        .where((todo) => todo.isChecked)
-        .toList();
+
+    final todoProvider = context.watch<TodoProvider>();
+
+// shows only completed todos
+    final accomplishments =
+        todoProvider.todos.where((todo) => todo.isChecked).toList();
+
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -123,9 +125,18 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
                   padding: const EdgeInsets.only(bottom: 5),
                   child: Row(
                     children: [
-                      const Icon(
-                        Icons.check_box_rounded,
+                      // current checked state with checkbox
+                      // if not checked the accomplishment dissapears from this list
+                      Checkbox(
+                        value: accomplishments[index].isChecked,
+                        onChanged: (value) {
+                          todoProvider.toggleTodo(
+                              todoProvider.todos
+                                  .indexOf(accomplishments[index]),
+                              value!);
+                        },
                       ),
+
                       const SizedBox(
                         width: 10,
                       ),
