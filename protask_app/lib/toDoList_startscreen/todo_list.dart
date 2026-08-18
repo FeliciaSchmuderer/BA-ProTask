@@ -27,7 +27,7 @@ class TodoList extends StatelessWidget {
           // passes current todo item to title
           todo: todos[index],
 
-          // sends checkbox changes
+          // sends checkbox changes back to TodoScreen
           onChanged: (value) {
             onChanged(value, index);
           },

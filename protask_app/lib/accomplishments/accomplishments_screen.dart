@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/provider/todo_provider.dart';
+import 'package:provider/provider.dart';
 
 class AccomplishmentsScreen extends StatefulWidget {
   const AccomplishmentsScreen({super.key});
@@ -11,29 +13,32 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
   // makes textfield active
   final TextEditingController _controller = TextEditingController();
 
-  // test accomplishments
-  final List<String> accomplishments = ["bambi füttern", "app implementieren"];
+  // adds new accomplishment using the same Todo model as normal todos
 
-  // adds new accomplishment
   void addAccomplishment() {
     if (_controller.text.trim().isEmpty) {
       return;
     }
 
-    setState(() {
-      accomplishments.add(_controller.text.trim());
-      _controller.clear();
-    });
+    // uses provider for adding completed todos
+    context.read<TodoProvider>().addCompletedTodo(_controller.text);
+    _controller.clear();
   }
 
   @override
   Widget build(BuildContext context) {
+    // gets all todos from the central provider and only shows the completed todos
+    final accomplishments = context
+        .watch<TodoProvider>()
+        .todos
+        .where((todo) => todo.isChecked)
+        .toList();
     return Padding(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "Todays Accomplishments",
             style: TextStyle(
               fontSize: 30,
@@ -42,12 +47,12 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
           ),
 
           // space between title and date
-          SizedBox(
+          const SizedBox(
             height: 3,
           ),
 
           // displays current date
-          Text(
+          const Text(
             "Samstag, 15.08.2026",
             style: TextStyle(
               fontSize: 15,
@@ -57,7 +62,7 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
 
           // space between date and accomplishment textfield
 
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
 
@@ -125,7 +130,7 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
                         width: 10,
                       ),
                       Text(
-                        accomplishments[index],
+                        accomplishments[index].title,
                         style: const TextStyle(fontSize: 15),
                       )
                     ],

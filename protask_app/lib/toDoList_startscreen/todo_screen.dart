@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/toDoList_startscreen/todo_list.dart';
+import 'package:provider/provider.dart';
+import 'package:protask_app/provider/todo_provider.dart';
 
 class TodoScreen extends StatefulWidget {
   const TodoScreen({super.key});
@@ -13,10 +14,6 @@ class _TodoScreenState extends State<TodoScreen> {
 // makes textfield active
   final TextEditingController _controller = TextEditingController();
   // test todos
-  final List<TodoItem> todos = [
-    TodoItem(title: "kontrollscreen machen"),
-    TodoItem(title: "boden wischen"),
-  ];
 
 // function to check if text exists. If there is text a new todo will be created, list will be updated and textfield will be deleted
   void addTodo() {
@@ -24,17 +21,19 @@ class _TodoScreenState extends State<TodoScreen> {
       return;
     }
 
-    setState(() {
-      todos.add(
-        TodoItem(title: _controller.text),
-      );
+    // todo will be added to central todo list
+    context.read<TodoProvider>().addTodo(_controller.text);
 
-      _controller.clear();
-    });
+    // clears textfield after adding a todo
+    _controller.clear();
   }
 
   @override
   Widget build(BuildContext context) {
+    // TodoScreen rebuilds automatically when provider changes through 'watch'
+    // gets it from the central provider
+    final todos = context.watch<TodoProvider>().todos;
+
     return Scaffold(
       // Stack for title "Today" and date below
       body: Stack(
@@ -70,11 +69,11 @@ class _TodoScreenState extends State<TodoScreen> {
                   child: TodoList(
                     todos: todos,
 
-                    // updates the checked state of the selected todo
+                    // updates the checked state of the selected todo in the central provider
+                    // also updated Accomplishments because they share the same data
                     onChanged: (value, index) {
-                      setState(() {
-                        todos[index].isChecked = value!;
-                      });
+                      // changes are also in the provider
+                      context.read<TodoProvider>().toggleTodo(index, value!);
                     },
                   ),
                 ),
