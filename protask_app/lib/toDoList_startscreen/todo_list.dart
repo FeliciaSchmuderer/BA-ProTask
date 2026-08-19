@@ -5,14 +5,16 @@ import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
 class TodoList extends StatelessWidget {
   // list of all todo items
   final List<TodoItem> todos;
-
   // Function to update the state of a todo (checked or not)
   final Function(bool?, int) onChanged;
+  // function to delete a todo
+  final Function(TodoItem) onDelete;
 
   const TodoList({
     super.key,
     required this.todos,
     required this.onChanged,
+    required this.onDelete,
   });
 
   @override
@@ -30,6 +32,10 @@ class TodoList extends StatelessWidget {
           // sends checkbox changes back to TodoScreen
           onChanged: (value) {
             onChanged(value, index);
+          },
+
+          onDelete: () {
+            onDelete(todos[index]);
           },
         );
       },

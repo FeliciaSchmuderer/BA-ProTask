@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
 
 class AccomplishmentsScreen extends StatefulWidget {
   const AccomplishmentsScreen({super.key});
@@ -121,31 +122,20 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
             child: ListView.builder(
               itemCount: accomplishments.length,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Row(
-                    children: [
-                      // current checked state with checkbox
-                      // if not checked the accomplishment dissapears from this list
-                      Checkbox(
-                        value: accomplishments[index].isChecked,
-                        onChanged: (value) {
-                          todoProvider.toggleTodo(
-                              todoProvider.todos
-                                  .indexOf(accomplishments[index]),
-                              value!);
-                        },
-                      ),
+                final todo = accomplishments[index];
 
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        accomplishments[index].title,
-                        style: const TextStyle(fontSize: 15),
-                      )
-                    ],
-                  ),
+                // deletes on left swipe
+                return TodoTile(
+                  todo: todo,
+                  onChanged: (value) {
+                    todoProvider.toggleTodo(
+                      todoProvider.todos.indexOf(todo),
+                      value!,
+                    );
+                  },
+                  onDelete: () {
+                    todoProvider.deleteTodo(todo);
+                  },
                 );
               },
             ),

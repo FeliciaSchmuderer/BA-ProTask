@@ -75,6 +75,11 @@ class _TodoScreenState extends State<TodoScreen> {
                       // changes are also in the provider
                       context.read<TodoProvider>().toggleTodo(index, value!);
                     },
+
+                    // deletes selected todo
+                    onDelete: (todo) {
+                      context.read<TodoProvider>().deleteTodo(todo);
+                    },
                   ),
                 ),
               ],

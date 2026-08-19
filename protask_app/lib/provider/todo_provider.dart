@@ -32,6 +32,12 @@ class TodoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // deletes a todo
+  void deleteTodo(TodoItem todo) {
+    _todos.remove(todo);
+    notifyListeners();
+  }
+
   // adds a todo that is already completed when it is added in accomplishments
   void addCompletedTodo(String title) {
     if (title.trim().isEmpty) {
