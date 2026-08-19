@@ -71,9 +71,9 @@ class _TodoScreenState extends State<TodoScreen> {
 
                     // updates the checked state of the selected todo in the central provider
                     // also updated Accomplishments because they share the same data
-                    onChanged: (value, index) {
+                    onChanged: (value, todo) {
                       // changes are also in the provider
-                      context.read<TodoProvider>().toggleTodo(index, value!);
+                      context.read<TodoProvider>().toggleTodo(todo, value!);
                     },
 
                     // deletes selected todo

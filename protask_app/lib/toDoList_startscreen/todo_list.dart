@@ -6,7 +6,7 @@ class TodoList extends StatelessWidget {
   // list of all todo items
   final List<TodoItem> todos;
   // Function to update the state of a todo (checked or not)
-  final Function(bool?, int) onChanged;
+  final Function(bool?, TodoItem) onChanged;
   // function to delete a todo
   final Function(TodoItem) onDelete;
 
@@ -19,8 +19,13 @@ class TodoList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    
     // scrollable list of todo tiles
     return ListView.builder(
+
+      padding: const EdgeInsets.only(bottom: 90),
+    
       itemCount: todos.length,
 
       // builds each todo item
@@ -31,7 +36,7 @@ class TodoList extends StatelessWidget {
 
           // sends checkbox changes back to TodoScreen
           onChanged: (value) {
-            onChanged(value, index);
+            onChanged(value, todos[index]);
           },
 
           onDelete: () {

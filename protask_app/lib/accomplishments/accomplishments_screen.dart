@@ -129,7 +129,7 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
                   todo: todo,
                   onChanged: (value) {
                     todoProvider.toggleTodo(
-                      todoProvider.todos.indexOf(todo),
+                      todo,
                       value!,
                     );
                   },
