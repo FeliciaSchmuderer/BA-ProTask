@@ -54,8 +54,13 @@ class TodoTile extends StatelessWidget {
             // displays todo title
             Text(
               todo.title,
-              style: const TextStyle(fontSize: 15),
-            )
+              style: TextStyle(
+                fontSize: 15,
+                decoration: todo.isChecked
+                    ? TextDecoration.lineThrough
+                    : TextDecoration.none,
+              ),
+            ),
           ],
         ),
       ),
