@@ -15,7 +15,6 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
   final TextEditingController _controller = TextEditingController();
 
   // adds new accomplishment using the same Todo model as normal todos
-
   void addAccomplishment() {
     if (_controller.text.trim().isEmpty) {
       return;
@@ -28,13 +27,11 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //CONSTANCES ?
     // gets all todos from the central provider and only shows the completed todos
-
     final todoProvider = context.watch<TodoProvider>();
-
-// shows only completed todos
-    final accomplishments =
-        todoProvider.todos.where((todo) => todo.isChecked).toList();
+    // shows only completed todos; gets them directly from the provider
+    final accomplishments = todoProvider.completedTodos;
 
     return Padding(
       padding: const EdgeInsets.all(20),
@@ -69,7 +66,7 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
             height: 20,
           ),
 
-          // Accomplishment textfield
+          // Add Accomplishment textfield
           Container(
             height: 45,
             decoration: BoxDecoration(

@@ -5,46 +5,36 @@ import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 // Today and Accomplishment get their todos from this same TodoProvider
 class TodoProvider extends ChangeNotifier {
   // private list of all todos
-  final List<TodoItem> _todos = [];
+  final List<TodoItem> _openTodos = [];
+  final List<TodoItem> _completedTodos = [];
 
   int _nextId = 0;
 
   // Gives screens access to the todos without allowing them to directly replace or modify the list
   // Returns all unfinished todos first and completed at the bottom
   List<TodoItem> get todos {
-    // copy to save the original _todos list
-    final sortedTodos = List<TodoItem>.from(_todos);
-
-    sortedTodos.sort((a, b) {
-      // if both todos have the same status the current order stays the same
-      if (a.isChecked == b.isChecked) {
-        if (!a.isChecked) {
-          return 0;
-        }
-
-        // if both are completed the most recently completed todo comes at first
-        if (a.completedAt == null || b.completedAt == null) {
-          return 0;
-        }
-
-        return b.completedAt!.compareTo(a.completedAt!);
-      }
-
-      // a checked todo gets moved to the bottom
-      return a.isChecked ? 1 : -1;
-    });
-
     // return the sorted list; List.unmodifiable prevents other classes from changing the list dirctly
-    return List.unmodifiable(sortedTodos);
+    return List.unmodifiable([..._openTodos, ..._completedTodos]);
   }
 
-  // adds a normal todo to the central list
+// GETTER
+//to access once open and completed todos
+
+  List<TodoItem> get openTodos {
+    return List.unmodifiable(_openTodos);
+  }
+
+  List<TodoItem> get completedTodos {
+    return List.unmodifiable(_completedTodos);
+  }
+
+  // adds an open todo
   void addTodo(String title) {
     if (title.trim().isEmpty) {
       return;
     }
 
-    _todos.add(
+    _openTodos.add(
       TodoItem(
         id: _nextId++,
         title: title.trim(),
@@ -57,15 +47,22 @@ class TodoProvider extends ChangeNotifier {
 
   // changes the completed state of a todo
   void toggleTodo(TodoItem todo, bool value) {
-    // changes selected todo directly
-    todo.isChecked = value;
-
     if (value) {
-      // saves current time to know which todo was completed at first for sorting the completed todos
+      // todo gets completed
+      _openTodos.remove(todo);
+
+      todo.isChecked = true;
       todo.completedAt = DateTime.now();
+
+      _completedTodos.add(todo);
     } else {
-      // unchecked -> todo is no longer considered completed
+      // todo is reopened
+      _completedTodos.remove(todo);
+
+      todo.isChecked = false;
       todo.completedAt = null;
+
+      _openTodos.add(todo);
     }
 
     notifyListeners();
@@ -73,7 +70,36 @@ class TodoProvider extends ChangeNotifier {
 
   // deletes a todo
   void deleteTodo(TodoItem todo) {
-    _todos.remove(todo);
+    _openTodos.remove(todo);
+    _completedTodos.remove(todo);
+
+    notifyListeners();
+  }
+
+  // changes position of todo after dragging
+  // only open todos can be rearranged
+  void reorderTodo(int oldIndex, int newIndex) {
+    if (oldIndex < 0 || oldIndex >= _openTodos.length) {
+      return;
+    }
+
+    if (newIndex > oldIndex) {
+      newIndex--;
+    }
+
+// new index minimum position
+    if (newIndex < 0) {
+      newIndex = 0;
+    }
+
+// new index maximum position
+    if (newIndex > _openTodos.length) {
+      newIndex = _openTodos.length;
+    }
+
+    final todo = _openTodos.removeAt(oldIndex);
+    _openTodos.insert(newIndex, todo);
+
     notifyListeners();
   }
 
@@ -83,7 +109,7 @@ class TodoProvider extends ChangeNotifier {
       return;
     }
 
-    _todos.add(
+    _completedTodos.add(
       TodoItem(
         // gives manually added accomplishments also an id
         id: _nextId++,

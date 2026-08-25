@@ -18,7 +18,7 @@ class TodoTile extends StatelessWidget {
   Widget build(BuildContext context) {
     // adds space between todos
     return Dismissible(
-      key: ValueKey(todo.id),
+      key: ValueKey('dismissible_${todo.id}'),
       direction: DismissDirection.endToStart,
 
       // displays red field with bin when a todo is deleted
