@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/toDoList_startscreen/todo_list.dart';
-import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 
