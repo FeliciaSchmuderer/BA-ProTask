@@ -12,8 +12,7 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   //lower app menu
 
-  // stores the index of the currently selected item
-  // default value 0 shows 'Today' screen
+  // stores the index of the currently selected navigation item
   int _selectedIndex = 0;
 
   // list of widgets for bottom navigation items
@@ -37,9 +36,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
     ),
   ];
 
+  // METHODS
   // list of widgets for bottom navigation items
-
-  // updates the selected navigation item
+  // updates the selected page
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;

@@ -11,15 +11,15 @@ class AccomplishmentsScreen extends StatefulWidget {
 }
 
 class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
-  // makes textfield active
+  // controls Add Accomplishment input field
   final TextEditingController _controller = TextEditingController();
 
+  // METHOD
   // adds new accomplishment using the same Todo model as normal todos
   void addAccomplishment() {
     if (_controller.text.trim().isEmpty) {
       return;
     }
-
     // uses provider for adding completed todos
     context.read<TodoProvider>().addCompletedTodo(_controller.text);
     _controller.clear();
@@ -27,7 +27,6 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //CONSTANCES ?
     // gets all todos from the central provider and only shows the completed todos
     final todoProvider = context.watch<TodoProvider>();
     // shows only completed todos; gets them directly from the provider
@@ -61,12 +60,11 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
           ),
 
           // space between date and accomplishment textfield
-
           const SizedBox(
             height: 20,
           ),
 
-          // Add Accomplishment textfield
+          // Add Accomplishment input field
           Container(
             height: 45,
             decoration: BoxDecoration(
@@ -114,14 +112,14 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
             height: 20,
           ),
 
-          // accomplishment list
+          // displays all completed todos
           Expanded(
             child: ListView.builder(
               itemCount: accomplishments.length,
               itemBuilder: (context, index) {
                 final todo = accomplishments[index];
 
-                // deletes on left swipe
+                // handles checking and deleteing todo
                 return TodoTile(
                   todo: todo,
                   onChanged: (value) {

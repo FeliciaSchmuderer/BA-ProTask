@@ -11,19 +11,17 @@ class TodoScreen extends StatefulWidget {
 }
 
 class _TodoScreenState extends State<TodoScreen> {
-  // CONSTANCES
-// makes textfield active
+  // makes textfield active
   final TextEditingController _controller = TextEditingController();
-  // test todos
 
-// METHODS
-// function to check if text exists. If there is text a new todo will be created, list will be updated and textfield will be deleted
+  // METHODS
+  //
+  // checks if text exists. If there is text a new todo will be created, list will be updated and textfield will be deleted
   void addTodo() {
     if (_controller.text.trim().isEmpty) {
       return;
     }
-
-    // todo will be added to central todo list
+    // adds todo to the central todo lists
     context.read<TodoProvider>().addTodo(_controller.text);
 
     // clears textfield after adding a todo
@@ -32,10 +30,9 @@ class _TodoScreenState extends State<TodoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TodoScreen rebuilds automatically when provider changes through 'watch'
-    // gets it from the central provider
-
-    // CONSTANCES ?
+    // LOCAL VARIABLES
+    //
+    // TodoScreen rebuilds automatically whenever provider changes
     final todoProvider = context.watch<TodoProvider>();
     final openTodos = todoProvider.openTodos;
     final completedTodos = todoProvider.completedTodos;
@@ -70,22 +67,25 @@ class _TodoScreenState extends State<TodoScreen> {
             ),
 
             // displays todo list in the middle of the screen and handles checkbox changes
+            // keeps todo list between the header and the input field
             Expanded(
-              child: TodoList(
-                openTodos: openTodos,
-                completedTodos: completedTodos,
-                onChanged: (value, todo) {
-                  context.read<TodoProvider>().toggleTodo(todo, value!);
-                },
-                onDelete: (todo) {
-                  context.read<TodoProvider>().deleteTodo(todo);
-                },
-                onReorder: (oldIndex, newIndex) {
-                  context.read<TodoProvider>().reorderTodo(
-                        oldIndex,
-                        newIndex,
-                      );
-                },
+              child: DragBoundary(
+                child: TodoList(
+                  openTodos: openTodos,
+                  completedTodos: completedTodos,
+                  onChanged: (value, todo) {
+                    context.read<TodoProvider>().toggleTodo(todo, value!);
+                  },
+                  onDelete: (todo) {
+                    context.read<TodoProvider>().deleteTodo(todo);
+                  },
+                  onReorder: (oldIndex, newIndex) {
+                    context.read<TodoProvider>().reorderTodo(
+                          oldIndex,
+                          newIndex,
+                        );
+                  },
+                ),
               ),
             ),
 
@@ -93,7 +93,7 @@ class _TodoScreenState extends State<TodoScreen> {
               height: 10,
             ),
 
-            // Add Task field: Container for layout for textbox on the bottom for adding todos (+ add task)
+            // input field for creating new todos
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(

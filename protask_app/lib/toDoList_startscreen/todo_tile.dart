@@ -16,7 +16,6 @@ class TodoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // adds space between todos
     return Dismissible(
       key: ValueKey('dismissible_${todo.id}'),
       direction: DismissDirection.endToStart,
@@ -31,9 +30,11 @@ class TodoTile extends StatelessWidget {
           color: Colors.white,
         ),
       ),
+
       onDismissed: (direction) {
         onDelete();
       },
+
       child: Padding(
         padding: const EdgeInsets.only(bottom: 5),
         // checkbox - todo item

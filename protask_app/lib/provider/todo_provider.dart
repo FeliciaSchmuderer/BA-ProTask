@@ -1,34 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 
-// Central logic for all todos
+// central state logic for all todos
+//
 // Today and Accomplishment get their todos from this same TodoProvider
 class TodoProvider extends ChangeNotifier {
-  // private list of all todos
+  // central private lists of open and completed todos to divide them in startscreen
   final List<TodoItem> _openTodos = [];
   final List<TodoItem> _completedTodos = [];
 
+  // used to give every todo a unique ID
   int _nextId = 0;
 
-  // Gives screens access to the todos without allowing them to directly replace or modify the list
-  // Returns all unfinished todos first and completed at the bottom
-  List<TodoItem> get todos {
-    // return the sorted list; List.unmodifiable prevents other classes from changing the list dirctly
-    return List.unmodifiable([..._openTodos, ..._completedTodos]);
-  }
-
-// GETTER
-//to access once open and completed todos
-
+  // GETTER
+  //
+  // List.unmodifiable prevents other classen from modifying the providers internal list directly
+  // return all open todos
   List<TodoItem> get openTodos {
     return List.unmodifiable(_openTodos);
   }
 
+  // returns all completed todos
   List<TodoItem> get completedTodos {
     return List.unmodifiable(_completedTodos);
   }
 
-  // adds an open todo
+  // TODO METHODS
+  //
+  // adds a new open todo
   void addTodo(String title) {
     if (title.trim().isEmpty) {
       return;
@@ -48,7 +47,7 @@ class TodoProvider extends ChangeNotifier {
   // changes the completed state of a todo
   void toggleTodo(TodoItem todo, bool value) {
     if (value) {
-      // todo gets completed
+      // when todo gets completed todo moves from open to completed
       _openTodos.remove(todo);
 
       todo.isChecked = true;
@@ -68,7 +67,7 @@ class TodoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // deletes a todo
+  // deletes a todo from open todo and accomplishment lists
   void deleteTodo(TodoItem todo) {
     _openTodos.remove(todo);
     _completedTodos.remove(todo);
@@ -76,6 +75,8 @@ class TodoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // REORDERING METHODS
+  //
   // changes position of todo after dragging
   // only open todos can be rearranged
   void reorderTodo(int oldIndex, int newIndex) {
@@ -83,16 +84,12 @@ class TodoProvider extends ChangeNotifier {
       return;
     }
 
-    if (newIndex > oldIndex) {
-      newIndex--;
-    }
-
-// new index minimum position
+    // new index minimum position
     if (newIndex < 0) {
       newIndex = 0;
     }
 
-// new index maximum position
+    // new index maximum position
     if (newIndex > _openTodos.length) {
       newIndex = _openTodos.length;
     }
@@ -103,7 +100,9 @@ class TodoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // adds a todo that is already completed when it is added in accomplishments
+  // ACCOMPLISHMENTS METHODS
+  //
+  // adds a todo that is already completed when it is added in accomplishment screen
   void addCompletedTodo(String title) {
     if (title.trim().isEmpty) {
       return;
