@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // central state logic for all todos
 //
@@ -11,6 +14,70 @@ class TodoProvider extends ChangeNotifier {
 
   // used to give every todo a unique ID
   int _nextId = 0;
+
+  //
+  // CONSTRUCTOR
+  //
+  TodoProvider() {
+    _loadTodos();
+  }
+
+  // STORAGE
+  //
+  // saves all todos locally
+  Future<void> _saveTodos() async {
+    final preferences = await SharedPreferences.getInstance();
+
+    final openTodosJson =
+        _openTodos.map((todo) => jsonEncode(todo.toJson())).toList();
+
+    final completedTodosJson =
+        _completedTodos.map((todo) => jsonEncode(todo.toJson())).toList();
+
+    await preferences.setStringList(
+      'openTodos',
+      openTodosJson,
+    );
+
+    await preferences.setStringList(
+      'completedTodos',
+      completedTodosJson,
+    );
+
+    await preferences.setInt(
+      'nextId',
+      _nextId,
+    );
+  }
+
+  // loads all saved todos
+  Future<void> _loadTodos() async {
+    final preferences = await SharedPreferences.getInstance();
+
+    final openTodosJson = preferences.getStringList('openTodos') ?? [];
+
+    final completedTodosJson =
+        preferences.getStringList('completedTodos') ?? [];
+
+    _openTodos.clear();
+    _completedTodos.clear();
+
+    _openTodos.addAll(
+      openTodosJson.map(
+        (todo) => TodoItem.fromJson(jsonDecode(todo)),
+      ),
+    );
+
+    _completedTodos.addAll(
+      completedTodosJson.map(
+        (todo) => TodoItem.fromJson(jsonDecode(todo)),
+      ),
+    );
+
+    _nextId = preferences.getInt('nextId') ?? 0;
+
+    notifyListeners();
+  }
 
   // GETTER
   //
@@ -28,7 +95,7 @@ class TodoProvider extends ChangeNotifier {
   // TODO METHODS
   //
   // adds a new open todo
-  void addTodo(String title) {
+  Future<void> addTodo(String title) async {
     if (title.trim().isEmpty) {
       return;
     }
@@ -40,12 +107,14 @@ class TodoProvider extends ChangeNotifier {
       ),
     );
 
+    await _saveTodos();
+
     // tells all listening screens that data has changed
     notifyListeners();
   }
 
   // changes the completed state of a todo
-  void toggleTodo(TodoItem todo, bool value) {
+  Future<void> toggleTodo(TodoItem todo, bool value) async {
     if (value) {
       // when todo gets completed todo moves from open to completed
       _openTodos.remove(todo);
@@ -64,13 +133,17 @@ class TodoProvider extends ChangeNotifier {
       _openTodos.add(todo);
     }
 
+    await _saveTodos();
+
     notifyListeners();
   }
 
   // deletes a todo from open todo and accomplishment lists
-  void deleteTodo(TodoItem todo) {
+  Future<void> deleteTodo(TodoItem todo) async {
     _openTodos.remove(todo);
     _completedTodos.remove(todo);
+
+    await _saveTodos();
 
     notifyListeners();
   }
@@ -79,7 +152,7 @@ class TodoProvider extends ChangeNotifier {
   //
   // changes position of todo after dragging
   // only open todos can be rearranged
-  void reorderTodo(int oldIndex, int newIndex) {
+  Future<void> reorderTodo(int oldIndex, int newIndex) async {
     if (oldIndex < 0 || oldIndex >= _openTodos.length) {
       return;
     }
@@ -97,13 +170,15 @@ class TodoProvider extends ChangeNotifier {
     final todo = _openTodos.removeAt(oldIndex);
     _openTodos.insert(newIndex, todo);
 
+    await _saveTodos();
+
     notifyListeners();
   }
 
   // ACCOMPLISHMENTS METHODS
   //
   // adds a todo that is already completed when it is added in accomplishment screen
-  void addCompletedTodo(String title) {
+  Future<void> addCompletedTodo(String title) async {
     if (title.trim().isEmpty) {
       return;
     }
@@ -114,11 +189,12 @@ class TodoProvider extends ChangeNotifier {
         id: _nextId++,
         title: title.trim(),
         isChecked: true,
-
         // for sorting completed todos
         completedAt: DateTime.now(),
       ),
     );
+
+    await _saveTodos();
 
     // updates all screens that are watching the provider
     notifyListeners();

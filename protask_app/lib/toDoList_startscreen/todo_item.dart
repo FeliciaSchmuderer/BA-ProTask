@@ -10,7 +10,6 @@ class TodoItem {
   bool isChecked;
 
   // stores when the todo was completed
-  // null means the todo has not been completed yet
   DateTime? completedAt;
 
   TodoItem({
@@ -19,4 +18,29 @@ class TodoItem {
     this.isChecked = false,
     this.completedAt,
   });
+
+  //
+  // SERIALIZATION
+  //
+  // converts TodoItem into a map so it can be saved locally
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'isChecked': isChecked,
+      'completedAt': completedAt?.toIso8601String(),
+    };
+  }
+
+  // creates TodoItem from saved data
+  factory TodoItem.fromJson(Map<String, dynamic> json) {
+    return TodoItem(
+      id: json['id'],
+      title: json['title'],
+      isChecked: json['isChecked'] ?? false,
+      completedAt: json['completedAt'] != null
+          ? DateTime.parse(json['completedAt'])
+          : null,
+    );
+  }
 }
