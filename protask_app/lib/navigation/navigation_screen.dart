@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/accomplishments/accomplishments_screen.dart';
+import 'package:protask_app/calendar/calendar_screen.dart';
 import 'package:protask_app/toDoList_startscreen/todo_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -19,10 +20,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
   //-> screens for navigations
   final List<Widget> _pages = [
     const TodoScreen(),
-    // const CalendarScreen(),
-    const Center(
-      child: Text("Calendar"),
-    ),
+    const CalendarScreen(),
+    
 
     const AccomplishmentsScreen(),
     // const GoalsScreen(),
