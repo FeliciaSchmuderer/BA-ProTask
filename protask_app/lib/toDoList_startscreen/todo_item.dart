@@ -19,7 +19,6 @@ class TodoItem {
     this.completedAt,
   });
 
-  //
   // SERIALIZATION
   //
   // converts TodoItem into a map so it can be saved locally

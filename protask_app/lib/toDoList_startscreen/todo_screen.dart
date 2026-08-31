@@ -69,23 +69,21 @@ class _TodoScreenState extends State<TodoScreen> {
             // displays todo list in the middle of the screen and handles checkbox changes
             // keeps todo list between the header and the input field
             Expanded(
-              child: DragBoundary(
-                child: TodoList(
-                  openTodos: openTodos,
-                  completedTodos: completedTodos,
-                  onChanged: (value, todo) {
-                    context.read<TodoProvider>().toggleTodo(todo, value!);
-                  },
-                  onDelete: (todo) {
-                    context.read<TodoProvider>().deleteTodo(todo);
-                  },
-                  onReorder: (oldIndex, newIndex) {
-                    context.read<TodoProvider>().reorderTodo(
-                          oldIndex,
-                          newIndex,
-                        );
-                  },
-                ),
+              child: TodoList(
+                openTodos: openTodos,
+                completedTodos: completedTodos,
+                onChanged: (value, todo) {
+                  context.read<TodoProvider>().toggleTodo(todo, value!);
+                },
+                onDelete: (todo) {
+                  context.read<TodoProvider>().deleteTodo(todo);
+                },
+                onReorder: (oldIndex, newIndex) {
+                  context.read<TodoProvider>().reorderTodo(
+                        oldIndex,
+                        newIndex,
+                      );
+                },
               ),
             ),
 

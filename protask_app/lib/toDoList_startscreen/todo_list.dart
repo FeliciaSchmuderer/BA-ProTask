@@ -3,10 +3,8 @@ import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
 
 class TodoList extends StatelessWidget {
-  //
   // FIELDS
   //
-
   final List<TodoItem> openTodos;
   final List<TodoItem> completedTodos;
 
@@ -30,13 +28,13 @@ class TodoList extends StatelessWidget {
     // scrollable list of todo tiles
     return CustomScrollView(
       slivers: [
-        //
         // OPEN TODOS
         //
         SliverReorderableList(
           itemCount: openTodos.length,
           onReorderItem: onReorder,
-          // drag boundary is provided by th DragBoundary surrounding this list in TodoScreen
+
+          // drag boundary is provided by the DragBoundary surrounding this list in TodoScreen
           proxyDecorator: (child, index, animation) {
             return Material(
               elevation: 4,
@@ -62,7 +60,6 @@ class TodoList extends StatelessWidget {
           },
         ),
 
-        //
         // COMPLETED SECTION
         //
         if (completedTodos.isNotEmpty)
@@ -82,7 +79,6 @@ class TodoList extends StatelessWidget {
             ),
           ),
 
-        //
         // COMPLETED TODOS
         //
         SliverList(

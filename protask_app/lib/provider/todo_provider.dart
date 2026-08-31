@@ -15,7 +15,6 @@ class TodoProvider extends ChangeNotifier {
   // used to give every todo a unique ID
   int _nextId = 0;
 
-  //
   // CONSTRUCTOR
   //
   TodoProvider() {
@@ -108,8 +107,6 @@ class TodoProvider extends ChangeNotifier {
     );
 
     await _saveTodos();
-
-    // tells all listening screens that data has changed
     notifyListeners();
   }
 
@@ -132,9 +129,7 @@ class TodoProvider extends ChangeNotifier {
 
       _openTodos.add(todo);
     }
-
     await _saveTodos();
-
     notifyListeners();
   }
 
@@ -144,7 +139,6 @@ class TodoProvider extends ChangeNotifier {
     _completedTodos.remove(todo);
 
     await _saveTodos();
-
     notifyListeners();
   }
 
@@ -171,7 +165,6 @@ class TodoProvider extends ChangeNotifier {
     _openTodos.insert(newIndex, todo);
 
     await _saveTodos();
-
     notifyListeners();
   }
 
@@ -182,7 +175,6 @@ class TodoProvider extends ChangeNotifier {
     if (title.trim().isEmpty) {
       return;
     }
-
     _completedTodos.add(
       TodoItem(
         // gives manually added accomplishments also an id
@@ -193,10 +185,7 @@ class TodoProvider extends ChangeNotifier {
         completedAt: DateTime.now(),
       ),
     );
-
     await _saveTodos();
-
-    // updates all screens that are watching the provider
     notifyListeners();
   }
 }
