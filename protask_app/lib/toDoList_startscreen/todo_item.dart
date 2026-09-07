@@ -12,14 +12,14 @@ class TodoItem {
   // stores when the todo was completed
   DateTime? completedAt;
 
-  DateTime? dueDate;
+  DateTime? scheduledDate;
 
   TodoItem({
     required this.id,
     required this.title,
     this.isChecked = false,
     this.completedAt,
-    this.dueDate,
+    this.scheduledDate,
   });
 
   // SERIALIZATION / JSON
@@ -31,7 +31,7 @@ class TodoItem {
       'title': title,
       'isChecked': isChecked,
       'completedAt': completedAt?.toIso8601String(),
-      'dueDate': dueDate?.toIso8601String(),
+      'scheduledDate': scheduledDate?.toIso8601String(),
     };
   }
 
@@ -44,7 +44,9 @@ class TodoItem {
       completedAt: json['completedAt'] != null
           ? DateTime.parse(json['completedAt'])
           : null,
-      dueDate: json['dueDate'] != null ? DateTime.parse(json['dueDate']) : null,
+      scheduledDate: json['scheduledDate'] != null
+          ? DateTime.parse(json['scheduledDate'])
+          : null,
     );
   }
 }

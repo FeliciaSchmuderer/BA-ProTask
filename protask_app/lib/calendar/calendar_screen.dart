@@ -37,11 +37,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
     // filters todos based on the selected date
     final filteredTodos = todos.where((todo) {
-      if (todo.dueDate == null || _selectedDate == null) {
+      if (todo.scheduledDate == null || _selectedDate == null) {
         return false;
       }
 
-      return isSameDay(todo.dueDate, _selectedDate);
+      return isSameDay(todo.scheduledDate, _selectedDate);
     }).toList();
 
     return SingleChildScrollView(
@@ -64,8 +64,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
             onDaySelected: _onDaySelected,
             todos: todos,
           ),
-          
-          
           if (_selectedDate != null)
             Text(
               "Todos für ${_selectedDate!.day}.${_selectedDate!.month}.${_selectedDate!.year}",
