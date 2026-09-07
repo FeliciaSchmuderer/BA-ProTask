@@ -16,6 +16,13 @@ class _TodoScreenState extends State<TodoScreen> {
   // makes textfield active
   final TextEditingController _controller = TextEditingController();
 
+// cleans up controller when screen is removed
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   // METHODS
   //
   // checks if text exists and adds a new todo

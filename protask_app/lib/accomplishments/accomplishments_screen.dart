@@ -16,6 +16,12 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
   // controls Add Accomplishment input field
   final TextEditingController _controller = TextEditingController();
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   // METHOD
   // adds new accomplishment using the same Todo model as normal todos
   void addAccomplishment() {
