@@ -22,7 +22,7 @@ class _TodoScreenState extends State<TodoScreen> {
       return;
     }
     // adds todo to the central todo lists
-    context.read<TodoProvider>().addTodo(_controller.text);
+    context.read<TodoProvider>().addTodo(_controller.text, dueDate: DateTime.now(),);
 
     // clears textfield after adding a todo
     _controller.clear();
