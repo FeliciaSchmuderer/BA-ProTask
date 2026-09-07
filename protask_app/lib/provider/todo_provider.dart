@@ -155,6 +155,8 @@ class TodoProvider extends ChangeNotifier {
       return;
     }
 
+    final todo = _openTodos.removeAt(oldIndex);
+
     // new index minimum position
     if (newIndex < 0) {
       newIndex = 0;
@@ -165,7 +167,6 @@ class TodoProvider extends ChangeNotifier {
       newIndex = _openTodos.length;
     }
 
-    final todo = _openTodos.removeAt(oldIndex);
     _openTodos.insert(newIndex, todo);
 
     await _saveTodos();

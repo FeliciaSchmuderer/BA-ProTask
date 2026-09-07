@@ -34,7 +34,7 @@ class TodoList extends StatelessWidget {
           itemCount: openTodos.length,
           onReorderItem: onReorder,
 
-          // drag boundary is provided by the DragBoundary surrounding this list in TodoScreen
+          // adds shadow to todo while being dragged
           proxyDecorator: (child, index, animation) {
             return Material(
               elevation: 4,

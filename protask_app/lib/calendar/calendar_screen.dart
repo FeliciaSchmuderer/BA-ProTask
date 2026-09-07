@@ -6,7 +6,7 @@ import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-// mainly calendar ui i guess ?
+// displays calendar and todos for selected day
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
 
@@ -18,8 +18,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   // currently selected day
   DateTime? _selectedDate;
 
-  // METHOD?
-
+  // updates selected day when user selects a date
   void _onDaySelected(DateTime selectedDay) {
     setState(() {
       _selectedDate = selectedDay;
@@ -28,8 +27,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // gets all todos from central provider
     final todoProvider = context.watch<TodoProvider>();
 
+    // combines open and completed todos for calendar
     final List<TodoItem> todos = [
       ...todoProvider.openTodos,
       ...todoProvider.completedTodos,
@@ -66,15 +67,28 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
           if (_selectedDate != null)
             Text(
-              "Todos für ${_selectedDate!.day}.${_selectedDate!.month}.${_selectedDate!.year}",
+              "Todos on ${_selectedDate!.day}.${_selectedDate!.month}.${_selectedDate!.year}",
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
           const SizedBox(
-            height: 10,
+            height: 50,
           ),
+
+          if (_selectedDate != null && filteredTodos.isEmpty)
+            const Center(
+              child: Text(
+                "No todos for this day",
+                style: TextStyle(fontSize: 15),
+              ),
+            ),
+
+          const SizedBox(
+            height: 70,
+          ),
+          // displays scheduled todos for the selected day
           ...filteredTodos.map(
             (todo) => TodoTile(
               todo: todo,

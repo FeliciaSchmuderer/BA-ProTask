@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-
     // allows Today and Accomplishments to use the same todo list saved in TodoProvider and makes it available to all screens below M
     ChangeNotifierProvider(
       create: (context) => TodoProvider(),

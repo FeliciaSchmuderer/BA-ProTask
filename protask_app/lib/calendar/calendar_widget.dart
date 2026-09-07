@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:protask_app/constants/calendar_constants.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -42,7 +41,7 @@ class CalendarWidget extends StatelessWidget {
         }).toList();
       },
 
-      // called when a day is selected
+      // notifies parent when a day is selected
       onDaySelected: (selectedDay, focusedDay) {
         onDaySelected(selectedDay);
       },
