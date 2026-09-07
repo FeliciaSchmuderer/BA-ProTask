@@ -41,7 +41,7 @@ class TodoTile extends StatelessWidget {
         child: Row(
           children: [
             // shows current checkbox state
-            // passes the user´s change back to TodoScreen
+            // passes the user´s change back to parent widget
             Checkbox(
               value: todo.isChecked,
               onChanged: onChanged,

@@ -94,7 +94,10 @@ class TodoProvider extends ChangeNotifier {
   // TODO METHODS
   //
   // adds a new open todo
-  Future<void> addTodo(String title) async {
+  Future<void> addTodo(
+    String title, {
+    DateTime? scheduledDate,
+  }) async {
     if (title.trim().isEmpty) {
       return;
     }
@@ -103,6 +106,7 @@ class TodoProvider extends ChangeNotifier {
       TodoItem(
         id: _nextId++,
         title: title.trim(),
+        scheduledDate: scheduledDate,
       ),
     );
 
@@ -151,6 +155,8 @@ class TodoProvider extends ChangeNotifier {
       return;
     }
 
+    final todo = _openTodos.removeAt(oldIndex);
+
     // new index minimum position
     if (newIndex < 0) {
       newIndex = 0;
@@ -161,7 +167,6 @@ class TodoProvider extends ChangeNotifier {
       newIndex = _openTodos.length;
     }
 
-    final todo = _openTodos.removeAt(oldIndex);
     _openTodos.insert(newIndex, todo);
 
     await _saveTodos();

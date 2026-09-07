@@ -16,13 +16,16 @@ class _TodoScreenState extends State<TodoScreen> {
 
   // METHODS
   //
-  // checks if text exists. If there is text a new todo will be created, list will be updated and textfield will be deleted
+  // checks if text exists and adds a new todo
   void addTodo() {
     if (_controller.text.trim().isEmpty) {
       return;
     }
     // adds todo to the central todo lists
-    context.read<TodoProvider>().addTodo(_controller.text);
+    context.read<TodoProvider>().addTodo(
+          _controller.text,
+          scheduledDate: DateTime.now(),
+        );
 
     // clears textfield after adding a todo
     _controller.clear();
