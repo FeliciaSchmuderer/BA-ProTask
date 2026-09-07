@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/navigation/navigation_screen.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await initializeDateFormatting('de_DE', '');
   runApp(
     // allows Today and Accomplishments to use the same todo list saved in TodoProvider and makes it available to all screens below M
     ChangeNotifierProvider(

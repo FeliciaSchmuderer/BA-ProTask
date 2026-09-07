@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/todo_constants.dart';
+import 'package:protask_app/constants/todo_screen_constants.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
 
@@ -37,7 +39,7 @@ class TodoList extends StatelessWidget {
           // adds shadow to todo while being dragged
           proxyDecorator: (child, index, animation) {
             return Material(
-              elevation: 4,
+              elevation: TodoConstants.dragElevation,
               child: child,
             );
           },
@@ -65,15 +67,12 @@ class TodoList extends StatelessWidget {
         if (completedTodos.isNotEmpty)
           const SliverToBoxAdapter(
             child: Padding(
-              padding: EdgeInsets.only(
-                top: 15,
-                bottom: 5,
-              ),
+              padding: TodoScreenConstants.completedPadding,
               child: Text(
-                "Completed",
+                TodoScreenConstants.completedText,
                 style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal,
+                  fontSize: TodoScreenConstants.completedFontSize,
+                  fontWeight: TodoScreenConstants.completedFontWeight,
                 ),
               ),
             ),

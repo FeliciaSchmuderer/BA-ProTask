@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/calendar_constants.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -16,8 +17,8 @@ class CalendarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
-      firstDay: DateTime.utc(2000, 1, 1),
-      lastDay: DateTime.utc(2200, 12, 31),
+      firstDay: CalendarConstants.firstDay,
+      lastDay: CalendarConstants.lastDay,
 
       // shows selected day or today´s date
       focusedDay: selectedDate ?? DateTime.now(),
@@ -28,7 +29,7 @@ class CalendarWidget extends StatelessWidget {
       },
 
       // monday is the first day of the week !
-      startingDayOfWeek: StartingDayOfWeek.monday,
+      startingDayOfWeek: CalendarConstants.startingDayOfWeek,
 
       // shows a marker on days with todos
       eventLoader: (day) {
@@ -45,7 +46,6 @@ class CalendarWidget extends StatelessWidget {
       onDaySelected: (selectedDay, focusedDay) {
         onDaySelected(selectedDay);
       },
-      // ),
     );
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/accomplishments_constants.dart';
+import 'package:protask_app/constants/app_constants.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
@@ -33,64 +35,54 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
     final accomplishments = todoProvider.completedTodos;
 
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: AppConstants.screenPadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Todays Accomplishments",
+            AccomplishmentsConstants.title,
             style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
+              fontSize: AppConstants.titleFontSize,
+              fontWeight: AppConstants.titleFontWeight,
             ),
           ),
 
           // space between title and date
-          const SizedBox(
-            height: 3,
-          ),
+          const SizedBox(height: AppConstants.spacingMini),
 
           // displays current date
-          const Text(
-            "Samstag, 15.08.2026",
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.normal,
+          Text(
+            AppConstants.currentDate,
+            style: const TextStyle(
+              fontSize: AppConstants.subtitleFontSize,
+              fontWeight: AppConstants.subtitleFontWeight,
             ),
           ),
 
           // space between date and accomplishment textfield
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: AppConstants.spacingMedium),
 
           // Add Accomplishment input field
           Container(
-            height: 45,
+            height: AppConstants.inputFieldHeight,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              color: Colors.grey[350],
+              borderRadius: AppConstants.inputFieldBorderRadius,
+              color: AppConstants.inputFieldColor,
             ),
             child: Row(
               children: [
-                const SizedBox(
-                  width: 20,
-                ),
+                const SizedBox(width: AppConstants.spacingMedium),
 
-                const Icon(
-                  Icons.add,
-                ),
+                const Icon(AppConstants.addIcon),
 
-                const SizedBox(
-                  width: 10,
-                ),
+                const SizedBox(width: AppConstants.inputFieldSpacing),
 
                 // interactive textfield
                 Expanded(
                   child: TextField(
                     controller: _controller,
                     decoration: const InputDecoration(
-                      hintText: "Add Accomplishment",
+                      hintText: AccomplishmentsConstants.hintText,
                       border: InputBorder.none,
                     ),
                     onSubmitted: (value) {
@@ -101,16 +93,14 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
 
                 IconButton(
                   onPressed: addAccomplishment,
-                  icon: const Icon(Icons.send_rounded),
+                  icon: const Icon(AppConstants.addTodoIcon),
                 ),
               ],
             ),
           ),
 
           // space between accomplishment textfield and list
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: AppConstants.spacingMedium),
 
           // displays all completed todos
           Expanded(

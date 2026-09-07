@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/calendar/calendar_widget.dart';
+import 'package:protask_app/constants/app_constants.dart';
+import 'package:protask_app/constants/calendar_constants.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
@@ -46,20 +48,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
     }).toList();
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+      padding: AppConstants.screenPadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Calendar",
+            CalendarConstants.title,
             style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
+              fontSize: AppConstants.titleFontSize,
+              fontWeight: AppConstants.titleFontWeight,
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: AppConstants.spacingMedium),
           CalendarWidget(
             selectedDate: _selectedDate,
             onDaySelected: _onDaySelected,
@@ -69,25 +69,21 @@ class _CalendarScreenState extends State<CalendarScreen> {
             Text(
               "Todos on ${_selectedDate!.day}.${_selectedDate!.month}.${_selectedDate!.year}",
               style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+                fontSize: AppConstants.subtitleFontSize,
+                fontWeight: AppConstants.titleFontWeight,
               ),
             ),
-          const SizedBox(
-            height: 50,
-          ),
 
-          if (_selectedDate != null && filteredTodos.isEmpty)
+          if (_selectedDate != null && filteredTodos.isEmpty) ...[
+            const SizedBox(height: CalendarConstants.spaceAfterSelectedDate),
             const Center(
               child: Text(
-                "No todos for this day",
-                style: TextStyle(fontSize: 15),
+                CalendarConstants.noTodoText,
+                style: TextStyle(fontSize: AppConstants.bodyFontSize),
               ),
             ),
+          ],
 
-          const SizedBox(
-            height: 70,
-          ),
           // displays scheduled todos for the selected day
           ...filteredTodos.map(
             (todo) => TodoTile(
@@ -100,6 +96,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
               },
             ),
           ),
+
+          const SizedBox(
+            height: CalendarConstants.spaceAfterTodos,
+          )
         ],
       ),
     );

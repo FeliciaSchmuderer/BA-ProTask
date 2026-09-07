@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/accomplishments/accomplishments_screen.dart';
 import 'package:protask_app/calendar/calendar_screen.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/toDoList_startscreen/todo_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -21,8 +22,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final List<Widget> _pages = [
     const TodoScreen(),
     const CalendarScreen(),
-    
-
     const AccomplishmentsScreen(),
     // const GoalsScreen(),
 
@@ -48,7 +47,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ProTask'),
+        title: const Text(AppThemeConstants.appBarTitle),
         centerTitle: true,
         leading: const Padding(
           padding: EdgeInsets.only(left: 9),
@@ -67,35 +66,36 @@ class _NavigationScreenState extends State<NavigationScreen> {
       body: _pages[_selectedIndex],
 
       bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.elliptical(15, 5),
-          topRight: Radius.elliptical(15, 5),
-        ),
+        borderRadius: AppThemeConstants.barBorderRadius,
         child: BottomNavigationBar(
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: AppThemeConstants.bottomNavigationBarColor,
           type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
             // ToDoList Startscreen
             BottomNavigationBarItem(
-                icon: Icon(Icons.wb_sunny_rounded), label: 'Today'),
+                icon: Icon(AppThemeConstants.todayIcon),
+                label: AppThemeConstants.todayLabel),
             // Weekly and monthly calendar view screens
             BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month),
-              label: 'Calendar',
+              icon: Icon(AppThemeConstants.calendarIcon),
+              label: AppThemeConstants.calendarLabel,
             ),
             // controll screen
             BottomNavigationBarItem(
-                icon: Icon(Icons.check_circle_outline_rounded),
-                label: 'accomplishments'),
+                icon: Icon(AppThemeConstants.accomplishmentIcon),
+                label: AppThemeConstants.accomplishmentLabel),
             // graphic view screen
             BottomNavigationBarItem(
-                icon: Icon(Icons.auto_graph_outlined), label: 'Goals'),
+                icon: Icon(AppThemeConstants.graphicIcon),
+                label: AppThemeConstants.graphicLabel),
             // Eisenhowermatrix but optinal still
-            BottomNavigationBarItem(icon: Icon(Icons.flag), label: 'Priority'),
+            BottomNavigationBarItem(
+                icon: Icon(AppThemeConstants.priorityIcon),
+                label: AppThemeConstants.priorityLabel),
           ],
           // currently selected navigation item
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.white,
+          selectedItemColor: AppThemeConstants.selectedItemColor,
           // when item is tapped on it switches to the selected one
           onTap: _onItemTapped,
         ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/app_constants.dart';
+import 'package:protask_app/constants/todo_constants.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 
 // displays one single todo item
@@ -23,11 +25,11 @@ class TodoTile extends StatelessWidget {
       // displays red field with bin when a todo is deleted
       background: Container(
         alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 20),
-        color: Colors.red,
+        padding: TodoConstants.deleteIconPadding,
+        color: TodoConstants.deleteColor,
         child: const Icon(
-          Icons.delete,
-          color: Colors.white,
+          TodoConstants.deleteIcon,
+          color: AppConstants.iconColor,
         ),
       ),
 
@@ -36,7 +38,7 @@ class TodoTile extends StatelessWidget {
       },
 
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 5),
+        padding: TodoConstants.todoTileBottomSpacing,
         // checkbox - todo item
         child: Row(
           children: [
@@ -49,14 +51,14 @@ class TodoTile extends StatelessWidget {
 
             // space between checkbox and title
             const SizedBox(
-              width: 5,
+              width: AppConstants.spacingSmall,
             ),
 
             // displays todo title
             Text(
               todo.title,
               style: TextStyle(
-                fontSize: 15,
+                fontSize: AppConstants.bodyFontSize,
                 decoration: todo.isChecked
                     ? TextDecoration.lineThrough
                     : TextDecoration.none,
