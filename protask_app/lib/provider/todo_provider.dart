@@ -94,7 +94,10 @@ class TodoProvider extends ChangeNotifier {
   // TODO METHODS
   //
   // adds a new open todo
-  Future<void> addTodo(String title) async {
+  Future<void> addTodo(
+    String title, {
+    DateTime? dueDate,
+  }) async {
     if (title.trim().isEmpty) {
       return;
     }
@@ -103,6 +106,7 @@ class TodoProvider extends ChangeNotifier {
       TodoItem(
         id: _nextId++,
         title: title.trim(),
+        dueDate: dueDate,
       ),
     );
 

@@ -12,14 +12,17 @@ class TodoItem {
   // stores when the todo was completed
   DateTime? completedAt;
 
+  DateTime? dueDate;
+
   TodoItem({
     required this.id,
     required this.title,
     this.isChecked = false,
     this.completedAt,
+    this.dueDate,
   });
 
-  // SERIALIZATION
+  // SERIALIZATION / JSON
   //
   // converts TodoItem into a map so it can be saved locally
   Map<String, dynamic> toJson() {
@@ -28,6 +31,7 @@ class TodoItem {
       'title': title,
       'isChecked': isChecked,
       'completedAt': completedAt?.toIso8601String(),
+      'dueDate': dueDate?.toIso8601String(),
     };
   }
 
@@ -40,6 +44,7 @@ class TodoItem {
       completedAt: json['completedAt'] != null
           ? DateTime.parse(json['completedAt'])
           : null,
+      dueDate: json['dueDate'] != null ? DateTime.parse(json['dueDate']) : null,
     );
   }
 }
