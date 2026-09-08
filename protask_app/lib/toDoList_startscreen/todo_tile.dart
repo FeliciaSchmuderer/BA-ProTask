@@ -21,7 +21,7 @@ class TodoTile extends StatelessWidget {
         return Colors.yellow;
 
       case TodoPriority.d:
-        return Colors.green;
+        return Colors.blue;
 
       case null:
         return Colors.transparent;

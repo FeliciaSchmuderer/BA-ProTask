@@ -37,6 +37,32 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
     Navigator.pop(context);
   }
 
+  Color _getPriorityColor(TodoPriority priority) {
+    switch (priority) {
+      case TodoPriority.a:
+        return Colors.red.shade200;
+      case TodoPriority.b:
+        return Colors.orange.shade200;
+      case TodoPriority.c:
+        return Colors.yellow.shade200;
+      case TodoPriority.d:
+        return Colors.blue.shade200;
+    }
+  }
+
+  Color _getPriorityBorderColor(TodoPriority priority) {
+    switch (priority) {
+      case TodoPriority.a:
+        return Colors.red.shade700;
+      case TodoPriority.b:
+        return Colors.orange.shade700;
+      case TodoPriority.c:
+        return Colors.yellow.shade700;
+      case TodoPriority.d:
+        return Colors.blue.shade700;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,12 +118,13 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                     });
                   },
                   child: Container(
-                    height: 70,
-                    width: 70,
+                    height: 60,
+                    width: 60,
                     decoration: BoxDecoration(
+                      color: _getPriorityColor(priority),
                       border: Border.all(
-                        color: isSelected ? Colors.black : Colors.grey,
-                        width: isSelected ? 2 : 1,
+                        color: _getPriorityBorderColor(priority),
+                        width: isSelected ? 3 : 1,
                       ),
                       borderRadius: BorderRadius.circular(10),
                     ),
