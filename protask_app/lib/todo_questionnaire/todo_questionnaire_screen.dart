@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_constants.dart';
+import 'package:protask_app/helpers/app_date_picker.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:provider/provider.dart';
@@ -17,10 +18,25 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
 
   TodoPriority? _selectedPriority;
 
+  DateTime _selectedScheduledDate = DateTime.now();
+
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickScheduledDate() async {
+    final pickedDate = await Appdatepicker.selectDate(
+      context,
+      _selectedScheduledDate,
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        _selectedScheduledDate = pickedDate;
+      });
+    }
   }
 
   void createTodo() {
@@ -30,8 +46,8 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
 
     context.read<TodoProvider>().addTodo(
           _controller.text,
-          // scheduledDate: DateTime.now(),
           priority: _selectedPriority,
+          scheduledDate: _selectedScheduledDate,
         );
 
     Navigator.pop(context);
@@ -142,11 +158,54 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
               }).toList(),
             ),
 
-            // create button provisorisch
             const SizedBox(
               height: 40,
             ),
 
+            // set scheduled date
+            const Text(
+              'When?',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+
+            const SizedBox(
+              height: 30,
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectedScheduledDate = DateTime.now();
+                    });
+                  },
+                  child: const Text('Today'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectedScheduledDate = DateTime.now().add(
+                        const Duration(days: 1),
+                      );
+                    });
+                  },
+                  child: const Text('Tomorrow'),
+                ),
+                ElevatedButton(
+                  onPressed: _pickScheduledDate,
+                  child: const Text('Pick Date'),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 40),
+
+// create button provisorisch
             ElevatedButton(
               onPressed: createTodo,
               child: const Text('Create Todo'),
