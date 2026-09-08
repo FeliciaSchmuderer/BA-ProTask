@@ -9,6 +9,25 @@ class TodoTile extends StatelessWidget {
   final Function(bool?) onChanged;
   final VoidCallback onDelete;
 
+  Color _getPriorityColor() {
+    switch (todo.priority) {
+      case TodoPriority.a:
+        return Colors.red;
+
+      case TodoPriority.b:
+        return Colors.orange;
+
+      case TodoPriority.c:
+        return Colors.yellow;
+
+      case TodoPriority.d:
+        return Colors.green;
+
+      case null:
+        return Colors.transparent;
+    }
+  }
+
   const TodoTile({
     super.key,
     required this.todo,
@@ -55,15 +74,28 @@ class TodoTile extends StatelessWidget {
             ),
 
             // displays todo title
-            Text(
-              todo.title,
-              style: TextStyle(
-                fontSize: AppConstants.bodyFontSize,
-                decoration: todo.isChecked
-                    ? TextDecoration.lineThrough
-                    : TextDecoration.none,
+            Expanded(
+              child: Text(
+                todo.title,
+                style: TextStyle(
+                  fontSize: AppConstants.bodyFontSize,
+                  decoration: todo.isChecked
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none,
+                ),
               ),
             ),
+
+            Container(
+              width: 14,
+              height: 14,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: _getPriorityColor(),
+              ),
+            ),
+
+            const SizedBox(width: AppConstants.spacingSmall),
           ],
         ),
       ),

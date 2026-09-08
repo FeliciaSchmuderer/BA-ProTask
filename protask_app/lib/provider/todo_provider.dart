@@ -97,6 +97,7 @@ class TodoProvider extends ChangeNotifier {
   Future<void> addTodo(
     String title, {
     DateTime? scheduledDate,
+    TodoPriority? priority,
   }) async {
     if (title.trim().isEmpty) {
       return;
@@ -107,6 +108,7 @@ class TodoProvider extends ChangeNotifier {
         id: _nextId++,
         title: title.trim(),
         scheduledDate: scheduledDate,
+        priority: priority,
       ),
     );
 
