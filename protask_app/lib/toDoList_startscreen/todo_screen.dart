@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_constants.dart';
 import 'package:protask_app/constants/todo_screen_constants.dart';
 import 'package:protask_app/toDoList_startscreen/todo_list.dart';
+import 'package:protask_app/todo_questionnaire/todo_questionnaire_route.dart';
 import 'package:provider/provider.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 
@@ -121,9 +122,9 @@ class _TodoScreenState extends State<TodoScreen> {
                 ),
                 child: Row(
                   children: [
-                    const SizedBox(
-                      width: AppConstants.spacingMedium,
-                    ),
+                    const SizedBox(width: AppConstants.spacingMedium),
+                    const Icon(AppConstants.addIcon),
+                    const SizedBox(width: AppConstants.inputFieldSpacing),
 
                     // interactive textfield
                     Expanded(
@@ -138,9 +139,26 @@ class _TodoScreenState extends State<TodoScreen> {
                         },
                       ),
                     ),
+
+                    // opens todoQuestionnaire
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          TodoQuestionnaireRoute.create(),
+                        );
+                      },
+                      icon: const Icon(AppConstants.questionnaireIcon),
+                    ),
+
+                    const SizedBox(
+                      width: AppConstants.spacingMedium,
+                    ),
+
+                    // creates a normal todo
                     IconButton(
                       onPressed: addTodo,
-                      icon: const Icon(Icons.send_rounded),
+                      icon: const Icon(AppConstants.addTodoIcon),
                     ),
                   ],
                 ),

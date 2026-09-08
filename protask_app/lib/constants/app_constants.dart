@@ -37,6 +37,7 @@ class AppConstants {
   // icons
   static const IconData addTodoIcon = Icons.send_rounded;
   static const IconData addIcon = Icons.add;
+  static const IconData questionnaireIcon = Icons.auto_awesome;
 
   // icon colors
   static const Color iconColor = Colors.white;

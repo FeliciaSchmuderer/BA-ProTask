@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class TodoScreenConstants {
   // text
   static const String title = "Today";
-  static const String hintText = "Add Task";
+  static const String hintText = "+ Add Task";
 
   // completed area
   static const String completedText = "Completed";
