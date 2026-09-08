@@ -24,20 +24,7 @@ class AppConstants {
   static String get currentDate =>
       DateFormat('EEEE, dd.MM.yyyy', 'de_DE').format(DateTime.now());
 
-  // input field
-  static const double inputFieldWidthFactor = 0.9;
-  static const double inputFieldHeight = 45;
-  static const BorderRadius inputFieldBorderRadius =
-      BorderRadius.all(Radius.circular(25));
-  static const double inputFieldSpacing = 10;
-
-  // colors
-  static final Color inputFieldColor = Colors.grey[350]!;
-
   // icons
-  static const IconData addTodoIcon = Icons.send_rounded;
-  static const IconData addIcon = Icons.add;
-  static const IconData questionnaireIcon = Icons.auto_awesome;
 
   // icon colors
   static const Color iconColor = Colors.white;

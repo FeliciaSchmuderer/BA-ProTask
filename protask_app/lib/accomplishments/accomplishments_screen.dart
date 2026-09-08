@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/constants/accomplishments_constants.dart';
 import 'package:protask_app/constants/app_constants.dart';
 import 'package:protask_app/provider/todo_provider.dart';
+import 'package:protask_app/widgets/app_input_field.dart';
 import 'package:provider/provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
 
@@ -40,98 +41,72 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
     // shows only completed todos; gets them directly from the provider
     final accomplishments = todoProvider.completedTodos;
 
-    return Padding(
-      padding: AppConstants.screenPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            AccomplishmentsConstants.title,
-            style: TextStyle(
-              fontSize: AppConstants.titleFontSize,
-              fontWeight: AppConstants.titleFontWeight,
+    return Scaffold(
+      body: Padding(
+        padding: AppConstants.screenPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              AccomplishmentsConstants.title,
+              style: TextStyle(
+                fontSize: AppConstants.titleFontSize,
+                fontWeight: AppConstants.titleFontWeight,
+              ),
             ),
-          ),
 
-          // space between title and date
-          const SizedBox(height: AppConstants.spacingMini),
+            // space between title and date
+            const SizedBox(height: AppConstants.spacingMini),
 
-          // displays current date
-          Text(
-            AppConstants.currentDate,
-            style: const TextStyle(
-              fontSize: AppConstants.subtitleFontSize,
-              fontWeight: AppConstants.subtitleFontWeight,
+            // displays current date
+            Text(
+              AppConstants.currentDate,
+              style: const TextStyle(
+                fontSize: AppConstants.subtitleFontSize,
+                fontWeight: AppConstants.subtitleFontWeight,
+              ),
             ),
-          ),
 
-          // space between date and accomplishment textfield
-          const SizedBox(height: AppConstants.spacingMedium),
+            // space between date and accomplishment textfield
+            const SizedBox(height: AppConstants.spacingMedium),
 
-          // Add Accomplishment input field
-          Container(
-            height: AppConstants.inputFieldHeight,
-            decoration: BoxDecoration(
-              borderRadius: AppConstants.inputFieldBorderRadius,
-              color: AppConstants.inputFieldColor,
+            // Add Accomplishment input field
+
+            // interactive textfield
+            AppInputField(
+              controller: _controller,
+              hintText: AccomplishmentsConstants.hintText,
+              onSubmitted: addAccomplishment,
             ),
-            child: Row(
-              children: [
-                const SizedBox(width: AppConstants.spacingMedium),
 
-                const Icon(AppConstants.addIcon),
+            // space between accomplishment textfield and list
+            const SizedBox(height: AppConstants.spacingMedium),
 
-                const SizedBox(width: AppConstants.inputFieldSpacing),
+            // displays all completed todos
+            Expanded(
+              child: ListView.builder(
+                itemCount: accomplishments.length,
+                itemBuilder: (context, index) {
+                  final todo = accomplishments[index];
 
-                // interactive textfield
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: const InputDecoration(
-                      hintText: AccomplishmentsConstants.hintText,
-                      border: InputBorder.none,
-                    ),
-                    onSubmitted: (value) {
-                      addAccomplishment();
+                  // handles checking and deleteing todo
+                  return TodoTile(
+                    todo: todo,
+                    onChanged: (value) {
+                      todoProvider.toggleTodo(
+                        todo,
+                        value!,
+                      );
                     },
-                  ),
-                ),
-
-                IconButton(
-                  onPressed: addAccomplishment,
-                  icon: const Icon(AppConstants.addTodoIcon),
-                ),
-              ],
+                    onDelete: () {
+                      todoProvider.deleteTodo(todo);
+                    },
+                  );
+                },
+              ),
             ),
-          ),
-
-          // space between accomplishment textfield and list
-          const SizedBox(height: AppConstants.spacingMedium),
-
-          // displays all completed todos
-          Expanded(
-            child: ListView.builder(
-              itemCount: accomplishments.length,
-              itemBuilder: (context, index) {
-                final todo = accomplishments[index];
-
-                // handles checking and deleteing todo
-                return TodoTile(
-                  todo: todo,
-                  onChanged: (value) {
-                    todoProvider.toggleTodo(
-                      todo,
-                      value!,
-                    );
-                  },
-                  onDelete: () {
-                    todoProvider.deleteTodo(todo);
-                  },
-                );
-              },
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

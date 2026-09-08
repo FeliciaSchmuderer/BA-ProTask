@@ -3,6 +3,7 @@ import 'package:protask_app/constants/app_constants.dart';
 import 'package:protask_app/constants/todo_screen_constants.dart';
 import 'package:protask_app/toDoList_startscreen/todo_list.dart';
 import 'package:protask_app/todo_questionnaire/todo_questionnaire_route.dart';
+import 'package:protask_app/widgets/app_input_field.dart';
 import 'package:provider/provider.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 
@@ -62,7 +63,7 @@ class _TodoScreenState extends State<TodoScreen> {
               TodoScreenConstants.title,
               style: TextStyle(
                   fontSize: AppConstants.titleFontSize,
-                  fontWeight: AppConstants.subtitleFontWeight),
+                  fontWeight: AppConstants.titleFontWeight),
             ),
 
             // space between title and date
@@ -109,60 +110,16 @@ class _TodoScreenState extends State<TodoScreen> {
             ),
 
             // input field for creating new todos
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                width: MediaQuery.of(context).size.width *
-                    AppConstants.inputFieldWidthFactor,
-                // eig so mediaquery versuchen hier
-                height: AppConstants.inputFieldHeight,
-                decoration: BoxDecoration(
-                  borderRadius: AppConstants.inputFieldBorderRadius,
-                  color: AppConstants.inputFieldColor,
-                ),
-                child: Row(
-                  children: [
-                    const SizedBox(width: AppConstants.spacingMedium),
-                    const Icon(AppConstants.addIcon),
-                    const SizedBox(width: AppConstants.inputFieldSpacing),
-
-                    // interactive textfield
-                    Expanded(
-                      child: TextField(
-                        controller: _controller,
-                        decoration: const InputDecoration(
-                          hintText: TodoScreenConstants.hintText,
-                          border: InputBorder.none,
-                        ),
-                        onSubmitted: (value) {
-                          addTodo();
-                        },
-                      ),
-                    ),
-
-                    // opens todoQuestionnaire
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          TodoQuestionnaireRoute.create(),
-                        );
-                      },
-                      icon: const Icon(AppConstants.questionnaireIcon),
-                    ),
-
-                    const SizedBox(
-                      width: AppConstants.spacingMedium,
-                    ),
-
-                    // creates a normal todo
-                    IconButton(
-                      onPressed: addTodo,
-                      icon: const Icon(AppConstants.addTodoIcon),
-                    ),
-                  ],
-                ),
-              ),
+            AppInputField(
+              controller: _controller,
+              hintText: TodoScreenConstants.hintText,
+              onSubmitted: addTodo,
+              onQuestionnairePressed: () {
+                Navigator.push(
+                  context,
+                  TodoQuestionnaireRoute.create(),
+                );
+              },
             ),
           ],
         ),
