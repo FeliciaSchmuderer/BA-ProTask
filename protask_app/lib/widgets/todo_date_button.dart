@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/questionnaire_constants.dart';
 
 class TodoDateButton extends StatelessWidget {
   final String title;
-  final DateTime date;
+  final DateTime? date;
   final bool isSelected;
   final VoidCallback onPressed;
 
@@ -14,7 +15,10 @@ class TodoDateButton extends StatelessWidget {
     required this.onPressed,
   });
 
-  String _formatDate(DateTime date) {
+  String? _formatDate(DateTime? date) {
+    if (date == null) {
+      return null;
+    }
     return '${date.day}.${date.month}';
   }
 
@@ -23,15 +27,20 @@ class TodoDateButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: 95,
-        height: 65,
+        width: QuestionnaireConstants.dateButtonWidth,
+        height: QuestionnaireConstants.dateButtonHeight,
         decoration: BoxDecoration(
-          color: isSelected ? Colors.grey.shade800 : Colors.grey.shade100,
+          color: isSelected
+              ? QuestionnaireConstants.dateSelectedColor
+              : QuestionnaireConstants.dateNotSelectedColor,
           border: Border.all(
-            color: isSelected ? Colors.grey.shade800 : Colors.grey.shade300,
-            width: 1.5,
+            color: isSelected
+                ? QuestionnaireConstants.dateSelectedColor
+                : QuestionnaireConstants.dateNotSelectedBorderColor,
+            width: QuestionnaireConstants.dateButtonBorderWidth,
           ),
-          borderRadius: BorderRadius.circular(13),
+          borderRadius: BorderRadius.circular(
+              QuestionnaireConstants.dateButtonBorderRadius),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -39,21 +48,27 @@ class TodoDateButton extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: isSelected ? Colors.white : Colors.black,
+                fontSize: QuestionnaireConstants.dateTitleFontSize,
+                fontWeight: QuestionnaireConstants.textFontWeight,
+                color: isSelected
+                    ? QuestionnaireConstants.dateSelectedTextColor
+                    : QuestionnaireConstants.dateNotSelectedTextColor,
               ),
             ),
-            const SizedBox(
-              height: 4,
-            ),
-            Text(
-              _formatDate(date),
-              style: TextStyle(
-                fontSize: 13,
-                color: isSelected ? Colors.grey.shade300 : Colors.grey.shade600,
+            if (date != null) ...[
+              const SizedBox(
+                height: QuestionnaireConstants.dateTextSpacing,
               ),
-            ),
+              Text(
+                _formatDate(date)!,
+                style: TextStyle(
+                  fontSize: QuestionnaireConstants.dateFontSize,
+                  color: isSelected
+                      ? QuestionnaireConstants.dateSelectedTextColor
+                      : QuestionnaireConstants.dateNotSelectedTextColor,
+                ),
+              ),
+            ]
           ],
         ),
       ),

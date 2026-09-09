@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:protask_app/constants/app_constants.dart';
+import 'package:protask_app/constants/questionnaire_constants.dart';
 import 'package:protask_app/helpers/app_date_picker.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/widgets/todo_date_button.dart';
 import 'package:protask_app/widgets/todo_priority_button.dart';
 import 'package:provider/provider.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class TodoQuestionnaireScreen extends StatefulWidget {
   const TodoQuestionnaireScreen({super.key});
@@ -21,9 +20,12 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
 
   TodoPriority? _selectedPriority;
 
-  DateTime _selectedScheduledDate = DateTime.now();
+  DateTime? _selectedScheduledDate;
 
-  bool _isSameDay(DateTime first, DateTime second) {
+  bool _isSameDay(DateTime? first, DateTime second) {
+    if (first == null) {
+      return false;
+    }
     return first.year == second.year &&
         first.month == second.month &&
         first.day == second.day;
@@ -66,23 +68,23 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(QuestionnaireConstants.screenPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // 1. write down todo
-            const SizedBox(height: 32),
+            const SizedBox(height: QuestionnaireConstants.todoTopSpacing),
             TextField(
               controller: _controller,
               style: const TextStyle(
-                fontSize: 23,
-                fontWeight: FontWeight.normal,
+                fontSize: QuestionnaireConstants.todoFontSize,
+                fontWeight: QuestionnaireConstants.todoFontWeight,
               ),
               decoration: const InputDecoration(
-                hintText: 'ToDo',
+                hintText: QuestionnaireConstants.todoHintText,
                 hintStyle: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.normal,
+                  fontSize: QuestionnaireConstants.todoHintFontSize,
+                  fontWeight: QuestionnaireConstants.todoFontWeight,
                 ),
                 enabledBorder: UnderlineInputBorder(),
                 focusedBorder: UnderlineInputBorder(),
@@ -90,19 +92,19 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
             ),
 
             const SizedBox(
-              height: 40,
+              height: QuestionnaireConstants.sectionSpacing,
             ),
 
             // 2. set priorities
             const Text(
-              'Priority',
+              QuestionnaireConstants.priorityTitle,
               style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
+                fontSize: QuestionnaireConstants.sectionTitleFontSize,
+                fontWeight: QuestionnaireConstants.sectionTitleFontWeight,
               ),
             ),
 
-            const SizedBox(height: 35),
+            const SizedBox(height: QuestionnaireConstants.titleContentspacing),
 
             // A B C D
             Row(
@@ -121,20 +123,20 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
             ),
 
             const SizedBox(
-              height: 40,
+              height: QuestionnaireConstants.sectionSpacing,
             ),
 
             // set scheduled date
             const Text(
-              'When?',
+              QuestionnaireConstants.whenTitle,
               style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
+                fontSize: QuestionnaireConstants.sectionTitleFontSize,
+                fontWeight: QuestionnaireConstants.sectionTitleFontWeight,
               ),
             ),
 
             const SizedBox(
-              height: 30,
+              height: QuestionnaireConstants.titleContentspacing,
             ),
 
             // Today - Tomorrow - Pick Date
@@ -142,7 +144,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TodoDateButton(
-                  title: 'Today',
+                  title: QuestionnaireConstants.dateTextToday,
                   date: DateTime.now(),
                   isSelected: _isSameDay(
                     _selectedScheduledDate,
@@ -155,7 +157,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                   },
                 ),
                 TodoDateButton(
-                  title: 'Tomorrow',
+                  title: QuestionnaireConstants.dateTextTomorrow,
                   date: DateTime.now().add(
                     const Duration(days: 1),
                   ),
@@ -174,7 +176,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                   },
                 ),
                 TodoDateButton(
-                  title: 'Pick Date',
+                  title: QuestionnaireConstants.dateTextPick,
                   date: _selectedScheduledDate,
                   isSelected: !_isSameDay(
                         _selectedScheduledDate,
@@ -191,12 +193,12 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
               ],
             ),
 
-            const SizedBox(height: 40),
+            const SizedBox(height: QuestionnaireConstants.sectionSpacing),
 
 // create button provisorisch
             ElevatedButton(
               onPressed: createTodo,
-              child: const Text('Create Todo'),
+              child: const Text(QuestionnaireConstants.createTodoText),
             ),
           ],
         ),

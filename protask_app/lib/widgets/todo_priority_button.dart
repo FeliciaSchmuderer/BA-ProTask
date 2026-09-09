@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/questionnaire_constants.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 
 class TodoPriorityButton extends StatelessWidget {
@@ -17,26 +18,26 @@ class TodoPriorityButton extends StatelessWidget {
   Color _getPriorityColor() {
     switch (priority) {
       case TodoPriority.a:
-        return Colors.red.shade200;
+        return QuestionnaireConstants.priorityAColor;
       case TodoPriority.b:
-        return Colors.orange.shade200;
+        return QuestionnaireConstants.priorityBColor;
       case TodoPriority.c:
-        return Colors.yellow.shade200;
+        return QuestionnaireConstants.priorityCColor;
       case TodoPriority.d:
-        return Colors.blue.shade200;
+        return QuestionnaireConstants.priorityDColor;
     }
   }
 
   Color _getPriorityBorderColor() {
     switch (priority) {
       case TodoPriority.a:
-        return Colors.red.shade700;
+        return QuestionnaireConstants.priorityABorderColor;
       case TodoPriority.b:
-        return Colors.orange.shade700;
+        return QuestionnaireConstants.priorityBBorderColor;
       case TodoPriority.c:
-        return Colors.yellow.shade700;
+        return QuestionnaireConstants.priorityCBorderColor;
       case TodoPriority.d:
-        return Colors.blue.shade700;
+        return QuestionnaireConstants.priorityDBorderColor;
     }
   }
 
@@ -45,22 +46,25 @@ class TodoPriorityButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        height: 60,
-        width: 60,
+        height: QuestionnaireConstants.priorityButtonHeight,
+        width: QuestionnaireConstants.priorityButtonWidth,
         decoration: BoxDecoration(
           color: _getPriorityColor(),
           border: Border.all(
             color: _getPriorityBorderColor(),
-            width: isSelected ? 3 : 1,
+            width: isSelected
+                ? QuestionnaireConstants.prioritySelectedButtonBorderWidth
+                : QuestionnaireConstants.priorityButtonBorderWidth,
           ),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(
+              QuestionnaireConstants.priorityButtonBorderRadius),
         ),
         child: Center(
           child: Text(
             priority.name.toUpperCase(),
             style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
+              fontSize: QuestionnaireConstants.priorityFontSize,
+              fontWeight: QuestionnaireConstants.textFontWeight,
             ),
           ),
         ),

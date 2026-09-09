@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_constants.dart';
+import 'package:protask_app/constants/questionnaire_constants.dart';
 import 'package:protask_app/constants/todo_constants.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 
@@ -12,16 +13,16 @@ class TodoTile extends StatelessWidget {
   Color _getPriorityColor() {
     switch (todo.priority) {
       case TodoPriority.a:
-        return Colors.red;
+        return QuestionnaireConstants.priorityABorderColor;
 
       case TodoPriority.b:
-        return Colors.orange;
+        return QuestionnaireConstants.priorityBBorderColor;
 
       case TodoPriority.c:
-        return Colors.yellow;
+        return QuestionnaireConstants.priorityCBorderColor;
 
       case TodoPriority.d:
-        return Colors.blue;
+        return QuestionnaireConstants.priorityDBorderColor;
 
       case null:
         return Colors.transparent;
