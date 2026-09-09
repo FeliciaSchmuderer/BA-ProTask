@@ -32,6 +32,20 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
         first.day == second.day;
   }
 
+  // checks if the selected date is neither today nor tomorrow
+  bool _isOtherDate(DateTime? date) {
+    if (date == null) {
+      return false;
+    }
+    return !_isSameDay(date, DateTime.now()) &&
+        !_isSameDay(
+          date,
+          DateTime.now().add(
+            const Duration(days: 1),
+          ),
+        );
+  }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -179,17 +193,10 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                 ),
                 TodoDateButton(
                   title: QuestionnaireConstants.dateTextPick,
-                  date: _selectedScheduledDate,
-                  isSelected: !_isSameDay(
-                        _selectedScheduledDate,
-                        DateTime.now(),
-                      ) &&
-                      !_isSameDay(
-                        _selectedScheduledDate,
-                        DateTime.now().add(
-                          const Duration(days: 1),
-                        ),
-                      ),
+                  date: _isOtherDate(_selectedScheduledDate)
+                      ? _selectedScheduledDate
+                      : null,
+                  isSelected: _isOtherDate(_selectedScheduledDate),
                   onPressed: _pickScheduledDate,
                 ),
               ],
@@ -197,7 +204,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
 
             const SizedBox(height: QuestionnaireConstants.sectionSpacing),
 
-// create button provisorisch
+            // create button provisorisch
             ElevatedButton(
               onPressed: createTodo,
               child: const Text(QuestionnaireConstants.createTodoText),
