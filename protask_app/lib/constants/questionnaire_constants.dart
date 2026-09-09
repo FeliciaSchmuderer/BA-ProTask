@@ -13,10 +13,14 @@ class QuestionnaireConstants {
   static const String createTodoText = 'Create';
 
   // general
+
+  // spacing
   static const double screenPadding = 24;
   static const double titleContentspacing = 35;
   static const double sectionSpacing = 40;
+  static const double spacingSmall = 20;
 
+  // fontweight
   static const FontWeight titleFontWeight = FontWeight.w900;
   static const FontWeight textFontWeight = FontWeight.w600;
 
@@ -72,4 +76,18 @@ class QuestionnaireConstants {
   static const Color dateNotSelectedTextColor = Colors.black;
 
   static const Color dateNotSelectedBorderColor = Colors.grey;
+
+  // deadline buttons
+  static const String deadlineTextPick = 'Pick Deadline';
+  static const String deadlineTimeTextPick = 'Pick Time';
+
+  static const double deadlineButtonWidth = 95;
+  static const double deadlineButtonHeight = 50;
+
+  static const double deadlineButtonBorderRadius = 10;
+  static const double deadlineButtonBorderWidth = 1;
+
+  static const Color deadlineButtonBorderColor = Colors.grey;
+
+  static const double deadlineButtonFontSize = 15;
 }

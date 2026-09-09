@@ -5,6 +5,7 @@ import 'package:protask_app/helpers/app_time_picker.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/widgets/todo_date_button.dart';
+import 'package:protask_app/widgets/todo_deadline_button.dart';
 import 'package:protask_app/widgets/todo_priority_button.dart';
 import 'package:provider/provider.dart';
 
@@ -82,6 +83,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
     }
   }
 
+  // opens time picker for deadline
   Future<void> _pickDeadlineTime() async {
     final pickedTime = await AppTimePicker.selectTime(
       context,
@@ -104,6 +106,8 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
           _controller.text,
           priority: _selectedPriority,
           scheduledDate: _selectedScheduledDate,
+          //deadlineDate: _selectedDeadlineDate,
+          //deadlineTime: _selectedDeadlineTime,
         );
 
     Navigator.pop(context);
@@ -232,6 +236,44 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
             ),
 
             const SizedBox(height: QuestionnaireConstants.sectionSpacing),
+
+            // 4. deadline
+            const Text(
+              QuestionnaireConstants.deadlineTitle,
+              style: TextStyle(
+                fontSize: QuestionnaireConstants.sectionTitleFontSize,
+                fontWeight: QuestionnaireConstants.sectionTitleFontWeight,
+              ),
+            ),
+
+            const SizedBox(
+              height: QuestionnaireConstants.titleContentspacing,
+            ),
+
+            // pick date - pick time - remove deadline
+            Row(
+              children: [
+                // deadline date and time button
+                TodoDeadlineButton(
+                  text: QuestionnaireConstants.deadlineTextPick,
+                  date: _selectedDeadlineDate,
+                  time: null,
+                  onPressed: _pickDeadlineDate,
+                ),
+
+                if (_selectedDeadlineDate != null) ...[
+                  const SizedBox(
+                    width: QuestionnaireConstants.spacingSmall,
+                  ),
+                  TodoDeadlineButton(
+                    text: QuestionnaireConstants.deadlineTimeTextPick,
+                    date: null,
+                    time: _selectedDeadlineTime,
+                    onPressed: _pickDeadlineTime,
+                  ),
+                ]
+              ],
+            ),
 
             // create button provisorisch
             ElevatedButton(
