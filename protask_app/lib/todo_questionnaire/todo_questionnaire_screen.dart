@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/constants/questionnaire_constants.dart';
 import 'package:protask_app/helpers/app_date_picker.dart';
+import 'package:protask_app/helpers/app_time_picker.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/widgets/todo_date_button.dart';
@@ -21,6 +22,9 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
   TodoPriority? _selectedPriority;
 
   DateTime? _selectedScheduledDate;
+
+  DateTime? _selectedDeadlineDate;
+  TimeOfDay? _selectedDeadlineTime;
 
   // checks if two date represent the same calendar day
   bool _isSameDay(DateTime? first, DateTime second) {
@@ -62,6 +66,31 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
     if (pickedDate != null) {
       setState(() {
         _selectedScheduledDate = pickedDate;
+      });
+    }
+  }
+
+  // opens date picker for deadline
+  Future<void> _pickDeadlineDate() async {
+    final pickedDate =
+        await Appdatepicker.selectDate(context, _selectedDeadlineDate);
+
+    if (pickedDate != null) {
+      setState(() {
+        _selectedDeadlineDate = pickedDate;
+      });
+    }
+  }
+
+  Future<void> _pickDeadlineTime() async {
+    final pickedTime = await AppTimePicker.selectTime(
+      context,
+      _selectedDeadlineTime,
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        _selectedDeadlineTime = pickedTime;
       });
     }
   }
