@@ -42,6 +42,7 @@ class _TodoScreenState extends State<TodoScreen> {
     _controller.clear();
   }
 
+  // checks if a todo is scheduled for today
   bool _isToday(DateTime? date) {
     if (date == null) {
       return true;
@@ -59,6 +60,7 @@ class _TodoScreenState extends State<TodoScreen> {
     //
     // TodoScreen rebuilds automatically whenever provider changes
     final todoProvider = context.watch<TodoProvider>();
+    // only display todos scheduled for today
     final openTodos = todoProvider.openTodos
         .where((todo) => _isToday(todo.scheduledDate))
         .toList();

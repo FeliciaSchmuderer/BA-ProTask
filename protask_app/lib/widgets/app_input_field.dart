@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_constants.dart';
 import 'package:protask_app/constants/input_field_constants.dart';
 
+// input field for accomplishments and todoscreen
 class AppInputField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
@@ -63,6 +64,7 @@ class AppInputField extends StatelessWidget {
             ),
           ),
 
+          // only shows questionnaire button when provided
           if (onQuestionnairePressed != null) ...[
             IconButton(
               onPressed: onQuestionnairePressed,
@@ -75,6 +77,7 @@ class AppInputField extends StatelessWidget {
             ),
           ],
 
+          // adds entered item
           Padding(
             padding: const EdgeInsets.only(
                 right: InputFieldConstants.addTodoIconSpaceRight),

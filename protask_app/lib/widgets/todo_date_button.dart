@@ -15,6 +15,7 @@ class TodoDateButton extends StatelessWidget {
     required this.onPressed,
   });
 
+  // formats date for display
   String? _formatDate(DateTime? date) {
     if (date == null) {
       return null;
@@ -29,6 +30,7 @@ class TodoDateButton extends StatelessWidget {
       child: Container(
         width: QuestionnaireConstants.dateButtonWidth,
         height: QuestionnaireConstants.dateButtonHeight,
+        // changes appearance depending on selection
         decoration: BoxDecoration(
           color: isSelected
               ? QuestionnaireConstants.dateSelectedColor
@@ -55,6 +57,8 @@ class TodoDateButton extends StatelessWidget {
                     : QuestionnaireConstants.dateNotSelectedTextColor,
               ),
             ),
+
+            // only shows a date when one is available
             if (date != null) ...[
               const SizedBox(
                 height: QuestionnaireConstants.dateTextSpacing,

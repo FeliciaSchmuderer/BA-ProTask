@@ -22,6 +22,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
 
   DateTime? _selectedScheduledDate;
 
+  // checks if two date represent the same calendar day
   bool _isSameDay(DateTime? first, DateTime second) {
     if (first == null) {
       return false;
@@ -37,6 +38,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
     super.dispose();
   }
 
+  // opens date picker and stores selected date
   Future<void> _pickScheduledDate() async {
     final pickedDate = await Appdatepicker.selectDate(
       context,

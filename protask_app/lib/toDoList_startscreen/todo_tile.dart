@@ -10,6 +10,7 @@ class TodoTile extends StatelessWidget {
   final Function(bool?) onChanged;
   final VoidCallback onDelete;
 
+  // colors for priority markers
   Color _getPriorityColor() {
     switch (todo.priority) {
       case TodoPriority.a:
