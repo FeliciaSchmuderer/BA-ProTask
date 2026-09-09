@@ -4,6 +4,7 @@ import 'package:protask_app/helpers/app_date_picker.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/widgets/todo_date_button.dart';
+import 'package:protask_app/widgets/todo_priority_button.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -61,32 +62,6 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
     Navigator.pop(context);
   }
 
-  Color _getPriorityColor(TodoPriority priority) {
-    switch (priority) {
-      case TodoPriority.a:
-        return Colors.red.shade200;
-      case TodoPriority.b:
-        return Colors.orange.shade200;
-      case TodoPriority.c:
-        return Colors.yellow.shade200;
-      case TodoPriority.d:
-        return Colors.blue.shade200;
-    }
-  }
-
-  Color _getPriorityBorderColor(TodoPriority priority) {
-    switch (priority) {
-      case TodoPriority.a:
-        return Colors.red.shade700;
-      case TodoPriority.b:
-        return Colors.orange.shade700;
-      case TodoPriority.c:
-        return Colors.yellow.shade700;
-      case TodoPriority.d:
-        return Colors.blue.shade700;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,35 +108,14 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: TodoPriority.values.map((priority) {
-                final isSelected = _selectedPriority == priority;
-
-                return GestureDetector(
-                  onTap: () {
+                return TodoPriorityButton(
+                  priority: priority,
+                  isSelected: _selectedPriority == priority,
+                  onPressed: () {
                     setState(() {
                       _selectedPriority = priority;
                     });
                   },
-                  child: Container(
-                    height: 60,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      color: _getPriorityColor(priority),
-                      border: Border.all(
-                        color: _getPriorityBorderColor(priority),
-                        width: isSelected ? 3 : 1,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: Text(
-                        priority.name.toUpperCase(),
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
                 );
               }).toList(),
             ),
@@ -170,7 +124,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
               height: 40,
             ),
 
-            // set scheduled date - Today -Tomorrow - Pick Date
+            // set scheduled date
             const Text(
               'When?',
               style: TextStyle(
@@ -183,6 +137,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
               height: 30,
             ),
 
+            // Today - Tomorrow - Pick Date
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
