@@ -42,13 +42,26 @@ class _TodoScreenState extends State<TodoScreen> {
     _controller.clear();
   }
 
+  bool _isToday(DateTime? date) {
+    if (date == null) {
+      return true;
+    }
+
+    final today = DateTime.now();
+    return date.year == today.year &&
+        date.month == today.month &&
+        date.day == today.day;
+  }
+
   @override
   Widget build(BuildContext context) {
     // LOCAL VARIABLES
     //
     // TodoScreen rebuilds automatically whenever provider changes
     final todoProvider = context.watch<TodoProvider>();
-    final openTodos = todoProvider.openTodos;
+    final openTodos = todoProvider.openTodos
+        .where((todo) => _isToday(todo.scheduledDate))
+        .toList();
     final completedTodos = todoProvider.completedTodos;
 
     return Scaffold(
