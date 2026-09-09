@@ -3,7 +3,9 @@ import 'package:protask_app/constants/app_constants.dart';
 import 'package:protask_app/helpers/app_date_picker.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
+import 'package:protask_app/widgets/todo_date_button.dart';
 import 'package:provider/provider.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class TodoQuestionnaireScreen extends StatefulWidget {
   const TodoQuestionnaireScreen({super.key});
@@ -19,6 +21,12 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
   TodoPriority? _selectedPriority;
 
   DateTime _selectedScheduledDate = DateTime.now();
+
+  bool _isSameDay(DateTime first, DateTime second) {
+    return first.year == second.year &&
+        first.month == second.month &&
+        first.day == second.day;
+  }
 
   @override
   void dispose() {
@@ -162,7 +170,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
               height: 40,
             ),
 
-            // set scheduled date
+            // set scheduled date - Today -Tomorrow - Pick Date
             const Text(
               'When?',
               style: TextStyle(
@@ -178,15 +186,30 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
+                TodoDateButton(
+                  title: 'Today',
+                  date: DateTime.now(),
+                  isSelected: _isSameDay(
+                    _selectedScheduledDate,
+                    DateTime.now(),
+                  ),
                   onPressed: () {
                     setState(() {
                       _selectedScheduledDate = DateTime.now();
                     });
                   },
-                  child: const Text('Today'),
                 ),
-                ElevatedButton(
+                TodoDateButton(
+                  title: 'Tomorrow',
+                  date: DateTime.now().add(
+                    const Duration(days: 1),
+                  ),
+                  isSelected: _isSameDay(
+                    _selectedScheduledDate,
+                    DateTime.now().add(
+                      const Duration(days: 1),
+                    ),
+                  ),
                   onPressed: () {
                     setState(() {
                       _selectedScheduledDate = DateTime.now().add(
@@ -194,11 +217,21 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                       );
                     });
                   },
-                  child: const Text('Tomorrow'),
                 ),
-                ElevatedButton(
+                TodoDateButton(
+                  title: 'Pick Date',
+                  date: _selectedScheduledDate,
+                  isSelected: !_isSameDay(
+                        _selectedScheduledDate,
+                        DateTime.now(),
+                      ) &&
+                      !_isSameDay(
+                        _selectedScheduledDate,
+                        DateTime.now().add(
+                          const Duration(days: 1),
+                        ),
+                      ),
                   onPressed: _pickScheduledDate,
-                  child: const Text('Pick Date'),
                 ),
               ],
             ),
