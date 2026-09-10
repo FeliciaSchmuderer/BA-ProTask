@@ -3,6 +3,7 @@ import 'package:protask_app/constants/app_constants.dart';
 import 'package:protask_app/constants/questionnaire_constants.dart';
 import 'package:protask_app/constants/todo_constants.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
+import 'package:protask_app/widgets/todo_deadline_tag.dart';
 
 // displays one single todo item
 class TodoTile extends StatelessWidget {
@@ -87,6 +88,17 @@ class TodoTile extends StatelessWidget {
                 ),
               ),
             ),
+
+            // displays deadline next to todo
+            if (todo.deadlineDate != null || todo.deadlineTime != null) ...[
+              TodoDeadlineTag(
+                date: todo.deadlineDate,
+                time: todo.deadlineTime,
+              ),
+              const SizedBox(
+                width: AppConstants.spacingSmall,
+              ),
+            ],
 
             Container(
               width: 14,

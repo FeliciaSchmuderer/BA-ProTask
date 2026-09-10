@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/app_constants.dart';
 import 'package:protask_app/constants/questionnaire_constants.dart';
 import 'package:protask_app/helpers/app_date_picker.dart';
 import 'package:protask_app/helpers/app_time_picker.dart';
@@ -97,6 +98,14 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
     }
   }
 
+  // removes deadline date and time
+  void _removeDeadline() {
+    setState(() {
+      _selectedDeadlineDate = null;
+      _selectedDeadlineTime = null;
+    });
+  }
+
   void createTodo() {
     if (_controller.text.trim().isEmpty) {
       return;
@@ -106,8 +115,8 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
           _controller.text,
           priority: _selectedPriority,
           scheduledDate: _selectedScheduledDate,
-          //deadlineDate: _selectedDeadlineDate,
-          //deadlineTime: _selectedDeadlineTime,
+          deadlineDate: _selectedDeadlineDate,
+          deadlineTime: _selectedDeadlineTime,
         );
 
     Navigator.pop(context);
@@ -116,7 +125,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(QuestionnaireConstants.screenPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -274,6 +283,19 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                 ]
               ],
             ),
+
+            const SizedBox(
+              height: AppConstants.spacingSmall,
+            ),
+
+            if (_selectedDeadlineDate != null)
+              TextButton(
+                onPressed: _removeDeadline,
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.grey.shade600,
+                ),
+                child: const Text('Remove deadline'),
+              ),
 
             // create button provisorisch
             ElevatedButton(

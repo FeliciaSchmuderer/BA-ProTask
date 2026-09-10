@@ -81,13 +81,13 @@ class QuestionnaireConstants {
   static const String deadlineTextPick = 'Pick Deadline';
   static const String deadlineTimeTextPick = 'Pick Time';
 
-  static const double deadlineButtonWidth = 95;
-  static const double deadlineButtonHeight = 50;
+  static const double deadlineButtonWidth = 100;
+  static const double deadlineButtonHeight = 45;
 
   static const double deadlineButtonBorderRadius = 10;
   static const double deadlineButtonBorderWidth = 1;
 
   static const Color deadlineButtonBorderColor = Colors.grey;
 
-  static const double deadlineButtonFontSize = 15;
+  static const double deadlineButtonFontSize = 13;
 }
