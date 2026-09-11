@@ -88,9 +88,10 @@ class QuestionnaireConstants {
   // deadline buttons
   static const String deadlineTextPick = 'Pick Deadline';
   static const String deadlineTimeTextPick = 'Pick Time';
+  static const String removeDeadlineText = 'Remove Deadline';
 
-  static const double deadlineButtonWidth = 100;
-  static const double deadlineButtonHeight = 45;
+  static const double deadlineButtonWidth = 120;
+  static const double deadlineButtonHeight = 50;
 
   static const double deadlineButtonBorderRadius = 10;
   static const double deadlineButtonBorderWidth = 1;
@@ -101,4 +102,10 @@ class QuestionnaireConstants {
 
   static const double deadlineTagVertical = 4;
   static const double deadlineTagHorizonal = 8;
+
+  // create button
+  static const double createButtonHorizonal = 50;
+  static const double createButtonVertical = 20;
+  static const double createButtonRadius =45;
+  static const double createButtonFontSize = 18;
 }
