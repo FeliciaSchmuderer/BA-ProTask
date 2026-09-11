@@ -13,6 +13,10 @@ class QuestionnaireConstants {
   static const String createTodoText = 'Create';
 
   // general
+  static const Color removeButtonforegroundColor =
+      Color.fromARGB(255, 150, 149, 149);
+  static const Color buttonBorderColor = Colors.grey;
+  static const double buttonBorderRadius = 8;
 
   // spacing
   static const double screenPadding = 24;
@@ -43,6 +47,10 @@ class QuestionnaireConstants {
   static const double priorityButtonBorderRadius = 10;
   static const double priorityButtonBorderWidth = 1;
   static const double prioritySelectedButtonBorderWidth = 3;
+
+  static const double prioritySpacing = 12;
+  static const double removePriorityFontSize = 14;
+  static const String removePriorityTitle = 'Remove Priority';
 
   // colors (priority)
   static const Color priorityAColor = Color.fromARGB(255, 250, 116, 130);
@@ -90,4 +98,7 @@ class QuestionnaireConstants {
   static const Color deadlineButtonBorderColor = Colors.grey;
 
   static const double deadlineButtonFontSize = 13;
+
+  static const double deadlineTagVertical = 4;
+  static const double deadlineTagHorizonal = 8;
 }

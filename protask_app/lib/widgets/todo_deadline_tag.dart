@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/questionnaire_constants.dart';
 
+// tag for display on todotile
 class TodoDeadlineTag extends StatelessWidget {
   final DateTime? date;
   final TimeOfDay? time;
@@ -12,7 +14,7 @@ class TodoDeadlineTag extends StatelessWidget {
 
   String _formatDate(DateTime date) {
     final day = date.day.toString().padLeft(2, '0');
-    final month = date.month.toString().padLeft(1, '0');
+    final month = date.month.toString().padLeft(2, '0');
 
     return '$day.$month.';
   }
@@ -38,19 +40,20 @@ class TodoDeadlineTag extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 4,
+        horizontal: QuestionnaireConstants.deadlineTagHorizonal,
+        vertical: QuestionnaireConstants.deadlineTagVertical,
       ),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.grey,
+          color: QuestionnaireConstants.buttonBorderColor,
         ),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius:
+            BorderRadius.circular(QuestionnaireConstants.buttonBorderRadius),
       ),
       child: Text(
         parts.join('  '),
         style: const TextStyle(
-          fontSize: 12,
+          fontSize: QuestionnaireConstants.deadlineButtonFontSize,
         ),
       ),
     );

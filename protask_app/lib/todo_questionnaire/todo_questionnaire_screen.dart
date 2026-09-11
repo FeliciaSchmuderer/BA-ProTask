@@ -180,6 +180,21 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
               }).toList(),
             ),
 
+            // remove priority button
+            if (_selectedPriority != null)
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _selectedPriority = null;
+                  });
+                },
+                style: TextButton.styleFrom(
+                  foregroundColor:
+                      QuestionnaireConstants.removeButtonforegroundColor,
+                ),
+                child: const Text(QuestionnaireConstants.removePriorityTitle),
+              ),
+
             const SizedBox(
               height: QuestionnaireConstants.sectionSpacing,
             ),
@@ -292,7 +307,8 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
               TextButton(
                 onPressed: _removeDeadline,
                 style: TextButton.styleFrom(
-                  foregroundColor: Colors.grey.shade600,
+                  foregroundColor:
+                      QuestionnaireConstants.removeButtonforegroundColor,
                 ),
                 child: const Text('Remove deadline'),
               ),
