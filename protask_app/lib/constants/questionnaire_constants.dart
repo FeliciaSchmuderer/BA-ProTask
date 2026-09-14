@@ -13,10 +13,13 @@ class QuestionnaireConstants {
   static const String createTodoText = 'Create';
 
   // general
-  static const Color removeButtonforegroundColor =
-      Color.fromARGB(255, 150, 149, 149);
-  static const Color buttonBorderColor = Colors.grey;
   static const double buttonBorderRadius = 8;
+
+  // (tags)
+  static const double tagHorizonal = 4;
+  static const double tagVertical = 2;
+  static const double tagBorderRadius = 6;
+  static const double tagFontSize = 12;
 
   // spacing
   static const double screenPadding = 24;
@@ -26,7 +29,10 @@ class QuestionnaireConstants {
 
   // fontweight
   static const FontWeight titleFontWeight = FontWeight.w900;
-  static const FontWeight textFontWeight = FontWeight.w600;
+  static const FontWeight textFontWeight = FontWeight.normal;
+
+  // buttons (general)
+  static const double qButtonFontSize = 14;
 
   // todo input
   static const double todoTopSpacing = 32;
@@ -53,14 +59,14 @@ class QuestionnaireConstants {
   static const String removePriorityTitle = 'Remove Priority';
 
   // colors (priority)
-  static const Color priorityAColor = Color.fromARGB(255, 250, 116, 130);
-  static const Color priorityABorderColor = Color.fromARGB(255, 190, 18, 35);
-  static const Color priorityBColor = Color.fromARGB(255, 249, 159, 107);
-  static const Color priorityBBorderColor = Color.fromARGB(255, 235, 124, 50);
-  static const Color priorityCColor = Color.fromARGB(255, 250, 228, 116);
-  static const Color priorityCBorderColor = Color.fromARGB(255, 246, 202, 57);
-  static const Color priorityDColor = Color.fromARGB(255, 144, 186, 246);
-  static const Color priorityDBorderColor = Color.fromARGB(255, 72, 140, 228);
+  static const Color priorityAColor = Color(0xbff07587);
+  static const Color priorityABorderColor = Color(0xffb07587);
+  static const Color priorityBColor = Color(0xffefb09f);
+  static const Color priorityBBorderColor = Color(0xffefb09f);
+  static const Color priorityCColor = Color(0xffeff1b7);
+  static const Color priorityCBorderColor = Color(0xffeff1b7);
+  static const Color priorityDColor = Color(0xff5da8c6);
+  static const Color priorityDBorderColor = Color(0xff5da8c6);
 
   // scheduled date
   static const double dateButtonWidth = 95;
@@ -68,22 +74,12 @@ class QuestionnaireConstants {
   static const double dateButtonBorderRadius = 13;
   static const double dateButtonBorderWidth = 1.5;
 
-  static const double dateTitleFontSize = 14;
   static const double dateFontSize = 13;
   static const double dateTextSpacing = 4;
 
   static const String dateTextToday = 'Today';
   static const String dateTextTomorrow = 'Tomorrow';
   static const String dateTextPick = 'Pick Date';
-
-  // colors (date button)
-  static const Color dateSelectedColor = Colors.black87;
-  static const Color dateNotSelectedColor = Colors.grey;
-
-  static const Color dateSelectedTextColor = Colors.white;
-  static const Color dateNotSelectedTextColor = Colors.black;
-
-  static const Color dateNotSelectedBorderColor = Colors.grey;
 
   // deadline buttons
   static const String deadlineTextPick = 'Pick Deadline';
@@ -96,16 +92,13 @@ class QuestionnaireConstants {
   static const double deadlineButtonBorderRadius = 10;
   static const double deadlineButtonBorderWidth = 1;
 
-  static const Color deadlineButtonBorderColor = Colors.grey;
-
-  static const double deadlineButtonFontSize = 13;
-
-  static const double deadlineTagVertical = 4;
-  static const double deadlineTagHorizonal = 8;
+  // duration
+  static const String durationTextPick = 'Pick Duration';
+  static const String removeDurationText = 'Remove Duration';
 
   // create button
   static const double createButtonHorizonal = 50;
   static const double createButtonVertical = 20;
-  static const double createButtonRadius =45;
+  static const double createButtonRadius = 45;
   static const double createButtonFontSize = 18;
 }

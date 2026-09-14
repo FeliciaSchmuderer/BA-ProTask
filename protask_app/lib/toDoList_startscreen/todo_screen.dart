@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:protask_app/constants/app_constants.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/todo_screen_constants.dart';
 import 'package:protask_app/toDoList_startscreen/todo_list.dart';
 import 'package:protask_app/todo_questionnaire/todo_questionnaire_route.dart';
@@ -69,7 +69,7 @@ class _TodoScreenState extends State<TodoScreen> {
     return Scaffold(
       // title "Today" and date below
       body: Padding(
-        padding: AppConstants.screenPadding,
+        padding: AppThemeConstants.screenPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -77,26 +77,28 @@ class _TodoScreenState extends State<TodoScreen> {
             const Text(
               TodoScreenConstants.title,
               style: TextStyle(
-                  fontSize: AppConstants.titleFontSize,
-                  fontWeight: AppConstants.titleFontWeight),
+                  color: AppThemeConstants.textColor,
+                  fontSize: AppThemeConstants.titleFontSize,
+                  fontWeight: AppThemeConstants.titleFontWeight),
             ),
 
             // space between title and date
             const SizedBox(
-              height: AppConstants.spacingMini,
+              height: AppThemeConstants.spacingMini,
             ),
 
             // displays current date
             Text(
-              AppConstants.currentDate,
+              AppThemeConstants.currentDate,
               style: const TextStyle(
-                  fontSize: AppConstants.subtitleFontSize,
-                  fontWeight: AppConstants.subtitleFontWeight),
+                color: AppThemeConstants.textColor,
+                  fontSize: AppThemeConstants.subtitleFontSize,
+                  fontWeight: AppThemeConstants.subtitleFontWeight),
             ),
 
             // space before the todo list
             const SizedBox(
-              height: AppConstants.spacingMedium,
+              height: AppThemeConstants.spacingMedium,
             ),
 
             // displays todo list in the middle of the screen and handles checkbox changes
@@ -121,7 +123,7 @@ class _TodoScreenState extends State<TodoScreen> {
             ),
 
             const SizedBox(
-              height: AppConstants.spacingSmall,
+              height: AppThemeConstants.spacingSmall,
             ),
 
             // input field for creating new todos

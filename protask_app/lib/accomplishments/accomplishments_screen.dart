@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/constants/accomplishments_constants.dart';
-import 'package:protask_app/constants/app_constants.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/widgets/app_input_field.dart';
 import 'package:provider/provider.dart';
@@ -43,32 +43,32 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
 
     return Scaffold(
       body: Padding(
-        padding: AppConstants.screenPadding,
+        padding: AppThemeConstants.screenPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               AccomplishmentsConstants.title,
               style: TextStyle(
-                fontSize: AppConstants.titleFontSize,
-                fontWeight: AppConstants.titleFontWeight,
+                fontSize: AppThemeConstants.titleFontSize,
+                fontWeight: AppThemeConstants.titleFontWeight,
               ),
             ),
 
             // space between title and date
-            const SizedBox(height: AppConstants.spacingMini),
+            const SizedBox(height: AppThemeConstants.spacingMini),
 
             // displays current date
             Text(
-              AppConstants.currentDate,
+              AppThemeConstants.currentDate,
               style: const TextStyle(
-                fontSize: AppConstants.subtitleFontSize,
-                fontWeight: AppConstants.subtitleFontWeight,
+                fontSize: AppThemeConstants.subtitleFontSize,
+                fontWeight: AppThemeConstants.subtitleFontWeight,
               ),
             ),
 
             // space between date and accomplishment textfield
-            const SizedBox(height: AppConstants.spacingMedium),
+            const SizedBox(height: AppThemeConstants.spacingMedium),
 
             // Add Accomplishment input field
 
@@ -80,7 +80,7 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
             ),
 
             // space between accomplishment textfield and list
-            const SizedBox(height: AppConstants.spacingMedium),
+            const SizedBox(height: AppThemeConstants.spacingMedium),
 
             // displays all completed todos
             Expanded(

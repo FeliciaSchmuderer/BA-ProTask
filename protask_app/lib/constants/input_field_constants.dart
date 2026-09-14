@@ -24,6 +24,4 @@ class InputFieldConstants {
       BorderRadius.all(Radius.circular(25));
   static const double inputFieldSpacing = 10;
 
-  // colors
-  static final Color inputFieldColor = Colors.grey[350]!;
 }

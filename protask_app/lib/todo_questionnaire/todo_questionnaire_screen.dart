@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:protask_app/constants/app_constants.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/questionnaire_constants.dart';
 import 'package:protask_app/helpers/app_date_picker.dart';
+import 'package:protask_app/helpers/app_duration_picker.dart';
 import 'package:protask_app/helpers/app_time_picker.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/widgets/todo_date_button.dart';
 import 'package:protask_app/widgets/todo_deadline_button.dart';
+import 'package:protask_app/widgets/todo_duration_button.dart';
 import 'package:protask_app/widgets/todo_priority_button.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +29,8 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
 
   DateTime? _selectedDeadlineDate;
   TimeOfDay? _selectedDeadlineTime;
+
+  int? _selectedDuration;
 
   // checks if two date represent the same calendar day
   bool _isSameDay(DateTime? first, DateTime second) {
@@ -106,6 +110,27 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
     });
   }
 
+  // opens duration picker and stores selected duration
+  Future<void> _pickDuration() async {
+    final duration = await AppDurationPicker.selectDuration(
+      context,
+      _selectedDuration,
+    );
+
+    if (duration != null) {
+      setState(() {
+        _selectedDuration = duration > 0 ? duration : null;
+      });
+    }
+  }
+
+  // removes selected duration
+  void _removeDuration() {
+    setState(() {
+      _selectedDuration = null;
+    });
+  }
+
   void createTodo() {
     if (_controller.text.trim().isEmpty) {
       return;
@@ -117,6 +142,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
           scheduledDate: _selectedScheduledDate,
           deadlineDate: _selectedDeadlineDate,
           deadlineTime: _selectedDeadlineTime,
+          estimatedDuration: _selectedDuration,
         );
 
     Navigator.pop(context);
@@ -125,6 +151,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppThemeConstants.popupColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(
           QuestionnaireConstants.screenPadding,
@@ -139,6 +166,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
 
             TextField(
               controller: _controller,
+              cursorColor: AppThemeConstants.textColor,
               style: const TextStyle(
                 fontSize: QuestionnaireConstants.todoFontSize,
                 fontWeight: QuestionnaireConstants.todoFontWeight,
@@ -148,17 +176,23 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                 hintStyle: TextStyle(
                   fontSize: QuestionnaireConstants.todoHintFontSize,
                   fontWeight: QuestionnaireConstants.todoFontWeight,
+                  color: AppThemeConstants.hintTextColor,
                 ),
-                enabledBorder: UnderlineInputBorder(),
-                focusedBorder: UnderlineInputBorder(),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppThemeConstants.textColor,
+                  ),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                  color: AppThemeConstants.textColor,
+                )),
               ),
             ),
 
             const SizedBox(
               height: QuestionnaireConstants.sectionSpacing,
             ),
-
-            
 
             // set scheduled date
             Row(
@@ -196,7 +230,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                       },
                     ),
                     const SizedBox(
-                      width: AppConstants.spacingMedium,
+                      width: AppThemeConstants.spacingMedium,
                     ),
                     TodoDateButton(
                       title: QuestionnaireConstants.dateTextTomorrow,
@@ -218,7 +252,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                       },
                     ),
                     const SizedBox(
-                      width: AppConstants.spacingMedium,
+                      width: AppThemeConstants.spacingMedium,
                     ),
                     TodoDateButton(
                       title: QuestionnaireConstants.dateTextPick,
@@ -243,7 +277,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
               children: [
                 const SizedBox(
                   width: 80,
-                  child: const Text(
+                  child: Text(
                     QuestionnaireConstants.deadlineTitle,
                     style: TextStyle(
                       fontSize: QuestionnaireConstants.sectionTitleFontSize,
@@ -287,8 +321,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                       TextButton(
                         onPressed: _removeDeadline,
                         style: TextButton.styleFrom(
-                          foregroundColor: QuestionnaireConstants
-                              .removeButtonforegroundColor,
+                          foregroundColor: AppThemeConstants.hintTextColor,
                           padding: EdgeInsets.zero,
                         ),
                         child: const Text(
@@ -330,7 +363,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                       children: TodoPriority.values.map((priority) {
                         return Padding(
                           padding: const EdgeInsets.only(
-                            right: AppConstants.spacingMedium,
+                            right: AppThemeConstants.spacingMedium,
                           ),
                           child: TodoPriorityButton(
                             priority: priority,
@@ -354,12 +387,55 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                           });
                         },
                         style: TextButton.styleFrom(
-                          foregroundColor: QuestionnaireConstants
-                              .removeButtonforegroundColor,
+                          foregroundColor: AppThemeConstants.hintTextColor,
                           padding: EdgeInsets.zero,
                         ),
                         child: const Text(
                           QuestionnaireConstants.removePriorityTitle,
+                        ),
+                      ),
+                  ],
+                ),
+              ],
+            ),
+
+            const SizedBox(
+              height: QuestionnaireConstants.sectionSpacing,
+            ),
+
+            // 4. Duration
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  width: 80,
+                  child: Text(
+                    QuestionnaireConstants.durationTitle,
+                    style: TextStyle(
+                      fontSize: QuestionnaireConstants.sectionTitleFontSize,
+                      fontWeight: QuestionnaireConstants.sectionTitleFontWeight,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: QuestionnaireConstants.titleContentspacing,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TodoDurationButton(
+                      duration: _selectedDuration,
+                      onPressed: _pickDuration,
+                    ),
+                    if (_selectedDuration != null)
+                      TextButton(
+                        onPressed: _removeDuration,
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppThemeConstants.hintTextColor,
+                          padding: EdgeInsets.zero,
+                        ),
+                        child: const Text(
+                          QuestionnaireConstants.removeDurationText,
                         ),
                       ),
                   ],

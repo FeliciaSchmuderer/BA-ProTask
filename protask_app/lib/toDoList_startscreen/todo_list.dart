@@ -39,6 +39,7 @@ class TodoList extends StatelessWidget {
           // adds shadow to todo while being dragged
           proxyDecorator: (child, index, animation) {
             return Material(
+              color: Colors.transparent,
               elevation: TodoConstants.dragElevation,
               child: child,
             );
@@ -49,14 +50,17 @@ class TodoList extends StatelessWidget {
             return ReorderableDelayedDragStartListener(
               key: ValueKey(todo.id),
               index: index,
-              child: TodoTile(
-                todo: todo,
-                onChanged: (value) {
-                  onChanged(value, todo);
-                },
-                onDelete: () {
-                  onDelete(todo);
-                },
+              child: Padding(
+                padding: TodoConstants.todoTileBottomSpacing,
+                child: TodoTile(
+                  todo: todo,
+                  onChanged: (value) {
+                    onChanged(value, todo);
+                  },
+                  onDelete: () {
+                    onDelete(todo);
+                  },
+                ),
               ),
             );
           },

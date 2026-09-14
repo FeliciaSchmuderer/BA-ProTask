@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:protask_app/constants/app_constants.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/input_field_constants.dart';
 
 // input field for accomplishments and todoscreen
@@ -22,18 +22,19 @@ class AppInputField extends StatelessWidget {
       width: MediaQuery.of(context).size.width *
           InputFieldConstants.inputFieldWidthFactor,
       height: InputFieldConstants.inputFieldHeight,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: InputFieldConstants.inputFieldBorderRadius,
-        color: InputFieldConstants.inputFieldColor,
+        color: AppThemeConstants.surfaceColor,
       ),
       child: Row(
         children: [
-          const SizedBox(width: AppConstants.spacingMedium),
+          const SizedBox(width: AppThemeConstants.spacingMedium),
 
           // interactive textfield
           Expanded(
             child: TextField(
               controller: controller,
+              cursorColor: AppThemeConstants.textColor,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.only(
                   bottom: InputFieldConstants.contentPaddingBottom,
@@ -44,6 +45,7 @@ class AppInputField extends StatelessWidget {
                     const Icon(
                       InputFieldConstants.addIcon,
                       size: InputFieldConstants.hintIconSize,
+                      color: AppThemeConstants.hintTextColor,
                     ),
                     const SizedBox(
                       width: InputFieldConstants.hintSpacing,
@@ -52,6 +54,7 @@ class AppInputField extends StatelessWidget {
                       hintText,
                       style: const TextStyle(
                         fontSize: InputFieldConstants.hintFontSize,
+                        color: AppThemeConstants.hintTextColor,
                       ),
                     ),
                   ],
@@ -73,7 +76,7 @@ class AppInputField extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              width: AppConstants.spacingMedium,
+              width: AppThemeConstants.spacingMedium,
             ),
           ],
 

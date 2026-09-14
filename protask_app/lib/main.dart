@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/navigation/navigation_screen.dart';
 import 'package:protask_app/provider/todo_provider.dart';
+import 'package:protask_app/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -23,8 +25,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: NavigationScreen(),
+    return MaterialApp(
+      theme: AppTheme.darkTheme,
+      home: const NavigationScreen(),
     );
   }
 }

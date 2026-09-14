@@ -100,6 +100,7 @@ class TodoProvider extends ChangeNotifier {
     DateTime? deadlineDate,
     TimeOfDay? deadlineTime,
     TodoPriority? priority,
+    int? estimatedDuration,
   }) async {
     if (title.trim().isEmpty) {
       return;
@@ -113,6 +114,7 @@ class TodoProvider extends ChangeNotifier {
         deadlineDate: deadlineDate,
         deadlineTime: deadlineTime,
         priority: priority,
+        estimatedDuration: estimatedDuration,
       ),
     );
 

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 
 class AppTimePicker {
   // opens wheel time picker with the current selection as initial time
@@ -16,22 +17,33 @@ class AppTimePicker {
       builder: (context) {
         return Container(
           height: 216,
-          color: CupertinoColors.systemBackground.resolveFrom(context),
+          color: AppThemeConstants.backgroundColor,
           child: SafeArea(
             top: false,
-            child: CupertinoDatePicker(
-              mode: CupertinoDatePickerMode.time,
-              use24hFormat: true,
-              initialDateTime: DateTime.now().copyWith(
-                hour: initialTime.hour,
-                minute: initialTime.minute,
+            child: CupertinoTheme(
+              data: const CupertinoThemeData(
+                brightness: Brightness.dark,
+                textTheme: CupertinoTextThemeData(
+                  dateTimePickerTextStyle: TextStyle(
+                    color: AppThemeConstants.textColor,
+                    fontSize: 22,
+                  ),
+                ),
               ),
-              onDateTimeChanged: (DateTime newTime) {
-                pickedTime = TimeOfDay(
-                  hour: newTime.hour,
-                  minute: newTime.minute,
-                );
-              },
+              child: CupertinoDatePicker(
+                mode: CupertinoDatePickerMode.time,
+                use24hFormat: true,
+                initialDateTime: DateTime.now().copyWith(
+                  hour: initialTime.hour,
+                  minute: initialTime.minute,
+                ),
+                onDateTimeChanged: (DateTime newTime) {
+                  pickedTime = TimeOfDay(
+                    hour: newTime.hour,
+                    minute: newTime.minute,
+                  );
+                },
+              ),
             ),
           ),
         );

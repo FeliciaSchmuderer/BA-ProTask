@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/questionnaire_constants.dart';
 
 class TodoDeadlineButton extends StatelessWidget {
@@ -41,29 +42,23 @@ class TodoDeadlineButton extends StatelessWidget {
       buttonText = _formatTime(time!);
     }
 
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        width: QuestionnaireConstants.deadlineButtonWidth,
-        height: QuestionnaireConstants.deadlineButtonHeight,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: QuestionnaireConstants.deadlineButtonBorderColor,
-            width: QuestionnaireConstants.deadlineButtonBorderWidth,
-          ),
-          borderRadius: BorderRadius.circular(
-            QuestionnaireConstants.deadlineButtonBorderRadius,
-          ),
-        ),
+    return SizedBox(
+      width: QuestionnaireConstants.deadlineButtonWidth,
+      height: QuestionnaireConstants.deadlineButtonHeight,
+      child: OutlinedButton(
+        onPressed: onPressed,
         child: Center(
-          child: Text(
-            buttonText,
-            style: const TextStyle(
-              fontSize: QuestionnaireConstants.deadlineButtonFontSize,
-              fontWeight: QuestionnaireConstants.textFontWeight,
-            ),
+        child: Text(
+          buttonText,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: QuestionnaireConstants.qButtonFontSize,
+            fontWeight: QuestionnaireConstants.textFontWeight,
+            color: AppThemeConstants.textColor,
+           
           ),
         ),
+      ),
       ),
     );
   }

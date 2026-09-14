@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/questionnaire_constants.dart';
 
 // tag for display on todotile
@@ -40,20 +41,20 @@ class TodoDeadlineTag extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: QuestionnaireConstants.deadlineTagHorizonal,
-        vertical: QuestionnaireConstants.deadlineTagVertical,
+        horizontal: QuestionnaireConstants.tagHorizonal,
+        vertical: QuestionnaireConstants.tagVertical,
       ),
       decoration: BoxDecoration(
         border: Border.all(
-          color: QuestionnaireConstants.buttonBorderColor,
+          color: AppThemeConstants.borderColor,
         ),
         borderRadius:
-            BorderRadius.circular(QuestionnaireConstants.buttonBorderRadius),
+            BorderRadius.circular(QuestionnaireConstants.tagBorderRadius),
       ),
       child: Text(
         parts.join('  '),
         style: const TextStyle(
-          fontSize: QuestionnaireConstants.deadlineButtonFontSize,
+          fontSize: QuestionnaireConstants.tagFontSize,
         ),
       ),
     );

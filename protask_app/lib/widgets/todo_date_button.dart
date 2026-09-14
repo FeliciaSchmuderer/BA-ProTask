@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/questionnaire_constants.dart';
 
 class TodoDateButton extends StatelessWidget {
@@ -25,36 +26,30 @@ class TodoDateButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        width: QuestionnaireConstants.dateButtonWidth,
-        height: QuestionnaireConstants.dateButtonHeight,
-        // changes appearance depending on selection
-        decoration: BoxDecoration(
-          color: isSelected
-              ? QuestionnaireConstants.dateSelectedColor
-              : QuestionnaireConstants.dateNotSelectedColor,
-          border: Border.all(
-            color: isSelected
-                ? QuestionnaireConstants.dateSelectedColor
-                : QuestionnaireConstants.dateNotSelectedBorderColor,
-            width: QuestionnaireConstants.dateButtonBorderWidth,
-          ),
-          borderRadius: BorderRadius.circular(
-              QuestionnaireConstants.dateButtonBorderRadius),
-        ),
+    return SizedBox(
+      width: QuestionnaireConstants.dateButtonWidth,
+      height: QuestionnaireConstants.dateButtonHeight,
+      // changes appearance depending on selection
+      child: OutlinedButton(
+        onPressed: onPressed,
+        style: isSelected
+            ? OutlinedButton.styleFrom(
+                side: const BorderSide(
+                  color: AppThemeConstants.accentColor,
+                  width: QuestionnaireConstants.dateButtonBorderWidth,
+                ),
+              )
+            : null,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               title,
-              style: TextStyle(
-                fontSize: QuestionnaireConstants.dateTitleFontSize,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: QuestionnaireConstants.qButtonFontSize,
                 fontWeight: QuestionnaireConstants.textFontWeight,
-                color: isSelected
-                    ? QuestionnaireConstants.dateSelectedTextColor
-                    : QuestionnaireConstants.dateNotSelectedTextColor,
+                color: AppThemeConstants.textColor,
               ),
             ),
 
@@ -65,11 +60,9 @@ class TodoDateButton extends StatelessWidget {
               ),
               Text(
                 _formatDate(date)!,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: QuestionnaireConstants.dateFontSize,
-                  color: isSelected
-                      ? QuestionnaireConstants.dateSelectedTextColor
-                      : QuestionnaireConstants.dateNotSelectedTextColor,
+                  color: AppThemeConstants.textColor,
                 ),
               ),
             ]

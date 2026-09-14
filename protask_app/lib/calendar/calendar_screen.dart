@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/calendar/calendar_widget.dart';
-import 'package:protask_app/constants/app_constants.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/calendar_constants.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
@@ -48,18 +48,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
     }).toList();
 
     return SingleChildScrollView(
-      padding: AppConstants.screenPadding,
+      padding: AppThemeConstants.screenPadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             CalendarConstants.title,
             style: TextStyle(
-              fontSize: AppConstants.titleFontSize,
-              fontWeight: AppConstants.titleFontWeight,
+              fontSize: AppThemeConstants.titleFontSize,
+              fontWeight: AppThemeConstants.titleFontWeight,
             ),
           ),
-          const SizedBox(height: AppConstants.spacingMedium),
+          const SizedBox(height: AppThemeConstants.spacingMedium),
           CalendarWidget(
             selectedDate: _selectedDate,
             onDaySelected: _onDaySelected,
@@ -69,8 +69,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
             Text(
               "Todos on ${_selectedDate!.day}.${_selectedDate!.month}.${_selectedDate!.year}",
               style: const TextStyle(
-                fontSize: AppConstants.subtitleFontSize,
-                fontWeight: AppConstants.titleFontWeight,
+                fontSize: AppThemeConstants.subtitleFontSize,
+                fontWeight: AppThemeConstants.titleFontWeight,
               ),
             ),
 
@@ -79,7 +79,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             const Center(
               child: Text(
                 CalendarConstants.noTodoText,
-                style: TextStyle(fontSize: AppConstants.bodyFontSize),
+                style: TextStyle(fontSize: AppThemeConstants.bodyFontSize),
               ),
             ),
           ],
