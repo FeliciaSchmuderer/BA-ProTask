@@ -11,6 +11,7 @@ import 'package:protask_app/widgets/todo_deadline_button.dart';
 import 'package:protask_app/widgets/todo_duration_button.dart';
 import 'package:protask_app/widgets/todo_priority_button.dart';
 import 'package:provider/provider.dart';
+import 'package:protask_app/widgets/buffer_section.dart';
 
 class TodoQuestionnaireScreen extends StatefulWidget {
   const TodoQuestionnaireScreen({super.key});
@@ -445,6 +446,15 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
 
             const SizedBox(
               height: QuestionnaireConstants.sectionSpacing,
+            ),
+
+            // Buffer area
+            BufferSection(
+              selectedDate: _selectedScheduledDate ?? DateTime.now(),
+            ),
+
+            const SizedBox(
+              height: QuestionnaireConstants.spacingSmall,
             ),
 
             // create button provisorisch
