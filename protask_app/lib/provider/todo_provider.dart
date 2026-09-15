@@ -184,7 +184,10 @@ class TodoProvider extends ChangeNotifier {
   // ACCOMPLISHMENTS METHODS
   //
   // adds a todo that is already completed when it is added in accomplishment screen
-  Future<void> addCompletedTodo(String title) async {
+  Future<void> addCompletedTodo(
+    String title, {
+    DateTime? completedAt,
+  }) async {
     if (title.trim().isEmpty) {
       return;
     }
@@ -195,7 +198,7 @@ class TodoProvider extends ChangeNotifier {
         title: title.trim(),
         isChecked: true,
         // for sorting completed todos
-        completedAt: DateTime.now(),
+        completedAt: completedAt ?? DateTime.now(),
       ),
     );
     await _saveTodos();
