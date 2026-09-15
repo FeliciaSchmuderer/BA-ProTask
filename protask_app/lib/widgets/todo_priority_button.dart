@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/questionnaire_constants.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 
@@ -49,9 +50,9 @@ class TodoPriorityButton extends StatelessWidget {
         height: QuestionnaireConstants.priorityButtonHeight,
         width: QuestionnaireConstants.priorityButtonWidth,
         decoration: BoxDecoration(
-          color: _getPriorityColor(),
+          color: isSelected ? _getPriorityColor().withValues(alpha: 0.15) : AppThemeConstants.popupColor,
           border: Border.all(
-            color: _getPriorityBorderColor(),
+            color: _getPriorityColor(),
             width: isSelected
                 ? QuestionnaireConstants.prioritySelectedButtonBorderWidth
                 : QuestionnaireConstants.priorityButtonBorderWidth,
@@ -62,9 +63,11 @@ class TodoPriorityButton extends StatelessWidget {
         child: Center(
           child: Text(
             priority.name.toUpperCase(),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: QuestionnaireConstants.priorityFontSize,
               fontWeight: QuestionnaireConstants.textFontWeight,
+            
+              color: isSelected ? _getPriorityColor() : AppThemeConstants.textColor,
             ),
           ),
         ),

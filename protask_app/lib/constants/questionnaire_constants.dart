@@ -59,13 +59,13 @@ class QuestionnaireConstants {
   static const String removePriorityTitle = 'Remove Priority';
 
   // colors (priority)
-  static const Color priorityAColor = Color(0xbff07587);
+  static const Color priorityAColor = Color(0xffFF453A);
   static const Color priorityABorderColor = Color(0xffb07587);
-  static const Color priorityBColor = Color(0xffefb09f);
+  static const Color priorityBColor = Color(0xffFF9F0A);
   static const Color priorityBBorderColor = Color(0xffefb09f);
-  static const Color priorityCColor = Color(0xffeff1b7);
+  static const Color priorityCColor = Color(0xffFFD60A);
   static const Color priorityCBorderColor = Color(0xffeff1b7);
-  static const Color priorityDColor = Color(0xff5da8c6);
+  static const Color priorityDColor = Color(0xff5E8CFF);
   static const Color priorityDBorderColor = Color(0xff5da8c6);
 
   // scheduled date

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/constants/accomplishments_constants.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
+import 'package:protask_app/constants/todo_constants.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/widgets/app_input_field.dart';
 import 'package:provider/provider.dart';
@@ -90,17 +91,20 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
                   final todo = accomplishments[index];
 
                   // handles checking and deleteing todo
-                  return TodoTile(
-                    todo: todo,
-                    onChanged: (value) {
-                      todoProvider.toggleTodo(
-                        todo,
-                        value!,
-                      );
-                    },
-                    onDelete: () {
-                      todoProvider.deleteTodo(todo);
-                    },
+                  return Padding(
+                    padding: TodoConstants.todoTileBottomSpacing,
+                    child: TodoTile(
+                      todo: todo,
+                      onChanged: (value) {
+                        todoProvider.toggleTodo(
+                          todo,
+                          value!,
+                        );
+                      },
+                      onDelete: () {
+                        todoProvider.deleteTodo(todo);
+                      },
+                    ),
                   );
                 },
               ),

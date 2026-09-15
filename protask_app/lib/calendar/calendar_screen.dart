@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/calendar/calendar_widget.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/calendar_constants.dart';
+import 'package:protask_app/constants/todo_constants.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
@@ -65,6 +66,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
             onDaySelected: _onDaySelected,
             todos: todos,
           ),
+
+          const SizedBox(
+            height: AppThemeConstants.spacingMedium,
+          ),
           if (_selectedDate != null)
             Text(
               "Todos on ${_selectedDate!.day}.${_selectedDate!.month}.${_selectedDate!.year}",
@@ -73,6 +78,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 fontWeight: AppThemeConstants.titleFontWeight,
               ),
             ),
+
+          const SizedBox(
+            height: AppThemeConstants.spacingMedium,
+          ),
 
           if (_selectedDate != null && filteredTodos.isEmpty) ...[
             const SizedBox(height: CalendarConstants.spaceAfterSelectedDate),
@@ -86,14 +95,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
           // displays scheduled todos for the selected day
           ...filteredTodos.map(
-            (todo) => TodoTile(
-              todo: todo,
-              onChanged: (value) {
-                context.read<TodoProvider>().toggleTodo(todo, value!);
-              },
-              onDelete: () {
-                context.read<TodoProvider>().deleteTodo(todo);
-              },
+            (todo) => Padding(
+              padding: TodoConstants.todoTileBottomSpacing,
+              child: TodoTile(
+                todo: todo,
+                onChanged: (value) {
+                  context.read<TodoProvider>().toggleTodo(todo, value!);
+                },
+                onDelete: () {
+                  context.read<TodoProvider>().deleteTodo(todo);
+                },
+              ),
             ),
           ),
 

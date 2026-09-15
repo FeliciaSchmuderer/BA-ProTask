@@ -16,16 +16,16 @@ class TodoTile extends StatelessWidget {
   Color _getPriorityColor() {
     switch (todo.priority) {
       case TodoPriority.a:
-        return QuestionnaireConstants.priorityABorderColor;
+        return QuestionnaireConstants.priorityAColor;
 
       case TodoPriority.b:
-        return QuestionnaireConstants.priorityBBorderColor;
+        return QuestionnaireConstants.priorityBColor;
 
       case TodoPriority.c:
-        return QuestionnaireConstants.priorityCBorderColor;
+        return QuestionnaireConstants.priorityCColor;
 
       case TodoPriority.d:
-        return QuestionnaireConstants.priorityDBorderColor;
+        return QuestionnaireConstants.priorityDColor;
 
       case null:
         return Colors.transparent;

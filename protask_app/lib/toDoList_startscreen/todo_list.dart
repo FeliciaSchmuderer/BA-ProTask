@@ -89,15 +89,18 @@ class TodoList extends StatelessWidget {
             (context, index) {
               final todo = completedTodos[index];
 
-              return TodoTile(
-                key: ValueKey(todo.id),
-                todo: todo,
-                onChanged: (value) {
-                  onChanged(value, todo);
-                },
-                onDelete: () {
-                  onDelete(todo);
-                },
+              return Padding(
+                padding: TodoConstants.todoTileBottomSpacing,
+                child: TodoTile(
+                  key: ValueKey(todo.id),
+                  todo: todo,
+                  onChanged: (value) {
+                    onChanged(value, todo);
+                  },
+                  onDelete: () {
+                    onDelete(todo);
+                  },
+                ),
               );
             },
             childCount: completedTodos.length,
