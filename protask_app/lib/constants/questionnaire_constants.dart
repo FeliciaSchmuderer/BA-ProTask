@@ -7,8 +7,7 @@ class QuestionnaireConstants {
   static const String whenTitle = 'When?';
   static const String deadlineTitle = 'Deadline';
   static const String durationTitle = 'Duration';
-  static const String pufferTitle = 'Puffer';
-  static const String pufferText = 'You´/ve already planned 60% of your day';
+  static const String bufferTitle = 'Buffer';
 
   static const String createTodoText = 'Create';
 
@@ -60,13 +59,9 @@ class QuestionnaireConstants {
 
   // colors (priority)
   static const Color priorityAColor = Color(0xffFF453A);
-  static const Color priorityABorderColor = Color(0xffb07587);
   static const Color priorityBColor = Color(0xffFF9F0A);
-  static const Color priorityBBorderColor = Color(0xffefb09f);
   static const Color priorityCColor = Color(0xffFFD60A);
-  static const Color priorityCBorderColor = Color(0xffeff1b7);
   static const Color priorityDColor = Color(0xff5E8CFF);
-  static const Color priorityDBorderColor = Color(0xff5da8c6);
 
   // scheduled date
   static const double dateButtonWidth = 95;
@@ -95,6 +90,26 @@ class QuestionnaireConstants {
   // duration
   static const String durationTextPick = 'Pick Duration';
   static const String removeDurationText = 'Remove Duration';
+
+  // buffer section
+  static const double bufferContainerPadding = 16.0;
+  static const double bufferProcessBarHeight = 12.0;
+  static const double bufferProcessBarRadius = 6.0;
+
+  static const Color taskProgressColor = Color(0xff62A30D);
+  static const Color bufferProgressColor = Color(0xffFF9F0A);
+  static const Color bufferExceededColor = Color(0xffFF453A);
+
+  static const String bufferSelectionText =
+      'Select your time budget for this day';
+  static const String taskLabel = 'tasks';
+  static const String timeLeftLabel = 'left';
+  static const String bufferLeftLabel = 'buffer left';
+  static const String orangeWarningText = 'Your buffer is exceeded by ';
+  static const String orangeWarningSuffix =
+      'You should really consider to move tasks to another day!';
+  static const String redWarningText =
+      'Your task time is exceeded. Buffer time is being used. Consider moving tasks to another day.';
 
   // create button
   static const double createButtonHorizonal = 50;

@@ -5,8 +5,6 @@ import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
 
 class TodoList extends StatelessWidget {
-  // FIELDS
-  //
   final List<TodoItem> openTodos;
   final List<TodoItem> completedTodos;
 
@@ -30,8 +28,7 @@ class TodoList extends StatelessWidget {
     // scrollable list of todo tiles
     return CustomScrollView(
       slivers: [
-        // OPEN TODOS
-        //
+        // open todos
         SliverReorderableList(
           itemCount: openTodos.length,
           onReorderItem: onReorder,
@@ -66,8 +63,7 @@ class TodoList extends StatelessWidget {
           },
         ),
 
-        // COMPLETED SECTION
-        //
+        // completed section
         if (completedTodos.isNotEmpty)
           const SliverToBoxAdapter(
             child: Padding(
@@ -82,8 +78,7 @@ class TodoList extends StatelessWidget {
             ),
           ),
 
-        // COMPLETED TODOS
-        //
+        // completed todos
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {

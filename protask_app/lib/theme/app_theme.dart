@@ -58,8 +58,6 @@ class AppTheme {
         if (states.contains(WidgetState.selected)) {
           return AppThemeConstants.accentColor;
         }
-
-
       }),
       checkColor: WidgetStateProperty.all(
         AppThemeConstants.textColor,

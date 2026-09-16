@@ -8,10 +8,13 @@ class AppTimePicker {
     BuildContext context,
     TimeOfDay? selectedTime,
   ) async {
+    // uses selected time or the current time if no time is selected
     final initialTime = selectedTime ?? TimeOfDay.now();
 
+    // stores time selected by user
     TimeOfDay? pickedTime;
 
+    // shows time picker as a Cuperino modal popup
     await showCupertinoModalPopup(
       context: context,
       builder: (context) {
@@ -38,6 +41,7 @@ class AppTimePicker {
                   minute: initialTime.minute,
                 ),
                 onDateTimeChanged: (DateTime newTime) {
+                  // convert selected DateTime into a TimeOfDay
                   pickedTime = TimeOfDay(
                     hour: newTime.hour,
                     minute: newTime.minute,

@@ -34,7 +34,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
     ),
   ];
 
-  // METHODS
   // list of widgets for bottom navigation items
   // updates the selected page
   void _onItemTapped(int index) {

@@ -201,7 +201,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
               children: [
                 const SizedBox(
                   width: 80,
-                  child: const Text(
+                  child: Text(
                     QuestionnaireConstants.whenTitle,
                     style: TextStyle(
                       fontSize: QuestionnaireConstants.sectionTitleFontSize,
@@ -272,7 +272,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
 
             const SizedBox(height: QuestionnaireConstants.sectionSpacing),
 
-            // 4. deadline
+            // 2. deadline
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -338,7 +338,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
               height: QuestionnaireConstants.sectionSpacing,
             ),
 
-            // 2. set priorities
+            // 3. set priorities
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -448,16 +448,17 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
               height: QuestionnaireConstants.sectionSpacing,
             ),
 
-            // Buffer area
+            // 5. buffer area
             BufferSection(
-              selectedDate: _selectedScheduledDate ?? DateTime.now(),
+              selectedDate: _selectedScheduledDate,
+              selectedDuration: _selectedDuration,
             ),
 
             const SizedBox(
               height: QuestionnaireConstants.spacingSmall,
             ),
 
-            // create button provisorisch
+            // create button
             Center(
               child: ElevatedButton(
                 onPressed: createTodo,
@@ -481,7 +482,6 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                 ),
               ),
             ),
-
             const SizedBox(
               height: QuestionnaireConstants.sectionSpacing,
             ),

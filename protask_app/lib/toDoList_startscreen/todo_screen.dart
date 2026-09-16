@@ -25,8 +25,6 @@ class _TodoScreenState extends State<TodoScreen> {
     super.dispose();
   }
 
-  // METHODS
-  //
   // checks if text exists and adds a new todo
   void addTodo() {
     if (_controller.text.trim().isEmpty) {
@@ -91,7 +89,7 @@ class _TodoScreenState extends State<TodoScreen> {
             Text(
               AppThemeConstants.currentDate,
               style: const TextStyle(
-                color: AppThemeConstants.textColor,
+                  color: AppThemeConstants.textColor,
                   fontSize: AppThemeConstants.subtitleFontSize,
                   fontWeight: AppThemeConstants.subtitleFontWeight),
             ),

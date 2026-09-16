@@ -15,7 +15,7 @@ class TodoPriorityButton extends StatelessWidget {
     required this.onPressed,
   });
 
-  // button colors
+  // returns button colors
   Color _getPriorityColor() {
     switch (priority) {
       case TodoPriority.a:
@@ -29,19 +29,6 @@ class TodoPriorityButton extends StatelessWidget {
     }
   }
 
-  Color _getPriorityBorderColor() {
-    switch (priority) {
-      case TodoPriority.a:
-        return QuestionnaireConstants.priorityABorderColor;
-      case TodoPriority.b:
-        return QuestionnaireConstants.priorityBBorderColor;
-      case TodoPriority.c:
-        return QuestionnaireConstants.priorityCBorderColor;
-      case TodoPriority.d:
-        return QuestionnaireConstants.priorityDBorderColor;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -50,7 +37,10 @@ class TodoPriorityButton extends StatelessWidget {
         height: QuestionnaireConstants.priorityButtonHeight,
         width: QuestionnaireConstants.priorityButtonWidth,
         decoration: BoxDecoration(
-          color: isSelected ? _getPriorityColor().withValues(alpha: 0.15) : AppThemeConstants.popupColor,
+          // highlight button with a light priority color when selected
+          color: isSelected
+              ? _getPriorityColor().withValues(alpha: 0.15)
+              : AppThemeConstants.popupColor,
           border: Border.all(
             color: _getPriorityColor(),
             width: isSelected
@@ -66,8 +56,9 @@ class TodoPriorityButton extends StatelessWidget {
             style: TextStyle(
               fontSize: QuestionnaireConstants.priorityFontSize,
               fontWeight: QuestionnaireConstants.textFontWeight,
-            
-              color: isSelected ? _getPriorityColor() : AppThemeConstants.textColor,
+              color: isSelected
+                  ? _getPriorityColor()
+                  : AppThemeConstants.textColor,
             ),
           ),
         ),

@@ -17,16 +17,12 @@ class TodoTile extends StatelessWidget {
     switch (todo.priority) {
       case TodoPriority.a:
         return QuestionnaireConstants.priorityAColor;
-
       case TodoPriority.b:
         return QuestionnaireConstants.priorityBColor;
-
       case TodoPriority.c:
         return QuestionnaireConstants.priorityCColor;
-
       case TodoPriority.d:
         return QuestionnaireConstants.priorityDColor;
-
       case null:
         return Colors.transparent;
     }
@@ -46,8 +42,6 @@ class TodoTile extends StatelessWidget {
       direction: DismissDirection.endToStart,
 
       // displays red field with bin when a todo is deleted
-      
-
       background: Container(
         alignment: Alignment.centerRight,
         padding: TodoConstants.deleteIconPadding,
@@ -57,11 +51,9 @@ class TodoTile extends StatelessWidget {
           color: AppThemeConstants.buttonColor,
         ),
       ),
-
       onDismissed: (direction) {
         onDelete();
       },
-
       child: Container(
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(

@@ -20,13 +20,13 @@ class Appdatepicker {
           return Theme(
             data: Theme.of(context).copyWith(
               colorScheme: const ColorScheme.dark(
-                surface: Color(0xff1e1e1e),
+                surface: AppThemeConstants.backgroundColor,
                 primary: AppThemeConstants.accentColor,
                 onPrimary: Colors.white,
                 onSurface: Colors.white,
               ),
               dialogTheme: const DialogThemeData(
-                backgroundColor: Color(0xff1e1e1e),
+                backgroundColor: AppThemeConstants.backgroundColor,
               ),
             ),
             child: child!,

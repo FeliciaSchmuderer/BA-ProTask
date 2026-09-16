@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/questionnaire_constants.dart';
 
+// displays todo duration as tag
 class TodoDurationTag extends StatelessWidget {
   final int duration;
 
@@ -10,6 +11,7 @@ class TodoDurationTag extends StatelessWidget {
     required this.duration,
   });
 
+  // formatting duration in minutes as hours and minutes
   String _formatDuration() {
     final hours = duration ~/ 60;
     final minutes = duration % 60;

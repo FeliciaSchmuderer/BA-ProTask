@@ -92,8 +92,8 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
           children: [
             Text(
               _isSameDay(_selectedDate, DateTime.now())
-                  ? "Today's Accomplishments"
-                  : "Accomplishments",
+                  ? AccomplishmentsConstants.titleToday
+                  : AccomplishmentsConstants.titleOtherDays,
               style: const TextStyle(
                 fontSize: AppThemeConstants.titleFontSize,
                 fontWeight: AppThemeConstants.titleFontWeight,
@@ -157,7 +157,7 @@ class _AccomplishmentsScreenState extends State<AccomplishmentsScreen> {
               child: accomplishments.isEmpty
                   ? const Center(
                       child: Text(
-                        'No accomplishments on this day.',
+                        AccomplishmentsConstants.noAccomplishmentsText,
                         style: TextStyle(
                           fontSize: AppThemeConstants.bodyFontSize,
                         ),

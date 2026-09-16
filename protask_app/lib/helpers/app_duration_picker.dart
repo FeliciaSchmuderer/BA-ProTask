@@ -6,13 +6,17 @@ class AppDurationPicker {
     BuildContext context,
     int? selectedDuration,
   ) async {
+    // uses currently selected duration as initial value, if no duration it starts with 1h
     final initialDuration = selectedDuration ?? 60;
 
+    // split duration into hours and minutes
     int selectedHours = initialDuration ~/ 60;
     int selectedMinutes = initialDuration % 60;
 
+    // stores combined duration in minutes
     int pickedDuration = initialDuration;
 
+    // shows duration picker as Cupertino modal popup
     await showCupertinoModalPopup(
       context: context,
       builder: (context) {
@@ -33,6 +37,7 @@ class AppDurationPicker {
               ),
               child: Row(
                 children: [
+                  // hour picker
                   Expanded(
                     child: CupertinoPicker(
                       itemExtent: 32,
@@ -41,6 +46,7 @@ class AppDurationPicker {
                       ),
                       onSelectedItemChanged: (int value) {
                         selectedHours = value;
+                        // recalculates the total duration in minutes
                         pickedDuration = selectedHours * 60 + selectedMinutes;
                       },
                       children: List.generate(
@@ -51,6 +57,7 @@ class AppDurationPicker {
                       ),
                     ),
                   ),
+                  // minute picker
                   Expanded(
                     child: CupertinoPicker(
                       itemExtent: 32,
