@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/todo_screen_constants.dart';
+import 'package:protask_app/helpers/app_duration_picker.dart';
+import 'package:protask_app/helpers/daily_budget_picker.dart';
+import 'package:protask_app/provider/daily_budget_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_list.dart';
 import 'package:protask_app/todo_questionnaire/todo_questionnaire_route.dart';
+import 'package:protask_app/widgets/todoBudgetTag.dart';
 import 'package:protask_app/widgets/app_input_field.dart';
 import 'package:provider/provider.dart';
 import 'package:protask_app/provider/todo_provider.dart';
@@ -54,8 +58,6 @@ class _TodoScreenState extends State<TodoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // LOCAL VARIABLES
-    //
     // TodoScreen rebuilds automatically whenever provider changes
     final todoProvider = context.watch<TodoProvider>();
     // only display todos scheduled for today
@@ -63,6 +65,10 @@ class _TodoScreenState extends State<TodoScreen> {
         .where((todo) => _isToday(todo.scheduledDate))
         .toList();
     final completedTodos = todoProvider.completedTodos;
+
+    // budget tag
+    final budgetProvier = context.watch<DailyBudgetProvider>();
+    final dailyBudget = budgetProvier.getBudget(DateTime.now());
 
     return Scaffold(
       // title "Today" and date below
@@ -95,6 +101,19 @@ class _TodoScreenState extends State<TodoScreen> {
             ),
 
             // space before the todo list
+            const SizedBox(
+              height: AppThemeConstants.spacingMedium,
+            ),
+
+            // budget tag display
+            Todobudgettag(
+              budget: dailyBudget,
+              onPressed: () => pickDailyBudget(
+                context,
+                budgetProvier,
+                DateTime.now(),
+              ),
+            ),
             const SizedBox(
               height: AppThemeConstants.spacingMedium,
             ),

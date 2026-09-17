@@ -3,9 +3,12 @@ import 'package:protask_app/calendar/calendar_widget.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/calendar_constants.dart';
 import 'package:protask_app/constants/todo_constants.dart';
+import 'package:protask_app/helpers/daily_budget_picker.dart';
+import 'package:protask_app/provider/daily_budget_provider.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
+import 'package:protask_app/widgets/todoBudgetTag.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -32,6 +35,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Widget build(BuildContext context) {
     // gets all todos from central provider
     final todoProvider = context.watch<TodoProvider>();
+
+    // budget tag
+    final budgetProvider = context.watch<DailyBudgetProvider>();
 
     // combines open and completed todos for calendar
     final List<TodoItem> todos = [
@@ -76,7 +82,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
           const SizedBox(
             height: AppThemeConstants.spacingMedium,
           ),
-          if (_selectedDate != null)
+
+          if (_selectedDate != null) ...[
             Text(
               "Todos on ${_selectedDate!.day}.${_selectedDate!.month}.${_selectedDate!.year}",
               style: const TextStyle(
@@ -84,10 +91,28 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 fontWeight: AppThemeConstants.titleFontWeight,
               ),
             ),
+            const SizedBox(
+              height: AppThemeConstants.spacingSmall,
+            ),
 
-          const SizedBox(
-            height: AppThemeConstants.spacingMedium,
-          ),
+            // displays budget tag
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Todobudgettag(
+                  budget: budgetProvider.getBudget(_selectedDate!),
+                  onPressed: () => pickDailyBudget(
+                    context,
+                    budgetProvider,
+                    _selectedDate!,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: AppThemeConstants.spacingMedium,
+            ),
+          ],
 
           if (_selectedDate != null && filteredTodos.isEmpty) ...[
             const SizedBox(height: CalendarConstants.spaceAfterSelectedDate),
