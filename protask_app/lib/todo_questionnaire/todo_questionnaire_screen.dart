@@ -153,340 +153,365 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppThemeConstants.popupColor,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(
-          QuestionnaireConstants.screenPadding,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 1. write down todo
-            const SizedBox(
-              height: QuestionnaireConstants.todoTopSpacing,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(
+              QuestionnaireConstants.screenPadding,
             ),
-
-            TextField(
-              controller: _controller,
-              cursorColor: AppThemeConstants.textColor,
-              style: const TextStyle(
-                fontSize: QuestionnaireConstants.todoFontSize,
-                fontWeight: QuestionnaireConstants.todoFontWeight,
-              ),
-              decoration: const InputDecoration(
-                hintText: QuestionnaireConstants.todoHintText,
-                hintStyle: TextStyle(
-                  fontSize: QuestionnaireConstants.todoHintFontSize,
-                  fontWeight: QuestionnaireConstants.todoFontWeight,
-                  color: AppThemeConstants.hintTextColor,
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: AppThemeConstants.textColor,
-                  ),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                  color: AppThemeConstants.textColor,
-                )),
-              ),
-            ),
-
-            const SizedBox(
-              height: QuestionnaireConstants.sectionSpacing,
-            ),
-
-            // set scheduled date
-            Row(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // 1. write down todo
                 const SizedBox(
-                  width: 80,
-                  child: Text(
-                    QuestionnaireConstants.whenTitle,
-                    style: TextStyle(
-                      fontSize: QuestionnaireConstants.sectionTitleFontSize,
-                      fontWeight: QuestionnaireConstants.sectionTitleFontWeight,
+                  height: QuestionnaireConstants.todoTopSpacing,
+                ),
+
+                TextField(
+                  controller: _controller,
+                  cursorColor: AppThemeConstants.textColor,
+                  style: const TextStyle(
+                    fontSize: QuestionnaireConstants.todoFontSize,
+                    fontWeight: QuestionnaireConstants.todoFontWeight,
+                  ),
+                  decoration: const InputDecoration(
+                    hintText: QuestionnaireConstants.todoHintText,
+                    hintStyle: TextStyle(
+                      fontSize: QuestionnaireConstants.todoHintFontSize,
+                      fontWeight: QuestionnaireConstants.todoFontWeight,
+                      color: AppThemeConstants.hintTextColor,
                     ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppThemeConstants.textColor,
+                      ),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                      color: AppThemeConstants.textColor,
+                    )),
                   ),
                 ),
 
                 const SizedBox(
-                  width: QuestionnaireConstants.titleContentspacing,
+                  height: QuestionnaireConstants.sectionSpacing,
                 ),
 
-                // Today - Tomorrow - Pick Date
+                // set scheduled date
                 Row(
-                  children: [
-                    TodoDateButton(
-                      title: QuestionnaireConstants.dateTextToday,
-                      date: DateTime.now(),
-                      isSelected: _isSameDay(
-                        _selectedScheduledDate,
-                        DateTime.now(),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _selectedScheduledDate = DateTime.now();
-                        });
-                      },
-                    ),
-                    const SizedBox(
-                      width: AppThemeConstants.spacingMedium,
-                    ),
-                    TodoDateButton(
-                      title: QuestionnaireConstants.dateTextTomorrow,
-                      date: DateTime.now().add(
-                        const Duration(days: 1),
-                      ),
-                      isSelected: _isSameDay(
-                        _selectedScheduledDate,
-                        DateTime.now().add(
-                          const Duration(days: 1),
-                        ),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _selectedScheduledDate = DateTime.now().add(
-                            const Duration(days: 1),
-                          );
-                        });
-                      },
-                    ),
-                    const SizedBox(
-                      width: AppThemeConstants.spacingMedium,
-                    ),
-                    TodoDateButton(
-                      title: QuestionnaireConstants.dateTextPick,
-                      date: _isOtherDate(_selectedScheduledDate)
-                          ? _selectedScheduledDate
-                          : null,
-                      isSelected: _isOtherDate(
-                        _selectedScheduledDate,
-                      ),
-                      onPressed: _pickScheduledDate,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-
-            const SizedBox(height: QuestionnaireConstants.sectionSpacing),
-
-            // 2. deadline
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  width: 80,
-                  child: Text(
-                    QuestionnaireConstants.deadlineTitle,
-                    style: TextStyle(
-                      fontSize: QuestionnaireConstants.sectionTitleFontSize,
-                      fontWeight: QuestionnaireConstants.sectionTitleFontWeight,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(
-                  width: QuestionnaireConstants.titleContentspacing,
-                ),
-
-                // deadline buttons: pick date - pick time - remove deadline
-                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(
+                      width: 80,
+                      child: Text(
+                        QuestionnaireConstants.whenTitle,
+                        style: TextStyle(
+                          fontSize: QuestionnaireConstants.sectionTitleFontSize,
+                          fontWeight:
+                              QuestionnaireConstants.sectionTitleFontWeight,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(
+                      width: QuestionnaireConstants.titleContentspacing,
+                    ),
+
+                    // Today - Tomorrow - Pick Date
                     Row(
                       children: [
-                        // deadline date and time button
-                        TodoDeadlineButton(
-                          text: QuestionnaireConstants.deadlineTextPick,
-                          date: _selectedDeadlineDate,
-                          time: null,
-                          onPressed: _pickDeadlineDate,
+                        TodoDateButton(
+                          title: QuestionnaireConstants.dateTextToday,
+                          date: DateTime.now(),
+                          isSelected: _isSameDay(
+                            _selectedScheduledDate,
+                            DateTime.now(),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _selectedScheduledDate = DateTime.now();
+                            });
+                          },
                         ),
-
-                        if (_selectedDeadlineDate != null) ...[
-                          const SizedBox(
-                            width: QuestionnaireConstants.spacingSmall,
+                        const SizedBox(
+                          width: AppThemeConstants.spacingMedium,
+                        ),
+                        TodoDateButton(
+                          title: QuestionnaireConstants.dateTextTomorrow,
+                          date: DateTime.now().add(
+                            const Duration(days: 1),
                           ),
-                          TodoDeadlineButton(
-                            text: QuestionnaireConstants.deadlineTimeTextPick,
-                            date: null,
-                            time: _selectedDeadlineTime,
-                            onPressed: _pickDeadlineTime,
+                          isSelected: _isSameDay(
+                            _selectedScheduledDate,
+                            DateTime.now().add(
+                              const Duration(days: 1),
+                            ),
                           ),
-                        ]
+                          onPressed: () {
+                            setState(() {
+                              _selectedScheduledDate = DateTime.now().add(
+                                const Duration(days: 1),
+                              );
+                            });
+                          },
+                        ),
+                        const SizedBox(
+                          width: AppThemeConstants.spacingMedium,
+                        ),
+                        TodoDateButton(
+                          title: QuestionnaireConstants.dateTextPick,
+                          date: _isOtherDate(_selectedScheduledDate)
+                              ? _selectedScheduledDate
+                              : null,
+                          isSelected: _isOtherDate(
+                            _selectedScheduledDate,
+                          ),
+                          onPressed: _pickScheduledDate,
+                        ),
                       ],
                     ),
-                    if (_selectedDeadlineDate != null)
-                      TextButton(
-                        onPressed: _removeDeadline,
-                        style: TextButton.styleFrom(
-                          foregroundColor: AppThemeConstants.hintTextColor,
-                          padding: EdgeInsets.zero,
-                        ),
-                        child: const Text(
-                          QuestionnaireConstants.removeDeadlineText,
-                        ),
-                      ),
                   ],
                 ),
-              ],
-            ),
 
-            const SizedBox(
-              height: QuestionnaireConstants.sectionSpacing,
-            ),
+                const SizedBox(height: QuestionnaireConstants.sectionSpacing),
 
-            // 3. set priorities
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  width: 80,
-                  child: Text(
-                    QuestionnaireConstants.priorityTitle,
-                    style: TextStyle(
-                      fontSize: QuestionnaireConstants.sectionTitleFontSize,
-                      fontWeight: QuestionnaireConstants.sectionTitleFontWeight,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: QuestionnaireConstants.titleContentspacing,
-                ),
-
-                // priority buttons: A B C D
-                Column(
+                // 2. deadline
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: TodoPriority.values.map((priority) {
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                            right: AppThemeConstants.spacingMedium,
+                    const SizedBox(
+                      width: 80,
+                      child: Text(
+                        QuestionnaireConstants.deadlineTitle,
+                        style: TextStyle(
+                          fontSize: QuestionnaireConstants.sectionTitleFontSize,
+                          fontWeight:
+                              QuestionnaireConstants.sectionTitleFontWeight,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(
+                      width: QuestionnaireConstants.titleContentspacing,
+                    ),
+
+                    // deadline buttons: pick date - pick time - remove deadline
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            // deadline date and time button
+                            TodoDeadlineButton(
+                              text: QuestionnaireConstants.deadlineTextPick,
+                              date: _selectedDeadlineDate,
+                              time: null,
+                              onPressed: _pickDeadlineDate,
+                            ),
+
+                            if (_selectedDeadlineDate != null) ...[
+                              const SizedBox(
+                                width: QuestionnaireConstants.spacingSmall,
+                              ),
+                              TodoDeadlineButton(
+                                text:
+                                    QuestionnaireConstants.deadlineTimeTextPick,
+                                date: null,
+                                time: _selectedDeadlineTime,
+                                onPressed: _pickDeadlineTime,
+                              ),
+                            ]
+                          ],
+                        ),
+                        if (_selectedDeadlineDate != null)
+                          TextButton(
+                            onPressed: _removeDeadline,
+                            style: TextButton.styleFrom(
+                              foregroundColor: AppThemeConstants.hintTextColor,
+                              padding: EdgeInsets.zero,
+                            ),
+                            child: const Text(
+                              QuestionnaireConstants.removeDeadlineText,
+                            ),
                           ),
-                          child: TodoPriorityButton(
-                            priority: priority,
-                            isSelected: _selectedPriority == priority,
+                      ],
+                    ),
+                  ],
+                ),
+
+                const SizedBox(
+                  height: QuestionnaireConstants.sectionSpacing,
+                ),
+
+                // 3. set priorities
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      width: 80,
+                      child: Text(
+                        QuestionnaireConstants.priorityTitle,
+                        style: TextStyle(
+                          fontSize: QuestionnaireConstants.sectionTitleFontSize,
+                          fontWeight:
+                              QuestionnaireConstants.sectionTitleFontWeight,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: QuestionnaireConstants.titleContentspacing,
+                    ),
+
+                    // priority buttons: A B C D
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: TodoPriority.values.map((priority) {
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                right: AppThemeConstants.spacingMedium,
+                              ),
+                              child: TodoPriorityButton(
+                                priority: priority,
+                                isSelected: _selectedPriority == priority,
+                                onPressed: () {
+                                  setState(() {
+                                    _selectedPriority = priority;
+                                  });
+                                },
+                              ),
+                            );
+                          }).toList(),
+                        ),
+
+                        // remove priority button
+                        if (_selectedPriority != null)
+                          TextButton(
                             onPressed: () {
                               setState(() {
-                                _selectedPriority = priority;
+                                _selectedPriority = null;
                               });
                             },
+                            style: TextButton.styleFrom(
+                              foregroundColor: AppThemeConstants.hintTextColor,
+                              padding: EdgeInsets.zero,
+                            ),
+                            child: const Text(
+                              QuestionnaireConstants.removePriorityTitle,
+                            ),
                           ),
-                        );
-                      }).toList(),
+                      ],
                     ),
-
-                    // remove priority button
-                    if (_selectedPriority != null)
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            _selectedPriority = null;
-                          });
-                        },
-                        style: TextButton.styleFrom(
-                          foregroundColor: AppThemeConstants.hintTextColor,
-                          padding: EdgeInsets.zero,
-                        ),
-                        child: const Text(
-                          QuestionnaireConstants.removePriorityTitle,
-                        ),
-                      ),
                   ],
                 ),
-              ],
-            ),
 
-            const SizedBox(
-              height: QuestionnaireConstants.sectionSpacing,
-            ),
+                const SizedBox(
+                  height: QuestionnaireConstants.sectionSpacing,
+                ),
 
-            // 4. Duration
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  width: 80,
-                  child: Text(
-                    QuestionnaireConstants.durationTitle,
-                    style: TextStyle(
-                      fontSize: QuestionnaireConstants.sectionTitleFontSize,
-                      fontWeight: QuestionnaireConstants.sectionTitleFontWeight,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: QuestionnaireConstants.titleContentspacing,
-                ),
-                Column(
+                // 4. Duration
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TodoDurationButton(
-                      duration: _selectedDuration,
-                      onPressed: _pickDuration,
-                    ),
-                    if (_selectedDuration != null)
-                      TextButton(
-                        onPressed: _removeDuration,
-                        style: TextButton.styleFrom(
-                          foregroundColor: AppThemeConstants.hintTextColor,
-                          padding: EdgeInsets.zero,
-                        ),
-                        child: const Text(
-                          QuestionnaireConstants.removeDurationText,
+                    const SizedBox(
+                      width: 80,
+                      child: Text(
+                        QuestionnaireConstants.durationTitle,
+                        style: TextStyle(
+                          fontSize: QuestionnaireConstants.sectionTitleFontSize,
+                          fontWeight:
+                              QuestionnaireConstants.sectionTitleFontWeight,
                         ),
                       ),
+                    ),
+                    const SizedBox(
+                      width: QuestionnaireConstants.titleContentspacing,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TodoDurationButton(
+                          duration: _selectedDuration,
+                          onPressed: _pickDuration,
+                        ),
+                        if (_selectedDuration != null)
+                          TextButton(
+                            onPressed: _removeDuration,
+                            style: TextButton.styleFrom(
+                              foregroundColor: AppThemeConstants.hintTextColor,
+                              padding: EdgeInsets.zero,
+                            ),
+                            child: const Text(
+                              QuestionnaireConstants.removeDurationText,
+                            ),
+                          ),
+                      ],
+                    ),
                   ],
+                ),
+
+                const SizedBox(
+                  height: QuestionnaireConstants.sectionSpacing,
+                ),
+
+                // 5. buffer area
+                BufferSection(
+                  selectedDate: _selectedScheduledDate,
+                  selectedDuration: _selectedDuration,
+                ),
+
+                const SizedBox(
+                  height: QuestionnaireConstants.spacingSmall,
+                ),
+
+                // create button
+                Center(
+                  child: ElevatedButton(
+                    onPressed: createTodo,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueGrey,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal:
+                            QuestionnaireConstants.createButtonHorizonal,
+                        vertical: QuestionnaireConstants.createButtonVertical,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadiusGeometry.circular(
+                            QuestionnaireConstants.createButtonRadius),
+                      ),
+                    ),
+                    child: const Text(
+                      QuestionnaireConstants.createTodoText,
+                      style: TextStyle(
+                        fontSize: QuestionnaireConstants.createButtonFontSize,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: QuestionnaireConstants.sectionSpacing,
                 ),
               ],
             ),
+          ),
 
-            const SizedBox(
-              height: QuestionnaireConstants.sectionSpacing,
-            ),
-
-            // 5. buffer area
-            BufferSection(
-              selectedDate: _selectedScheduledDate,
-              selectedDuration: _selectedDuration,
-            ),
-
-            const SizedBox(
-              height: QuestionnaireConstants.spacingSmall,
-            ),
-
-            // create button
-            Center(
-              child: ElevatedButton(
-                onPressed: createTodo,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueGrey,
-                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: QuestionnaireConstants.createButtonHorizonal,
-                    vertical: QuestionnaireConstants.createButtonVertical,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadiusGeometry.circular(
-                        QuestionnaireConstants.createButtonRadius),
-                  ),
-                ),
-                child: const Text(
-                  QuestionnaireConstants.createTodoText,
-                  style: TextStyle(
-                    fontSize: QuestionnaireConstants.createButtonFontSize,
-                  ),
-                ),
+          // X to close the questionnaire on the upper right
+          Positioned(
+            top: 8,
+            right: 8,
+            child: IconButton(
+              icon: const Icon(
+                Icons.clear,
+                color: AppThemeConstants.textColor,
               ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-            const SizedBox(
-              height: QuestionnaireConstants.sectionSpacing,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
