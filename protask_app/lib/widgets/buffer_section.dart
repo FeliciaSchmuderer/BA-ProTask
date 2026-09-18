@@ -232,10 +232,15 @@ class BufferSection extends StatelessWidget {
                 )
               else ...[
                 // if a budget is selected the duration button displays the currently selected daily budget
-                TodoDurationButton(
-                  duration: dailyBudget,
-                  onPressed: () => _pickDailyBudget(context),
+
+                SizedBox(
+                  width: double.infinity,
+                  child: TodoDurationButton(
+                    duration: dailyBudget,
+                    onPressed: () => _pickDailyBudget(context),
+                  ),
                 ),
+
                 const SizedBox(
                   height: AppThemeConstants.spacingSmall,
                 ),
@@ -308,14 +313,26 @@ class BufferSection extends StatelessWidget {
                       '${_formatDuration(plannedDuration)} / '
                       '${_formatDuration(taskBudget)} '
                       '${QuestionnaireConstants.taskLabel}',
+                      style: const TextStyle(
+                        fontSize:
+                            QuestionnaireConstants.bufferwarningTextFontSize,
+                      ),
                     ),
                     Text(
                       '${_formatDuration(taskRemaining)} '
                       '${QuestionnaireConstants.timeLeftLabel}',
+                      style: const TextStyle(
+                        fontSize:
+                            QuestionnaireConstants.bufferwarningTextFontSize,
+                      ),
                     ),
                     Text(
                       '${_formatDuration(bufferRemaining)} '
                       '${QuestionnaireConstants.bufferLeftLabel}',
+                      style: const TextStyle(
+                        fontSize:
+                            QuestionnaireConstants.bufferwarningTextFontSize,
+                      ),
                     ),
                   ],
                 ),

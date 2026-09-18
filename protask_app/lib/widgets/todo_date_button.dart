@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/app_responsive.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/questionnaire_constants.dart';
 
@@ -27,8 +28,10 @@ class TodoDateButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: QuestionnaireConstants.dateButtonWidth,
-      height: QuestionnaireConstants.dateButtonHeight,
+      height: AppResponsive.size(
+        context,
+        QuestionnaireConstants.dateButtonHeight,
+      ),
       // changes appearance depending on selection
       child: OutlinedButton(
         onPressed: onPressed,
@@ -44,24 +47,32 @@ class TodoDateButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              title,
+              title == QuestionnaireConstants.dateTextPick && date != null ? _formatDate(date)! : title,
+              maxLines: 1,
+              softWrap: false,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: QuestionnaireConstants.qButtonFontSize,
+              style: TextStyle(
+                fontSize: AppResponsive.size(
+                  context,
+                  QuestionnaireConstants.qButtonFontSize,
+                ),
                 fontWeight: QuestionnaireConstants.textFontWeight,
                 color: AppThemeConstants.textColor,
               ),
             ),
 
             // only shows a date when one is available
-            if (date != null) ...[
-              const SizedBox(
-                height: QuestionnaireConstants.dateTextSpacing,
+            if (date != null && title != QuestionnaireConstants.dateTextPick) ...[
+              SizedBox(
+                height: AppResponsive.size(
+                  context,
+                  QuestionnaireConstants.dateTextSpacing,
+                ),
               ),
               Text(
                 _formatDate(date)!,
-                style: const TextStyle(
-                  fontSize: QuestionnaireConstants.dateFontSize,
+                style: TextStyle(
+                  fontSize: AppResponsive.size(context, QuestionnaireConstants.qButtonFontSize,),
                   color: AppThemeConstants.textColor,
                 ),
               ),

@@ -36,29 +36,33 @@ class TodoDurationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: onPressed,
-      style: OutlinedButton.styleFrom(
-        minimumSize: const Size(
-          QuestionnaireConstants.deadlineButtonWidth,
-          QuestionnaireConstants.deadlineButtonHeight,
-        ),
-        side: const BorderSide(
-          color: AppThemeConstants.borderColor,
-          width: QuestionnaireConstants.deadlineButtonBorderWidth,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-            QuestionnaireConstants.deadlineButtonBorderRadius,
+    return SizedBox(
+      width: QuestionnaireConstants.deadlineButtonWidth,
+      height: QuestionnaireConstants.deadlineButtonHeight,
+      child: OutlinedButton(
+        onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          minimumSize: const Size(
+            QuestionnaireConstants.deadlineButtonWidth,
+            QuestionnaireConstants.deadlineButtonHeight,
+          ),
+          side: const BorderSide(
+            color: AppThemeConstants.borderColor,
+            width: QuestionnaireConstants.deadlineButtonBorderWidth,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              QuestionnaireConstants.deadlineButtonBorderRadius,
+            ),
           ),
         ),
-      ),
-      child: Center(
-        child: Text(
-          _durationText,
-          style: const TextStyle(
-            fontSize: QuestionnaireConstants.qButtonFontSize,
-            color: AppThemeConstants.textColor,
+        child: Center(
+          child: Text(
+            _durationText,
+            style: const TextStyle(
+              fontSize: QuestionnaireConstants.qButtonFontSize,
+              color: AppThemeConstants.textColor,
+            ),
           ),
         ),
       ),

@@ -22,9 +22,9 @@ class QuestionnaireConstants {
 
   // spacing
   static const double screenPadding = 24;
-  static const double titleContentspacing = 35;
+  static const double titleContentspacing = 20;
   static const double sectionSpacing = 40;
-  static const double spacingSmall = 20;
+  static const double spacingSmall = 2;
 
   // fontweight
   static const FontWeight titleFontWeight = FontWeight.w900;
@@ -46,8 +46,8 @@ class QuestionnaireConstants {
   // priority
   static const double priorityFontSize = 18;
 
-  static const double priorityButtonWidth = 60;
-  static const double priorityButtonHeight = 60;
+  static const double priorityButtonWidth = 50;
+  static const double priorityButtonHeight = 50;
 
   static const double priorityButtonBorderRadius = 10;
   static const double priorityButtonBorderWidth = 1;
@@ -63,13 +63,13 @@ class QuestionnaireConstants {
   static const Color priorityCColor = Color(0xffFFD60A);
   static const Color priorityDColor = Color(0xff5E8CFF);
 
-  // scheduled date
-  static const double dateButtonWidth = 95;
-  static const double dateButtonHeight = 65;
+  // scheduled date buttons
+  static const double dateButtonWidth = 100;
+  static const double dateButtonHeight = 60;
   static const double dateButtonBorderRadius = 13;
   static const double dateButtonBorderWidth = 1.5;
 
-  static const double dateFontSize = 13;
+  // static const double dateFontSize = 10;
   static const double dateTextSpacing = 4;
 
   static const String dateTextToday = 'Today';
@@ -81,7 +81,7 @@ class QuestionnaireConstants {
   static const String deadlineTimeTextPick = 'Pick Time';
   static const String removeDeadlineText = 'Remove Deadline';
 
-  static const double deadlineButtonWidth = 120;
+  static const double deadlineButtonWidth = 140;
   static const double deadlineButtonHeight = 50;
 
   static const double deadlineButtonBorderRadius = 10;
@@ -99,6 +99,8 @@ class QuestionnaireConstants {
   static const Color taskProgressColor = Color(0xff62A30D);
   static const Color bufferProgressColor = Color(0xffFF9F0A);
   static const Color bufferExceededColor = Color(0xffFF453A);
+
+  static const double bufferwarningTextFontSize = 10;
 
   static const String bufferSelectionText =
       'Select your time budget for this day';
