@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/calendar_constants.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -46,6 +47,17 @@ class CalendarWidget extends StatelessWidget {
       onDaySelected: (selectedDay, focusedDay) {
         onDaySelected(selectedDay);
       },
+
+      calendarStyle: const CalendarStyle(
+        selectedDecoration: BoxDecoration(
+          color: AppThemeConstants.accentColor,
+          shape: BoxShape.circle,
+        ),
+        todayDecoration: BoxDecoration(
+          color: AppThemeConstants.buttonColor,
+          shape: BoxShape.circle,
+        ),
+      ),
     );
   }
 }

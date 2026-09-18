@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/navigation/navigation_screen.dart';
+import 'package:protask_app/provider/daily_budget_provider.dart';
 import 'package:protask_app/provider/todo_provider.dart';
+import 'package:protask_app/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -9,9 +11,16 @@ Future<void> main() async {
 
   await initializeDateFormatting('de_DE', '');
   runApp(
-    // allows Today and Accomplishments to use the same todo list saved in TodoProvider and makes it available to all screens below M
-    ChangeNotifierProvider(
-      create: (context) => TodoProvider(),
+    // makes TodoProvider and DailyBudgetProvider available to all screens below
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => TodoProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DailyBudgetProvider(),
+        ),
+      ],
       child: const MyApp(),
     ),
   );
@@ -23,8 +32,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: NavigationScreen(),
+    return MaterialApp(
+      theme: AppTheme.darkTheme,
+      home: const NavigationScreen(),
     );
   }
 }

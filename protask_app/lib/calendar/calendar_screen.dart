@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/calendar/calendar_widget.dart';
-import 'package:protask_app/constants/app_constants.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/calendar_constants.dart';
+import 'package:protask_app/constants/todo_constants.dart';
+import 'package:protask_app/helpers/daily_budget_picker.dart';
+import 'package:protask_app/provider/daily_budget_provider.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
+import 'package:protask_app/widgets/todoBudgetTag.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -32,6 +36,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
     // gets all todos from central provider
     final todoProvider = context.watch<TodoProvider>();
 
+    // budget tag
+    final budgetProvider = context.watch<DailyBudgetProvider>();
+
     // combines open and completed todos for calendar
     final List<TodoItem> todos = [
       ...todoProvider.openTodos,
@@ -40,60 +47,96 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
     // filters todos based on the selected date
     final filteredTodos = todos.where((todo) {
-      if (todo.scheduledDate == null || _selectedDate == null) {
+      if (_selectedDate == null) {
         return false;
       }
 
-      return isSameDay(todo.scheduledDate, _selectedDate);
+      final scheduledMatches = todo.scheduledDate != null &&
+          isSameDay(todo.scheduledDate, _selectedDate);
+
+      final completedMatches = todo.completedAt != null &&
+          isSameDay(todo.completedAt, _selectedDate);
+
+      return scheduledMatches || completedMatches;
     }).toList();
 
     return SingleChildScrollView(
-      padding: AppConstants.screenPadding,
+      padding: AppThemeConstants.screenPadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             CalendarConstants.title,
             style: TextStyle(
-              fontSize: AppConstants.titleFontSize,
-              fontWeight: AppConstants.titleFontWeight,
+              fontSize: AppThemeConstants.titleFontSize,
+              fontWeight: AppThemeConstants.titleFontWeight,
             ),
           ),
-          const SizedBox(height: AppConstants.spacingMedium),
+          const SizedBox(height: AppThemeConstants.spacingMedium),
           CalendarWidget(
             selectedDate: _selectedDate,
             onDaySelected: _onDaySelected,
             todos: todos,
           ),
-          if (_selectedDate != null)
+
+          const SizedBox(
+            height: AppThemeConstants.spacingMedium,
+          ),
+
+          if (_selectedDate != null) ...[
             Text(
               "Todos on ${_selectedDate!.day}.${_selectedDate!.month}.${_selectedDate!.year}",
               style: const TextStyle(
-                fontSize: AppConstants.subtitleFontSize,
-                fontWeight: AppConstants.titleFontWeight,
+                fontSize: AppThemeConstants.subtitleFontSize,
+                fontWeight: AppThemeConstants.titleFontWeight,
               ),
             ),
+            const SizedBox(
+              height: AppThemeConstants.spacingSmall,
+            ),
+
+            // displays budget tag
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Todobudgettag(
+                  budget: budgetProvider.getBudget(_selectedDate!),
+                  onPressed: () => pickDailyBudget(
+                    context,
+                    budgetProvider,
+                    _selectedDate!,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: AppThemeConstants.spacingMedium,
+            ),
+          ],
 
           if (_selectedDate != null && filteredTodos.isEmpty) ...[
             const SizedBox(height: CalendarConstants.spaceAfterSelectedDate),
             const Center(
               child: Text(
                 CalendarConstants.noTodoText,
-                style: TextStyle(fontSize: AppConstants.bodyFontSize),
+                style: TextStyle(fontSize: AppThemeConstants.bodyFontSize),
               ),
             ),
           ],
 
           // displays scheduled todos for the selected day
           ...filteredTodos.map(
-            (todo) => TodoTile(
-              todo: todo,
-              onChanged: (value) {
-                context.read<TodoProvider>().toggleTodo(todo, value!);
-              },
-              onDelete: () {
-                context.read<TodoProvider>().deleteTodo(todo);
-              },
+            (todo) => Padding(
+              padding: TodoConstants.todoTileBottomSpacing,
+              child: TodoTile(
+                todo: todo,
+                onChanged: (value) {
+                  context.read<TodoProvider>().toggleTodo(todo, value!);
+                },
+                onDelete: () {
+                  context.read<TodoProvider>().deleteTodo(todo);
+                },
+              ),
             ),
           ),
 

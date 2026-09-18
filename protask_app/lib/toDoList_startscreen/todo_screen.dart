@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:protask_app/constants/app_constants.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/todo_screen_constants.dart';
+import 'package:protask_app/helpers/app_duration_picker.dart';
+import 'package:protask_app/helpers/daily_budget_picker.dart';
+import 'package:protask_app/provider/daily_budget_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_list.dart';
+import 'package:protask_app/todo_questionnaire/todo_questionnaire_route.dart';
+import 'package:protask_app/widgets/todoBudgetTag.dart';
+import 'package:protask_app/widgets/app_input_field.dart';
 import 'package:provider/provider.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 
@@ -23,8 +29,6 @@ class _TodoScreenState extends State<TodoScreen> {
     super.dispose();
   }
 
-  // METHODS
-  //
   // checks if text exists and adds a new todo
   void addTodo() {
     if (_controller.text.trim().isEmpty) {
@@ -40,19 +44,36 @@ class _TodoScreenState extends State<TodoScreen> {
     _controller.clear();
   }
 
+  // checks if a todo is scheduled for today
+  bool _isToday(DateTime? date) {
+    if (date == null) {
+      return true;
+    }
+
+    final today = DateTime.now();
+    return date.year == today.year &&
+        date.month == today.month &&
+        date.day == today.day;
+  }
+
   @override
   Widget build(BuildContext context) {
-    // LOCAL VARIABLES
-    //
     // TodoScreen rebuilds automatically whenever provider changes
     final todoProvider = context.watch<TodoProvider>();
-    final openTodos = todoProvider.openTodos;
+    // only display todos scheduled for today
+    final openTodos = todoProvider.openTodos
+        .where((todo) => _isToday(todo.scheduledDate))
+        .toList();
     final completedTodos = todoProvider.completedTodos;
+
+    // budget tag
+    final budgetProvier = context.watch<DailyBudgetProvider>();
+    final dailyBudget = budgetProvier.getBudget(DateTime.now());
 
     return Scaffold(
       // title "Today" and date below
       body: Padding(
-        padding: AppConstants.screenPadding,
+        padding: AppThemeConstants.screenPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -60,26 +81,41 @@ class _TodoScreenState extends State<TodoScreen> {
             const Text(
               TodoScreenConstants.title,
               style: TextStyle(
-                  fontSize: AppConstants.titleFontSize,
-                  fontWeight: AppConstants.subtitleFontWeight),
+                  color: AppThemeConstants.textColor,
+                  fontSize: AppThemeConstants.titleFontSize,
+                  fontWeight: AppThemeConstants.titleFontWeight),
             ),
 
             // space between title and date
             const SizedBox(
-              height: AppConstants.spacingMini,
+              height: AppThemeConstants.spacingMini,
             ),
 
             // displays current date
             Text(
-              AppConstants.currentDate,
+              AppThemeConstants.currentDate,
               style: const TextStyle(
-                  fontSize: AppConstants.subtitleFontSize,
-                  fontWeight: AppConstants.subtitleFontWeight),
+                  color: AppThemeConstants.textColor,
+                  fontSize: AppThemeConstants.subtitleFontSize,
+                  fontWeight: AppThemeConstants.subtitleFontWeight),
             ),
 
             // space before the todo list
             const SizedBox(
-              height: AppConstants.spacingMedium,
+              height: AppThemeConstants.spacingMedium,
+            ),
+
+            // budget tag display
+            Todobudgettag(
+              budget: dailyBudget,
+              onPressed: () => pickDailyBudget(
+                context,
+                budgetProvier,
+                DateTime.now(),
+              ),
+            ),
+            const SizedBox(
+              height: AppThemeConstants.spacingMedium,
             ),
 
             // displays todo list in the middle of the screen and handles checkbox changes
@@ -104,47 +140,20 @@ class _TodoScreenState extends State<TodoScreen> {
             ),
 
             const SizedBox(
-              height: AppConstants.spacingSmall,
+              height: AppThemeConstants.spacingSmall,
             ),
 
             // input field for creating new todos
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                width: MediaQuery.of(context).size.width *
-                    AppConstants.inputFieldWidthFactor,
-                // eig so mediaquery versuchen hier
-                height: AppConstants.inputFieldHeight,
-                decoration: BoxDecoration(
-                  borderRadius: AppConstants.inputFieldBorderRadius,
-                  color: AppConstants.inputFieldColor,
-                ),
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: AppConstants.spacingMedium,
-                    ),
-
-                    // interactive textfield
-                    Expanded(
-                      child: TextField(
-                        controller: _controller,
-                        decoration: const InputDecoration(
-                          hintText: TodoScreenConstants.hintText,
-                          border: InputBorder.none,
-                        ),
-                        onSubmitted: (value) {
-                          addTodo();
-                        },
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: addTodo,
-                      icon: const Icon(Icons.send_rounded),
-                    ),
-                  ],
-                ),
-              ),
+            AppInputField(
+              controller: _controller,
+              hintText: TodoScreenConstants.hintText,
+              onSubmitted: addTodo,
+              onQuestionnairePressed: () {
+                Navigator.push(
+                  context,
+                  TodoQuestionnaireRoute.create(),
+                );
+              },
             ),
           ],
         ),

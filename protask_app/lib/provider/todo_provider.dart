@@ -15,8 +15,6 @@ class TodoProvider extends ChangeNotifier {
   // used to give every todo a unique ID
   int _nextId = 0;
 
-  // CONSTRUCTOR
-  //
   TodoProvider() {
     _loadTodos();
   }
@@ -78,8 +76,6 @@ class TodoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // GETTER
-  //
   // List.unmodifiable prevents other classen from modifying the providers internal list directly
   // return all open todos
   List<TodoItem> get openTodos {
@@ -91,12 +87,14 @@ class TodoProvider extends ChangeNotifier {
     return List.unmodifiable(_completedTodos);
   }
 
-  // TODO METHODS
-  //
   // adds a new open todo
   Future<void> addTodo(
     String title, {
     DateTime? scheduledDate,
+    DateTime? deadlineDate,
+    TimeOfDay? deadlineTime,
+    TodoPriority? priority,
+    int? estimatedDuration,
   }) async {
     if (title.trim().isEmpty) {
       return;
@@ -107,9 +105,12 @@ class TodoProvider extends ChangeNotifier {
         id: _nextId++,
         title: title.trim(),
         scheduledDate: scheduledDate,
+        deadlineDate: deadlineDate,
+        deadlineTime: deadlineTime,
+        priority: priority,
+        estimatedDuration: estimatedDuration,
       ),
     );
-
     await _saveTodos();
     notifyListeners();
   }
@@ -146,8 +147,6 @@ class TodoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // REORDERING METHODS
-  //
   // changes position of todo after dragging
   // only open todos can be rearranged
   Future<void> reorderTodo(int oldIndex, int newIndex) async {
@@ -173,10 +172,11 @@ class TodoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ACCOMPLISHMENTS METHODS
-  //
   // adds a todo that is already completed when it is added in accomplishment screen
-  Future<void> addCompletedTodo(String title) async {
+  Future<void> addCompletedTodo(
+    String title, {
+    DateTime? completedAt,
+  }) async {
     if (title.trim().isEmpty) {
       return;
     }
@@ -187,7 +187,7 @@ class TodoProvider extends ChangeNotifier {
         title: title.trim(),
         isChecked: true,
         // for sorting completed todos
-        completedAt: DateTime.now(),
+        completedAt: completedAt ?? DateTime.now(),
       ),
     );
     await _saveTodos();

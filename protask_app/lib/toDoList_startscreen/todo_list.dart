@@ -5,8 +5,6 @@ import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
 
 class TodoList extends StatelessWidget {
-  // FIELDS
-  //
   final List<TodoItem> openTodos;
   final List<TodoItem> completedTodos;
 
@@ -30,8 +28,7 @@ class TodoList extends StatelessWidget {
     // scrollable list of todo tiles
     return CustomScrollView(
       slivers: [
-        // OPEN TODOS
-        //
+        // open todos
         SliverReorderableList(
           itemCount: openTodos.length,
           onReorderItem: onReorder,
@@ -39,6 +36,7 @@ class TodoList extends StatelessWidget {
           // adds shadow to todo while being dragged
           proxyDecorator: (child, index, animation) {
             return Material(
+              color: Colors.transparent,
               elevation: TodoConstants.dragElevation,
               child: child,
             );
@@ -49,21 +47,23 @@ class TodoList extends StatelessWidget {
             return ReorderableDelayedDragStartListener(
               key: ValueKey(todo.id),
               index: index,
-              child: TodoTile(
-                todo: todo,
-                onChanged: (value) {
-                  onChanged(value, todo);
-                },
-                onDelete: () {
-                  onDelete(todo);
-                },
+              child: Padding(
+                padding: TodoConstants.todoTileBottomSpacing,
+                child: TodoTile(
+                  todo: todo,
+                  onChanged: (value) {
+                    onChanged(value, todo);
+                  },
+                  onDelete: () {
+                    onDelete(todo);
+                  },
+                ),
               ),
             );
           },
         ),
 
-        // COMPLETED SECTION
-        //
+        // completed section
         if (completedTodos.isNotEmpty)
           const SliverToBoxAdapter(
             child: Padding(
@@ -78,22 +78,24 @@ class TodoList extends StatelessWidget {
             ),
           ),
 
-        // COMPLETED TODOS
-        //
+        // completed todos
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
               final todo = completedTodos[index];
 
-              return TodoTile(
-                key: ValueKey(todo.id),
-                todo: todo,
-                onChanged: (value) {
-                  onChanged(value, todo);
-                },
-                onDelete: () {
-                  onDelete(todo);
-                },
+              return Padding(
+                padding: TodoConstants.todoTileBottomSpacing,
+                child: TodoTile(
+                  key: ValueKey(todo.id),
+                  todo: todo,
+                  onChanged: (value) {
+                    onChanged(value, todo);
+                  },
+                  onDelete: () {
+                    onDelete(todo);
+                  },
+                ),
               );
             },
             childCount: completedTodos.length,

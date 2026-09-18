@@ -1,4 +1,15 @@
 // data model that stores information about one todo
+
+// defining the four priority levels based on the Eisenhower principle
+import 'package:flutter/material.dart';
+
+enum TodoPriority {
+  a,
+  b,
+  c,
+  d,
+}
+
 class TodoItem {
   // unique ID for every todo
   final int id;
@@ -16,6 +27,12 @@ class TodoItem {
 
   DateTime? deadlineDate;
 
+  TimeOfDay? deadlineTime;
+
+  TodoPriority? priority;
+
+  int? estimatedDuration;
+
   TodoItem({
     required this.id,
     required this.title,
@@ -23,6 +40,9 @@ class TodoItem {
     this.completedAt,
     this.scheduledDate,
     this.deadlineDate,
+    this.deadlineTime,
+    this.priority,
+    this.estimatedDuration,
   });
 
   // SERIALIZATION / JSON
@@ -36,6 +56,11 @@ class TodoItem {
       'completedAt': completedAt?.toIso8601String(),
       'scheduledDate': scheduledDate?.toIso8601String(),
       'deadlineDate': deadlineDate?.toIso8601String(),
+      'deadlineTime': deadlineTime != null
+          ? '${deadlineTime!.hour}:${deadlineTime!.minute}'
+          : null,
+      'priority': priority?.name,
+      'estimatedDuration': estimatedDuration,
     };
   }
 
@@ -54,6 +79,18 @@ class TodoItem {
       deadlineDate: json['deadlineDate'] != null
           ? DateTime.parse(json['deadlineDate'])
           : null,
+      deadlineTime: json['deadlineTime'] != null
+          ? TimeOfDay(
+              hour: int.parse(json['deadlineTime'].split(':')[0]),
+              minute: int.parse(json['deadlineTime'].split(':')[1]),
+            )
+          : null,
+      priority: json['priority'] != null
+          ? TodoPriority.values.firstWhere(
+              (priority) => priority.name == json['priority'],
+            )
+          : null,
+      estimatedDuration: json['estimatedDuration'],
     );
   }
 }

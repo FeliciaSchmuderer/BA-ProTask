@@ -34,7 +34,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
     ),
   ];
 
-  // METHODS
   // list of widgets for bottom navigation items
   // updates the selected page
   void _onItemTapped(int index) {
@@ -49,17 +48,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       appBar: AppBar(
         title: const Text(AppThemeConstants.appBarTitle),
         centerTitle: true,
-        leading: const Padding(
-          padding: EdgeInsets.only(left: 9),
-          child: Icon(Icons.menu_rounded, size: 35),
-        ),
-        actions: const [
-          Padding(
-              padding: EdgeInsets.only(right: 15, top: 2),
-              child: Icon(Icons.account_circle_rounded, size: 40)),
-        ],
       ),
-      //backgroundColor: Colors.grey,
 
       // App Menu for navigation
       // reference to screens
@@ -68,7 +57,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       bottomNavigationBar: ClipRRect(
         borderRadius: AppThemeConstants.barBorderRadius,
         child: BottomNavigationBar(
-          backgroundColor: AppThemeConstants.bottomNavigationBarColor,
+          backgroundColor: AppThemeConstants.appBarColor,
           type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
             // ToDoList Startscreen
@@ -95,7 +84,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           ],
           // currently selected navigation item
           currentIndex: _selectedIndex,
-          selectedItemColor: AppThemeConstants.selectedItemColor,
+          selectedItemColor: AppThemeConstants.accentColor,
           // when item is tapped on it switches to the selected one
           onTap: _onItemTapped,
         ),
