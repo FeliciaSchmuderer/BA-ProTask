@@ -31,7 +31,11 @@ class TodoItem {
 
   TodoPriority? priority;
 
+  // estimated duration in minutes
   int? estimatedDuration;
+
+  // actual time worked on this todo in seconds
+  int actualDuration;
 
   TodoItem({
     required this.id,
@@ -43,6 +47,7 @@ class TodoItem {
     this.deadlineTime,
     this.priority,
     this.estimatedDuration,
+    this.actualDuration = 0,
   });
 
   // SERIALIZATION / JSON
@@ -61,6 +66,7 @@ class TodoItem {
           : null,
       'priority': priority?.name,
       'estimatedDuration': estimatedDuration,
+      'actualDuration': estimatedDuration,
     };
   }
 
@@ -91,6 +97,7 @@ class TodoItem {
             )
           : null,
       estimatedDuration: json['estimatedDuration'],
+      actualDuration: json['actualDuration'] ?? 0, // 0 as default
     );
   }
 }
