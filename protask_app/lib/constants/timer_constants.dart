@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
 
 class TimerConstants {
+
+  // fontsizes
+  
+
   // dialog
   static const double maxDialogWidth = 520;
   static const double maxDialogHeight = 700;
@@ -18,10 +22,13 @@ class TimerConstants {
   static const double spacingExtraLarge = 32;
 
   // texts
+  static const double messageFontSize = 20;
   static const double todoTitleFontSize = 16;
   static const double countdwonFontSize = 52;
   static const double smallCountdownFontSize = 42;
   static const double statusFontSize = 14;
+
+  static const FontWeight messageFontWeight = FontWeight.bold;
 
   // buttons
   static const double buttonHeight = 48;

@@ -7,6 +7,7 @@ import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/todo_timer/timer_clock.dart';
 import 'package:protask_app/todo_timer/timer_controls.dart';
 import 'package:protask_app/todo_timer/timer_countdown.dart';
+import 'package:protask_app/todo_timer/timer_expired.dart';
 import 'package:protask_app/todo_timer/timer_status.dart';
 import 'package:provider/provider.dart';
 
@@ -77,8 +78,7 @@ class TimerDialogContent extends StatelessWidget {
                           height: TimerConstants.spacingLarge,
                         ),
 
-                      
-                      // countdown
+                        // countdown
                         TimerCountdown(
                           duration: remaining,
                           availableHeight: contraints.maxHeight,
@@ -113,11 +113,18 @@ class TimerDialogContent extends StatelessWidget {
                         ),
 
                         // control buttons
-                        TimerControls(
-                          timerProvider: timerProvider,
-                          todo: todo,
-                        )
-                        
+                        timerProvider.state == TodoTimerState.expired
+                            ? TimerExpired(
+                                onMoreTime: () {},
+                                onFinish: () {
+                                  timerProvider.finishTimer();
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            : TimerControls(
+                                timerProvider: timerProvider,
+                                todo: todo,
+                              ),
                       ],
                     ),
                   ),
