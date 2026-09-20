@@ -29,16 +29,12 @@ class TimerClock extends StatelessWidget {
           height: clockSize,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: TimerConstants.clockBackground(
-              context,
-            ),
+            color: TimerConstants.clockBackground(),
           ),
           child: Icon(
             isRunning ? Icons.timer_rounded : Icons.access_time_rounded,
             size: clockSize * 0.45,
-            color: TimerConstants.clockColor(
-              context,
-            ),
+            color: TimerConstants.clockColor,
           ),
         );
       },

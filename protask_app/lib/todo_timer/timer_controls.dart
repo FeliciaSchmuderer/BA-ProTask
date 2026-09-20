@@ -77,6 +77,7 @@ class TimerControls extends StatelessWidget {
         // layout on smaller screens !
         return Column(
           children: [
+            // Start + Pause
             Row(
               children: [
                 Expanded(
@@ -100,9 +101,15 @@ class TimerControls extends StatelessWidget {
                     },
                   ),
                 ),
-                const SizedBox(
-                  width: TimerConstants.spacingSmall,
-                ),
+              ],
+            ),
+            const SizedBox(
+              height: TimerConstants.spacingMedium,
+            ),
+
+            // Stop + Finish
+            Row(
+              children: [
                 Expanded(
                   child: TimerControlButton(
                     icon: Icons.stop_rounded,
@@ -112,17 +119,20 @@ class TimerControls extends StatelessWidget {
                     },
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(
-              height: TimerConstants.spacingMedium,
-            ),
-            TimerFinishButton(
-              onPressed: () {
-                timerProvider.finishTimer();
+                const SizedBox(
+                  width: TimerConstants.spacingSmall,
+                ),
+                Expanded(
+                  child: TimerFinishButton(
+                    fullWidth: false,
+                    onPressed: () {
+                      timerProvider.finishTimer();
 
-                Navigator.of(context).pop();
-              },
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
         );

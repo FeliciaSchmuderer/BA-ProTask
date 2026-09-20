@@ -15,12 +15,11 @@ class TimerStatus extends StatelessWidget {
     return Text(
       _getStatusText(),
       textAlign: TextAlign.center,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: TimerConstants.statusFontSize,
-        color: TimerConstants.secondaryTextColor(
-          context,
+        color: TimerConstants.statusColor,
         ),
-      ),
+      
     );
   }
 

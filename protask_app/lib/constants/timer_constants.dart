@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 
 class TimerConstants {
   // dialog
@@ -31,15 +32,25 @@ class TimerConstants {
   static const double smallClockSize = 90;
 
   // colors
-  static Color clockBackground(BuildContext context) {
-    return Theme.of(context).colorScheme.primary.withValues(alpha: 0.10);
+  static Color clockBackground() {
+    return AppThemeConstants.buttonColor.withValues(alpha: 0.25);
   }
 
-  static Color clockColor(BuildContext context) {
-    return Theme.of(context).colorScheme.primary;
-  }
+  static const Color clockColor = AppThemeConstants.accentLightColor;
 
-  static Color secondaryTextColor(BuildContext context) {
-    return Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.55);
-  }
+  static Color secondaryTextColor = AppThemeConstants.hintTextColor;
+
+  static const Color buttonTextColor = AppThemeConstants.textColor;
+
+  static const Color countdownColor = AppThemeConstants.textColor;
+
+  static const Color buttonColor = AppThemeConstants.buttonColor;
+
+  static const Color finishColor = AppThemeConstants.accentColor;
+
+  static const Color todotileColor = AppThemeConstants.hintTextColor;
+
+  static const Color dialogBackgroundColor = AppThemeConstants.backgroundColor;
+
+  static const Color statusColor = AppThemeConstants.accentColor;
 }

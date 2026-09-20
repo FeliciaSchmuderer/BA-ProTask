@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/timer_constants.dart';
 
 class TimerControlButton extends StatelessWidget {
@@ -22,8 +23,12 @@ class TimerControlButton extends StatelessWidget {
       height: TimerConstants.buttonHeight,
       child: OutlinedButton.icon(
         onPressed: onPressed,
+        icon: Icon(icon),
         label: Text(label),
         style: OutlinedButton.styleFrom(
+          backgroundColor: AppThemeConstants.buttonColor,
+          foregroundColor: AppThemeConstants.textColor,
+          side: const BorderSide(color: AppThemeConstants.borderColor),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
               TimerConstants.buttonRadius,

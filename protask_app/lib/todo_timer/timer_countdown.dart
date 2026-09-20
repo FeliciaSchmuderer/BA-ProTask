@@ -29,6 +29,7 @@ class TimerCountdown extends StatelessWidget {
           fontSize: fontSize,
           fontWeight: AppThemeConstants.subtitleFontWeight,
           letterSpacing: 2,
+          color: TimerConstants.countdownColor,
         ),
       ),
     );
@@ -36,13 +37,16 @@ class TimerCountdown extends StatelessWidget {
 
   // converts duration into MM:SS
   String _formatDuration(Duration duration) {
-    final minutes = duration.inMinutes;
-
+    final hours = duration.inHours;
+    final minutes = duration.inMinutes.remainder(60);
     final seconds = duration.inSeconds.remainder(60);
 
     final minutesText = minutes.toString().padLeft(2, '0');
-
     final secondsText = seconds.toString().padLeft(2, '0');
+
+    if (hours > 0) {
+      return '$hours:$minutesText:$secondsText';
+    }
 
     return '$minutesText:$secondsText';
   }

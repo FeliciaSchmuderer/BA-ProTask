@@ -47,6 +47,7 @@ class TimerDialogContent extends StatelessWidget {
             horizontal: TimerConstants.dialogHorizontalPadding,
             vertical: TimerConstants.dialogVerticalPadding,
           ),
+          backgroundColor: TimerConstants.dialogBackgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
               TimerConstants.dialogRadius,
@@ -94,6 +95,7 @@ class TimerDialogContent extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: TimerConstants.todoTitleFontSize,
+                            color: TimerConstants.todotileColor,
                           ),
                         ),
 

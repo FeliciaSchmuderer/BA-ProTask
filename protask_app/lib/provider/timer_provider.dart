@@ -88,10 +88,15 @@ class TimerProvider extends ChangeNotifier {
   // remaining time
   // calculateds the current left left time for a todo
   Duration getRemainingTime(TodoItem todo) {
-    final estimatedMinutes = todo.estimatedDuration ?? 0;
+    // once timer has expired always show zero
+    if (_state == TodoTimerState.expired) {
+      return Duration.zero;
+    }
 
+    final estimatedMinutes = todo.estimatedDuration ?? 0;
     final totalDuration = Duration(minutes: estimatedMinutes);
 
+    // timer has not started yet
     if (_activeTodo?.id != todo.id || _startedAt == null) {
       return totalDuration;
     }
@@ -101,7 +106,7 @@ class TimerProvider extends ChangeNotifier {
 
     final remaining = totalDuration - elapsed;
 
-    // no negative duration if time has already passed
+    // never returning negative duration if time has already passed
     if (remaining.isNegative) {
       return Duration.zero;
     }
