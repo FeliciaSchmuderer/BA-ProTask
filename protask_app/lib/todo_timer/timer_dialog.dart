@@ -5,6 +5,9 @@ import 'package:protask_app/constants/timer_constants.dart';
 import 'package:protask_app/provider/timer_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/todo_timer/timer_clock.dart';
+import 'package:protask_app/todo_timer/timer_controls.dart';
+import 'package:protask_app/todo_timer/timer_countdown.dart';
+import 'package:protask_app/todo_timer/timer_status.dart';
 import 'package:provider/provider.dart';
 
 class TimerDialog extends StatelessWidget {
@@ -74,8 +77,8 @@ class TimerDialogContent extends StatelessWidget {
                         ),
 
                       
-                      /*  // countdown
-                        TimerCountdownText(
+                      // countdown
+                        TimerCountdown(
                           duration: remaining,
                           availableHeight: contraints.maxHeight,
                         ),
@@ -112,7 +115,7 @@ class TimerDialogContent extends StatelessWidget {
                           timerProvider: timerProvider,
                           todo: todo,
                         )
-                        */
+                        
                       ],
                     ),
                   ),
