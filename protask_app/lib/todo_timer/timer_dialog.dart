@@ -15,8 +15,6 @@ import 'package:protask_app/todo_timer/timer_expired.dart';
 import 'package:protask_app/todo_timer/timer_status.dart';
 import 'package:provider/provider.dart';
 
-import 'package:protask_app/provider/daily_budget_provider.dart';
-
 class TimerDialog extends StatelessWidget {
   final TodoItem todo;
 

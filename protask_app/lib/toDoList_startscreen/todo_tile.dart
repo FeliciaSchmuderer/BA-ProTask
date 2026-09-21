@@ -99,14 +99,16 @@ class TodoTile extends StatelessWidget {
               if (todo.estimatedDuration != null) ...[
                 InkWell(
                   borderRadius: BorderRadius.circular(8),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return TimerDialog(todo: todo);
-                      },
-                    );
-                  },
+                  onTap: todo.isChecked
+                      ? null
+                      : () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return TimerDialog(todo: todo);
+                            },
+                          );
+                        },
                   child: Padding(
                     padding: const EdgeInsets.all(4),
                     child: TodoDurationTag(
