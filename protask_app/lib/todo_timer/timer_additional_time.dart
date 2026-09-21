@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/timer_constants.dart';
+import 'package:protask_app/helpers/app_duration_picker.dart';
 import 'package:protask_app/todo_timer/timer_control_button.dart';
 
 class TimerAdditionalTime extends StatefulWidget {
@@ -115,9 +116,18 @@ class _TimerAdditionalTimeState extends State<TimerAdditionalTime> {
             Expanded(
               child: TimerControlButton(
                 label: 'Pick',
-                onPressed: () {
-                  //
-                  //
+                selected: _selectedMinutes != null &&
+                ![5, 10, 15, 20, 30].contains(_selectedMinutes),
+                onPressed: () async {
+                  final selectedDuration = await AppDurationPicker.selectDuration(context, 
+                  _selectedMinutes,
+                  );
+
+                  if (selectedDuration == null || selectedDuration == 0) {
+                    return;
+                  }
+
+                  _selectTime(selectedDuration);
                 },
               ),
             ),
