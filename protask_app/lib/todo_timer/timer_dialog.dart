@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/constants/timer_constants.dart';
 import 'package:protask_app/provider/timer_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
+import 'package:protask_app/todo_timer/timer_additional_time.dart';
 import 'package:protask_app/todo_timer/timer_clock.dart';
 import 'package:protask_app/todo_timer/timer_controls.dart';
 import 'package:protask_app/todo_timer/timer_countdown.dart';
@@ -29,7 +30,7 @@ class TimerDialog extends StatelessWidget {
 }
 
 //actual UI of the timer dialog
-class TimerDialogContent extends StatelessWidget {
+class TimerDialogContent extends StatefulWidget {
   final TodoItem todo;
 
   const TimerDialogContent({
@@ -38,10 +39,17 @@ class TimerDialogContent extends StatelessWidget {
   });
 
   @override
+  State<TimerDialogContent> createState() => _TimerDialogContentState();
+}
+
+class _TimerDialogContentState extends State<TimerDialogContent> {
+  bool _showAdditionalTime = false;
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<TimerProvider>(
       builder: (context, timerProvider, child) {
-        final remaining = timerProvider.getRemainingTime(todo);
+        final remaining = timerProvider.getRemainingTime(widget.todo);
 
         return Dialog(
           insetPadding: const EdgeInsets.symmetric(
@@ -56,7 +64,7 @@ class TimerDialogContent extends StatelessWidget {
           ),
           child: SafeArea(
             child: LayoutBuilder(
-              builder: (context, contraints) {
+              builder: (context, constraints) {
                 return ConstrainedBox(
                   constraints: const BoxConstraints(
                     maxWidth: TimerConstants.maxDialogWidth,
@@ -81,7 +89,7 @@ class TimerDialogContent extends StatelessWidget {
                         // countdown
                         TimerCountdown(
                           duration: remaining,
-                          availableHeight: contraints.maxHeight,
+                          availableHeight: constraints.maxHeight,
                         ),
 
                         const SizedBox(
@@ -90,7 +98,7 @@ class TimerDialogContent extends StatelessWidget {
 
                         // todo title
                         Text(
-                          todo.title,
+                          widget.todo.title,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
@@ -112,19 +120,74 @@ class TimerDialogContent extends StatelessWidget {
                           height: TimerConstants.spacingLarge,
                         ),
 
-                        // control buttons
-                        timerProvider.state == TodoTimerState.expired
-                            ? TimerExpired(
-                                onMoreTime: () {},
-                                onFinish: () {
-                                  timerProvider.finishTimer();
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            : TimerControls(
-                                timerProvider: timerProvider,
-                                todo: todo,
+                        // additional time animation
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          transitionBuilder: (child, animation) {
+                            final slideAnimation = Tween<Offset>(
+                              begin: const Offset(1, 0),
+                              end: Offset.zero,
+                            ).animate(
+                              CurvedAnimation(
+                                parent: animation,
+                                curve: Curves.easeOutCubic,
                               ),
+                            );
+
+                            return ClipRect(
+                              child: SlideTransition(
+                                position: slideAnimation,
+                                child: child,
+                              ),
+                            );
+                          },
+
+                          // control buttons
+                          child: timerProvider.state == TodoTimerState.expired
+                              ? _showAdditionalTime
+                                  ? TimerAdditionalTime(
+                                      key: const ValueKey('additional-time'),
+                                      // select additional time
+                                      onSelected: (minutes) {
+                                        timerProvider.addAdditionalTime(
+                                          minutes,
+                                        );
+                                      },
+
+                                      // back to expired screen
+                                      onBack: () {
+                                        setState(() {
+                                          _showAdditionalTime = false;
+                                        });
+                                      },
+                                      // starts selected additional time
+                                      onStart: () {
+                                        timerProvider.startAdditionalTime();
+                                        setState(() {
+                                          _showAdditionalTime = false;
+                                        });
+                                      },
+                                    )
+                                  : TimerExpired(
+                                      key: const ValueKey('timer-expired'),
+                                      // shows additional time screen
+                                      onMoreTime: () {
+                                        setState(() {
+                                          _showAdditionalTime = true;
+                                        });
+                                      },
+                                      // finishes todo timer
+                                      onFinish: () {
+                                        timerProvider.finishTimer();
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                              : TimerControls(
+                                  key: const ValueKey('timer-controls'),
+                                  timerProvider: timerProvider,
+                                  todo: widget.todo,
+                                ),
+                        )
                       ],
                     ),
                   ),
