@@ -69,7 +69,7 @@ class TodoItem {
           : null,
       'priority': priority?.name,
       'estimatedDuration': estimatedDuration,
-      'actualDuration': estimatedDuration,
+      'actualDuration': actualDuration,
       'additionalDuration': additionalDuration,
     };
   }

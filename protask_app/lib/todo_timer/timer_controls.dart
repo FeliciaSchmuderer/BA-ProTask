@@ -9,10 +9,13 @@ class TimerControls extends StatelessWidget {
   final TimerProvider timerProvider;
   final TodoItem todo;
 
+  final VoidCallback onFinish;
+
   const TimerControls({
     super.key,
     required this.timerProvider,
     required this.todo,
+    required this.onFinish,
   });
 
   @override
@@ -64,11 +67,7 @@ class TimerControls extends StatelessWidget {
                 height: TimerConstants.spacingMedium,
               ),
               TimerFinishButton(
-                onPressed: () {
-                  timerProvider.finishTimer();
-
-                  Navigator.of(context).pop();
-                },
+                onPressed: onFinish,
               ),
             ],
           );
@@ -125,11 +124,7 @@ class TimerControls extends StatelessWidget {
                 Expanded(
                   child: TimerFinishButton(
                     fullWidth: false,
-                    onPressed: () {
-                      timerProvider.finishTimer();
-
-                      Navigator.of(context).pop();
-                    },
+                    onPressed: onFinish,
                   ),
                 ),
               ],

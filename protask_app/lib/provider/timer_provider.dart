@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 
 // current state of todotimer
@@ -21,8 +22,11 @@ class TimerProvider extends ChangeNotifier {
   // time when timer is started
   DateTime? _startedAt;
 
-  // full diration of the current duration timer
+  // full duration of the current duration timer
   Duration? _timerDuration;
+
+  // original duration of the task
+  Duration? _originalTimerDuration;
 
   // remaining time when timer was paused
   Duration? _pausedRemainingTime;
@@ -60,9 +64,11 @@ class TimerProvider extends ChangeNotifier {
     _activeTodo = todo;
 
     // set original estimated duration only when starting a completely new task/timer
-    _timerDuration ??= Duration(
+    _originalTimerDuration ??= Duration(
       minutes: todo.estimatedDuration ?? 0,
     );
+
+    _timerDuration ??= _originalTimerDuration;
 
     _hasAdditionalTimeSelected = false;
 
@@ -158,7 +164,6 @@ class TimerProvider extends ChangeNotifier {
 
     // resets start time
     _startedAt = null;
-    _pausedRemainingTime = null;
 
     // resets actual worked time and no time from this session is saved
     _workedDuration = Duration.zero;
@@ -261,6 +266,9 @@ class TimerProvider extends ChangeNotifier {
 
   // handles timer expiration
   void _handleExpiration() {
+    // vibrates if time has run up
+    HapticFeedback.mediumImpact();
+
     if (_startedAt != null) {
       final now = DateTime.now();
 

@@ -70,8 +70,8 @@ class BufferSection extends StatelessWidget {
     return '${hours}h ${remainingMinutes}m';
   }
 
-  // calculated the total estimated duration of all todos scheduled for the selected day
-  int _getPlannedDuration(BuildContext context) {
+  // calculated the current task time for all todos
+  int _getTaskDuration(BuildContext context) {
     final date = selectedDate;
 
     // no dates means no planned tasks to calculate
@@ -100,11 +100,16 @@ class BufferSection extends StatelessWidget {
       return scheduledDate.year == date.year &&
           scheduledDate.month == date.month &&
           scheduledDate.day == date.day;
-    }).fold(
-      0,
-      // adds estimated duration of each todo to the total
-      (total, todo) => total + (todo.estimatedDuration ?? 0),
-    );
+    }).fold(0,
+        // completed todo with actual timer result
+        (total, todo) {
+      if (todo.isChecked && todo.actualDuration > 0) {
+        return total + todo.actualDuration;
+      }
+
+      // opens todo or completed todo without actual timer result
+      return total + (todo.estimatedDuration ?? 0);
+    });
   }
 
   @override
@@ -136,7 +141,8 @@ class BufferSection extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppThemeConstants.surfaceColor,
               borderRadius: BorderRadius.circular(
-                  QuestionnaireConstants.bufferProcessBarRadius),
+                QuestionnaireConstants.bufferProcessBarRadius,
+              ),
             ),
             child: const Text(
               QuestionnaireConstants.bufferSelectionText,
@@ -154,12 +160,11 @@ class BufferSection extends StatelessWidget {
     final taskBudget = budgetProvider.getTaskBudget(date);
     final bufferTime = budgetProvider.getBufferTime(date);
 
-    // calculates the total planned duration
-    final plannedDuration =
-        _getPlannedDuration(context) + (selectedDuration ?? 0);
+    // calculates task duration using estimated or actual duration per todo
+    final taskDuration = _getTaskDuration(context) + (selectedDuration ?? 0);
 
     // calculates how much time is still available within the task budget
-    final taskRemaining = (taskBudget - plannedDuration).clamp(0, taskBudget);
+    final taskRemaining = (taskBudget - taskDuration).clamp(0, taskBudget);
 
     // green part of process bar calcualtes how much of the daily budget is reserved for the task budget
     final taskProgress = dailyBudget != null && dailyBudget > 0
@@ -167,30 +172,30 @@ class BufferSection extends StatelessWidget {
         : 0.0;
 
     // time that goes beyond the task budget
-    final overload = (plannedDuration - taskBudget).clamp(0, bufferTime);
+    final overload = (taskDuration - taskBudget).clamp(0, bufferTime);
 
     // how much of the buffer has already been used
-    final bufferUsed = (plannedDuration - taskBudget).clamp(0, bufferTime);
+    final bufferUsed = (taskDuration - taskBudget).clamp(0, bufferTime);
 
     // how much buffer time is still available
     final bufferRemaining = bufferTime - bufferUsed;
 
     // true when planned task duration is above the normal task budget
-    final taskTimeExceeded = plannedDuration > taskBudget;
+    final taskTimeExceeded = taskDuration > taskBudget;
 
     // true when planned duration exceeds both the task budget and available buffer
-    final bufferExceeded = plannedDuration > taskBudget + bufferTime;
+    final bufferExceeded = taskDuration > taskBudget + bufferTime;
 
     // how many minutes the daily budget is exceeded
-    final bufferExceededMinutes = plannedDuration - (taskBudget + bufferTime);
+    final bufferExceededMinutes = taskDuration - (taskBudget + bufferTime);
 
     // orange part of progress bar representing the used buffer time
     final overloadProgress =
         dailyBudget != null && dailyBudget > 0 ? overload / dailyBudget : 0.0;
 
-    // calculates the total planned duration as a percentage of the daily budget
-    final plannedProgress = dailyBudget != null && dailyBudget > 0
-        ? (plannedDuration / dailyBudget).clamp(0.0, 1.0)
+    // calculates total task duration as percentage
+    final taskDurationProgress = dailyBudget != null && dailyBudget > 0
+        ? (taskDuration / dailyBudget).clamp(0.0, 1.0)
         : 0.0;
 
     return Column(
@@ -232,7 +237,6 @@ class BufferSection extends StatelessWidget {
                 )
               else ...[
                 // if a budget is selected the duration button displays the currently selected daily budget
-
                 SizedBox(
                   width: double.infinity,
                   child: TodoDurationButton(
@@ -260,10 +264,10 @@ class BufferSection extends StatelessWidget {
                               color: AppThemeConstants.backgroundColor,
                             ),
 
-                            // shows the planned task time within the normal task budget
+                            // shows the task time
                             FractionallySizedBox(
                               widthFactor:
-                                  plannedProgress.clamp(0.0, taskProgress),
+                                  taskDurationProgress.clamp(0.0, taskProgress),
                               child: Container(
                                 color: QuestionnaireConstants.taskProgressColor,
                               ),
@@ -310,7 +314,7 @@ class BufferSection extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${_formatDuration(plannedDuration)} / '
+                      '${_formatDuration(taskDuration)} / '
                       '${_formatDuration(taskBudget)} '
                       '${QuestionnaireConstants.taskLabel}',
                       style: const TextStyle(
