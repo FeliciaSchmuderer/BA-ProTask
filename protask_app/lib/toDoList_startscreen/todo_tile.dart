@@ -3,6 +3,7 @@ import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/questionnaire_constants.dart';
 import 'package:protask_app/constants/todo_constants.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
+import 'package:protask_app/todo_timer/timer_dialog.dart';
 import 'package:protask_app/widgets/todo_deadline_tag.dart';
 import 'package:protask_app/widgets/todo_duration_tag.dart';
 
@@ -96,8 +97,24 @@ class TodoTile extends StatelessWidget {
 
               // display estimatied duration/todotimer next to do
               if (todo.estimatedDuration != null) ...[
-                TodoDurationTag(
-                  duration: todo.estimatedDuration!,
+                InkWell(
+                  borderRadius: BorderRadius.circular(8),
+                  onTap: todo.isChecked
+                      ? null
+                      : () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return TimerDialog(todo: todo);
+                            },
+                          );
+                        },
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: TodoDurationTag(
+                      duration: todo.estimatedDuration!,
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   width: AppThemeConstants.spacingSmall,

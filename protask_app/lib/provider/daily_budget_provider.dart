@@ -11,23 +11,19 @@ class DailyBudgetProvider extends ChangeNotifier {
     _loadBudgets();
   }
 
-  // provides read-only access to all saved daily budgets
-  Map<String, int> get dailyBudgets => Map.unmodifiable(_dailyBudgets);
-
   // returns saved budget for a specific day
   // returns null when no budget is selected
   int? getBudget(DateTime date) {
     return _dailyBudgets[_dateKey(date)];
   }
 
-  // calculates task budget -> 60% of daily budget is reserved for normal tasks
+  // calculates remaining task budget -> 60% of daily budget is reserved for normal tasks
   int getTaskBudget(DateTime date) {
     final budget = getBudget(date);
 
     if (budget == null) {
       return 0;
     }
-
     return (budget * 0.6).round();
   }
 
@@ -51,6 +47,7 @@ class DailyBudgetProvider extends ChangeNotifier {
 
     // saves updated budgets locally
     await _saveBudgets();
+
     notifyListeners();
   }
 
@@ -59,6 +56,7 @@ class DailyBudgetProvider extends ChangeNotifier {
     _dailyBudgets.remove(_dateKey(date));
 
     await _saveBudgets();
+
     notifyListeners();
   }
 
@@ -67,7 +65,7 @@ class DailyBudgetProvider extends ChangeNotifier {
     return '${date.year}-${date.month}-${date.day}';
   }
 
-  // loads all previously saaved daily budgets from SharedPreferences
+  // loads all previously saved daily budgets from SharedPreferences
   Future<void> _loadBudgets() async {
     final prefs = await SharedPreferences.getInstance();
 

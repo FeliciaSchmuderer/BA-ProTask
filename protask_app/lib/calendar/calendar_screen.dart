@@ -8,7 +8,8 @@ import 'package:protask_app/provider/daily_budget_provider.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
-import 'package:protask_app/widgets/todoBudgetTag.dart';
+import 'package:protask_app/widgets/todo_budget_tag.dart';
+
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -99,8 +100,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Todobudgettag(
+                TodoBudgetTag(
                   budget: budgetProvider.getBudget(_selectedDate!),
+                  timeLeft: budgetProvider.getTaskBudget(_selectedDate!),
                   onPressed: () => pickDailyBudget(
                     context,
                     budgetProvider,
