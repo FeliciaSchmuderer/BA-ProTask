@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/constants/accomplishments_constants.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/eisenhower_matrix/eisenhower_quadrants.dart';
+import 'package:protask_app/provider/todo_provider.dart';
+import 'package:protask_app/todoList_startscreen/todo_item.dart';
+import 'package:provider/provider.dart';
 
 class EisenhowerScreen extends StatefulWidget {
   const EisenhowerScreen({super.key});
@@ -32,6 +35,41 @@ class _EisenhowerScreenState extends State<EisenhowerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final todoProvider = context.watch<TodoProvider>();
+
+    // only open todos are in the matrix
+    final todos = todoProvider.openTodos;
+
+    // todos without a date automatically get today
+    final selectedDateTodos = todos.where((todo) {
+      if (todo.scheduledDate == null) {
+        return _selectedDate.year == DateTime.now().year &&
+            _selectedDate.month == DateTime.now().month &&
+            _selectedDate.day == DateTime.now().day;
+      }
+      // todos with a scheduled date are shown on their scheduled date
+      return todo.scheduledDate!.year == _selectedDate.year &&
+          todo.scheduledDate!.month == _selectedDate.month &&
+          todo.scheduledDate!.day == _selectedDate.day;
+    }).toList();
+
+    // sorting todos by their priority
+    final priorityATodos = selectedDateTodos
+        .where((todo) => todo.priority == TodoPriority.a)
+        .toList();
+
+    final priorityBTodos = selectedDateTodos
+        .where((todo) => todo.priority == TodoPriority.b)
+        .toList();
+
+    final priorityCTodos = selectedDateTodos
+        .where((todo) => todo.priority == TodoPriority.c)
+        .toList();
+
+    final priorityDTodos = selectedDateTodos
+        .where((todo) => todo.priority == TodoPriority.d)
+        .toList();
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -92,26 +130,30 @@ class _EisenhowerScreenState extends State<EisenhowerScreen> {
               children: [
                 SizedBox(
                   width: itemWidth,
-                  child: const EisenhowerQuadrants(
+                  child: EisenhowerQuadrants(
                     title: 'Important & Urgent',
+                    todos: priorityATodos,
                   ),
                 ),
                 SizedBox(
                   width: itemWidth,
-                  child: const EisenhowerQuadrants(
+                  child: EisenhowerQuadrants(
                     title: 'Important & Not Urgent',
+                    todos: priorityBTodos,
                   ),
                 ),
                 SizedBox(
                   width: itemWidth,
-                  child: const EisenhowerQuadrants(
+                  child: EisenhowerQuadrants(
                     title: 'Not Important & Urgent',
+                    todos: priorityCTodos,
                   ),
                 ),
                 SizedBox(
                   width: itemWidth,
-                  child: const EisenhowerQuadrants(
+                  child: EisenhowerQuadrants(
                     title: 'Not Important & Not Urgent',
+                    todos: priorityDTodos,
                   ),
                 ),
               ],
