@@ -9,6 +9,7 @@ import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/todoList_startscreen/todo_item.dart';
 import 'package:protask_app/todoList_startscreen/todo_tile.dart';
 import 'package:protask_app/todo_questionnaire/todo_questionnaire_route.dart';
+import 'package:protask_app/widgets/budget_details_dialog.dart';
 import 'package:protask_app/widgets/todo_budget_tag.dart';
 
 import 'package:provider/provider.dart';
@@ -31,6 +32,50 @@ class _CalendarScreenState extends State<CalendarScreen> {
     setState(() {
       _selectedDate = selectedDay;
     });
+  }
+
+  // opens budget details popup when clicked on the budget tag
+  void _showBudgetDetails(
+    BuildContext context,
+    DailyBudgetProvider budgetProvider,
+    TodoProvider todoProvider,
+  ) {
+    final selectedDate = _selectedDate!;
+
+    final dailyBudget = budgetProvider.getBudget(selectedDate);
+    final taskBudget = budgetProvider.getTaskBudget(selectedDate);
+    final bufferTime = budgetProvider.getBufferTime(selectedDate);
+
+    // calculates planned task duration for the day
+    final taskDuration = [
+      ...todoProvider.openTodos,
+      ...todoProvider.completedTodos,
+    ].where((todo) {
+      return todo.scheduledDate != null &&
+          isSameDay(todo.scheduledDate, selectedDate);
+    }).fold<int>(
+      0,
+      (total, todo) {
+        if (todo.isChecked && todo.actualDuration > 0) {
+          return total + todo.actualDuration;
+        }
+
+        return total + (todo.estimatedDuration ?? 0);
+      },
+    );
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return BudgetDetailsDialog(
+          dailyBudget: dailyBudget,
+          taskBudget: taskBudget,
+          bufferTime: bufferTime,
+          taskDuration: taskDuration,
+          selectedDate: selectedDate,
+        );
+      },
+    );
   }
 
   @override
@@ -104,10 +149,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 TodoBudgetTag(
                   budget: budgetProvider.getBudget(_selectedDate!),
                   timeLeft: budgetProvider.getTaskBudget(_selectedDate!),
-                  onPressed: () => pickDailyBudget(
+                  onPressed: () => _showBudgetDetails(
                     context,
                     budgetProvider,
-                    _selectedDate!,
+                    todoProvider,
                   ),
                 ),
               ],

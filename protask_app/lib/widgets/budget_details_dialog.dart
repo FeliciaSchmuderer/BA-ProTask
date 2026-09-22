@@ -12,6 +12,7 @@ class BudgetDetailsDialog extends StatelessWidget {
   final int taskBudget;
   final int bufferTime;
   final int taskDuration;
+  final DateTime selectedDate;
 
   const BudgetDetailsDialog({
     super.key,
@@ -19,12 +20,12 @@ class BudgetDetailsDialog extends StatelessWidget {
     required this.taskBudget,
     required this.bufferTime,
     required this.taskDuration,
+    required this.selectedDate,
   });
 
   // changes or sets new daily budget
   Future<void> _changeProvider(BuildContext context) async {
     final budgetProvider = context.read<DailyBudgetProvider>();
-    final today = DateTime.now();
 
     final selectedBudget = await AppDurationPicker.selectDuration(
       context,
@@ -36,10 +37,10 @@ class BudgetDetailsDialog extends StatelessWidget {
     }
 
     if (selectedBudget == 0) {
-      await budgetProvider.removeBudget(today);
+      await budgetProvider.removeBudget(selectedDate);
     } else {
       await budgetProvider.setBudget(
-        today,
+        selectedDate,
         selectedBudget,
       );
     }

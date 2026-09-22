@@ -93,6 +93,7 @@ class _TodoScreenState extends State<TodoScreen> {
           taskBudget: taskBudget,
           bufferTime: bufferTime,
           taskDuration: taskDuration,
+          selectedDate: DateTime.now(),
         );
       },
     );
