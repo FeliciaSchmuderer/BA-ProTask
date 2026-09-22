@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/accomplishments/accomplishments_screen.dart';
 import 'package:protask_app/calendar/calendar_screen.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
+import 'package:protask_app/eisenhower_matrix/eisenhower_screen.dart';
 import 'package:protask_app/todoList_startscreen/todo_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -28,10 +29,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
     const Center(
       child: Text("Goals"),
     ),
-    // const PriorityScreen(),
-    const Center(
-      child: Text("Priority"),
-    ),
+
+    const EisenhowerScreen(),
   ];
 
   // list of widgets for bottom navigation items
