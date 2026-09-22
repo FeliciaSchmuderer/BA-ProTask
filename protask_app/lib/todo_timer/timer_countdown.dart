@@ -28,7 +28,7 @@ class TimerCountdown extends StatelessWidget {
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: AppThemeConstants.subtitleFontWeight,
-          letterSpacing: 2,
+          letterSpacing: TimerConstants.countdownLetterSpacing,
           color: TimerConstants.countdownColor,
         ),
       ),

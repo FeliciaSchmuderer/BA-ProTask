@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/timer_constants.dart';
 
+// button for finsih status
 class TimerFinishButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool fullWidth;
@@ -20,9 +21,9 @@ class TimerFinishButton extends StatelessWidget {
       child: FilledButton.icon(
         onPressed: onPressed,
         icon: const Icon(
-          Icons.check_rounded,
+          TimerConstants.finishIcon,
         ),
-        label: const Text('Finish'),
+        label: const Text(TimerConstants.finishText),
         style: FilledButton.styleFrom(
           backgroundColor: AppThemeConstants.accentColor,
           foregroundColor: AppThemeConstants.textColor,

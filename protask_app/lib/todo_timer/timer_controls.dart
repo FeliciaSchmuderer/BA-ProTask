@@ -5,6 +5,7 @@ import 'package:protask_app/toDoList_startscreen/todo_item.dart';
 import 'package:protask_app/todo_timer/timer_control_button.dart';
 import 'package:protask_app/todo_timer/timer_finish_button.dart';
 
+// buttons for status query
 class TimerControls extends StatelessWidget {
   final TimerProvider timerProvider;
   final TodoItem todo;
@@ -30,8 +31,8 @@ class TimerControls extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TimerControlButton(
-                      icon: Icons.play_arrow_rounded,
-                      label: 'Start',
+                      icon: TimerConstants.startIcon,
+                      label: TimerConstants.startText,
                       onPressed: () {
                         timerProvider.startTimer(todo);
                       },
@@ -42,8 +43,8 @@ class TimerControls extends StatelessWidget {
                   ),
                   Expanded(
                     child: TimerControlButton(
-                      icon: Icons.pause_rounded,
-                      label: 'Pause',
+                      icon: TimerConstants.pauseIcon,
+                      label: TimerConstants.pauseText,
                       onPressed: () {
                         timerProvider.pauseTimer();
                       },
@@ -54,8 +55,8 @@ class TimerControls extends StatelessWidget {
                   ),
                   Expanded(
                     child: TimerControlButton(
-                      icon: Icons.stop_rounded,
-                      label: 'Stop',
+                      icon: TimerConstants.startIcon,
+                      label: TimerConstants.stopText,
                       onPressed: () {
                         timerProvider.stopTimer();
                       },
@@ -81,8 +82,8 @@ class TimerControls extends StatelessWidget {
               children: [
                 Expanded(
                   child: TimerControlButton(
-                    icon: Icons.play_arrow_rounded,
-                    label: 'Start',
+                    icon: TimerConstants.startIcon,
+                    label: TimerConstants.startText,
                     onPressed: () {
                       timerProvider.startTimer(todo);
                     },
@@ -93,8 +94,8 @@ class TimerControls extends StatelessWidget {
                 ),
                 Expanded(
                   child: TimerControlButton(
-                    icon: Icons.pause_rounded,
-                    label: 'Pause',
+                    icon: TimerConstants.pauseIcon,
+                    label: TimerConstants.pauseText,
                     onPressed: () {
                       timerProvider.pauseTimer();
                     },
@@ -111,8 +112,8 @@ class TimerControls extends StatelessWidget {
               children: [
                 Expanded(
                   child: TimerControlButton(
-                    icon: Icons.stop_rounded,
-                    label: 'Stop',
+                    icon: TimerConstants.stopIcon,
+                    label: TimerConstants.stopText,
                     onPressed: () {
                       timerProvider.stopTimer();
                     },

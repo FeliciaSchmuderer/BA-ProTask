@@ -40,6 +40,7 @@ class TimerControlButton extends StatelessWidget {
     );
   }
 
+  // creates button style based on the selected state
   ButtonStyle _buttonStyle() {
     return OutlinedButton.styleFrom(
       backgroundColor: selected

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/constants/timer_constants.dart';
 import 'package:protask_app/provider/timer_provider.dart';
 
+// handels status of the control buttons in the timer dialog
 class TimerStatus extends StatelessWidget {
   final TodoTimerState state;
 
@@ -18,30 +19,29 @@ class TimerStatus extends StatelessWidget {
       style: const TextStyle(
         fontSize: TimerConstants.statusFontSize,
         color: TimerConstants.statusColor,
-        ),
-      
+      ),
     );
   }
 
   String _getStatusText() {
     switch (state) {
       case TodoTimerState.idle:
-        return 'Ready';
+        return TimerConstants.readyStatus;
 
       case TodoTimerState.running:
-        return 'Timer is running';
+        return TimerConstants.runningStatus;
 
       case TodoTimerState.paused:
-        return 'paused';
+        return TimerConstants.pausedStatus;
 
       case TodoTimerState.stopped:
-        return 'Stopped';
+        return TimerConstants.stoppedStatus;
 
       case TodoTimerState.finished:
-        return 'Finished';
+        return TimerConstants.finishStatus;
 
       case TodoTimerState.expired:
-        return 'Time expired';
+        return TimerConstants.expiredStatus;
     }
   }
 }

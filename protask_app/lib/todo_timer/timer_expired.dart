@@ -18,7 +18,7 @@ class TimerExpired extends StatelessWidget {
       children: [
         // Expired message
         const Text(
-          'Time expired!',
+          TimerConstants.expiredText,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: TimerConstants.messageFontSize,
@@ -49,7 +49,7 @@ class TimerExpired extends StatelessWidget {
                     ),
                   ),
                 ),
-                child: const Text('More Time'),
+                child: const Text(TimerConstants.moreTimeText),
               ),
             ),
             const SizedBox(
@@ -67,7 +67,7 @@ class TimerExpired extends StatelessWidget {
                     ),
                   ),
                 ),
-                child: const Text('Finish'),
+                child: const Text(TimerConstants.finishText),
               ),
             ),
           ],

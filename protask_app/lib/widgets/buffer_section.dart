@@ -4,6 +4,7 @@ import 'package:protask_app/constants/questionnaire_constants.dart';
 import 'package:protask_app/helpers/app_duration_picker.dart';
 import 'package:protask_app/provider/daily_budget_provider.dart';
 import 'package:protask_app/provider/todo_provider.dart';
+import 'package:protask_app/widgets/budget_progress_view.dart';
 import 'package:protask_app/widgets/todo_duration_button.dart';
 import 'package:provider/provider.dart';
 
@@ -54,22 +55,6 @@ class BufferSection extends StatelessWidget {
     );
   }
 
-  // formatting minutes into hours and minutes
-  String _formatDuration(int minutes) {
-    final hours = minutes ~/ 60;
-    final remainingMinutes = minutes % 60;
-
-    if (hours == 0) {
-      return '${remainingMinutes}m';
-    }
-
-    if (remainingMinutes == 0) {
-      return '${hours}h';
-    }
-
-    return '${hours}h ${remainingMinutes}m';
-  }
-
   // calculated the current task time for all todos
   int _getTaskDuration(BuildContext context) {
     final date = selectedDate;
@@ -100,16 +85,18 @@ class BufferSection extends StatelessWidget {
       return scheduledDate.year == date.year &&
           scheduledDate.month == date.month &&
           scheduledDate.day == date.day;
-    }).fold(0,
-        // completed todo with actual timer result
-        (total, todo) {
-      if (todo.isChecked && todo.actualDuration > 0) {
-        return total + todo.actualDuration;
-      }
+    }).fold(
+      0,
+      // completed todo with actual timer result
+      (total, todo) {
+        if (todo.isChecked && todo.actualDuration > 0) {
+          return total + todo.actualDuration;
+        }
 
-      // opens todo or completed todo without actual timer result
-      return total + (todo.estimatedDuration ?? 0);
-    });
+        // opens todo or completed todo without actual timer result
+        return total + (todo.estimatedDuration ?? 0);
+      },
+    );
   }
 
   @override
@@ -137,7 +124,8 @@ class BufferSection extends StatelessWidget {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(
-                QuestionnaireConstants.bufferContainerPadding),
+              QuestionnaireConstants.bufferContainerPadding,
+            ),
             decoration: BoxDecoration(
               color: AppThemeConstants.surfaceColor,
               borderRadius: BorderRadius.circular(
@@ -163,41 +151,6 @@ class BufferSection extends StatelessWidget {
     // calculates task duration using estimated or actual duration per todo
     final taskDuration = _getTaskDuration(context) + (selectedDuration ?? 0);
 
-    // calculates how much time is still available within the task budget
-    final taskRemaining = (taskBudget - taskDuration).clamp(0, taskBudget);
-
-    // green part of process bar calcualtes how much of the daily budget is reserved for the task budget
-    final taskProgress = dailyBudget != null && dailyBudget > 0
-        ? (taskBudget / dailyBudget).clamp(0.0, 1.0)
-        : 0.0;
-
-    // time that goes beyond the task budget
-    final overload = (taskDuration - taskBudget).clamp(0, bufferTime);
-
-    // how much of the buffer has already been used
-    final bufferUsed = (taskDuration - taskBudget).clamp(0, bufferTime);
-
-    // how much buffer time is still available
-    final bufferRemaining = bufferTime - bufferUsed;
-
-    // true when planned task duration is above the normal task budget
-    final taskTimeExceeded = taskDuration > taskBudget;
-
-    // true when planned duration exceeds both the task budget and available buffer
-    final bufferExceeded = taskDuration > taskBudget + bufferTime;
-
-    // how many minutes the daily budget is exceeded
-    final bufferExceededMinutes = taskDuration - (taskBudget + bufferTime);
-
-    // orange part of progress bar representing the used buffer time
-    final overloadProgress =
-        dailyBudget != null && dailyBudget > 0 ? overload / dailyBudget : 0.0;
-
-    // calculates total task duration as percentage
-    final taskDurationProgress = dailyBudget != null && dailyBudget > 0
-        ? (taskDuration / dailyBudget).clamp(0.0, 1.0)
-        : 0.0;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -214,7 +167,8 @@ class BufferSection extends StatelessWidget {
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(
-              QuestionnaireConstants.bufferContainerPadding),
+            QuestionnaireConstants.bufferContainerPadding,
+          ),
           decoration: BoxDecoration(
             color: AppThemeConstants.surfaceColor,
             borderRadius: BorderRadius.circular(
@@ -248,119 +202,13 @@ class BufferSection extends StatelessWidget {
                 const SizedBox(
                   height: AppThemeConstants.spacingSmall,
                 ),
-
-                // progress bar showing the planned task time and used buffer time
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      QuestionnaireConstants.bufferProcessBarRadius),
-                  child: SizedBox(
-                    height: QuestionnaireConstants.bufferProcessBarHeight,
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return Stack(
-                          children: [
-                            // represents the complete daily budget
-                            Container(
-                              color: AppThemeConstants.backgroundColor,
-                            ),
-
-                            // shows the task time
-                            FractionallySizedBox(
-                              widthFactor:
-                                  taskDurationProgress.clamp(0.0, taskProgress),
-                              child: Container(
-                                color: QuestionnaireConstants.taskProgressColor,
-                              ),
-                            ),
-
-                            // tasks that exceed the normal task budget and uses the available buffer time
-                            if (overloadProgress > 0)
-                              Positioned(
-                                left: constraints.maxWidth * taskProgress,
-                                child: Container(
-                                  width:
-                                      constraints.maxWidth * overloadProgress,
-                                  height: QuestionnaireConstants
-                                      .bufferProcessBarHeight,
-                                  color: QuestionnaireConstants
-                                      .bufferProgressColor,
-                                ),
-                              ),
-
-                            // border seperating the task budget from the available buffer time
-                            FractionallySizedBox(
-                              widthFactor: taskProgress,
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Container(
-                                  width: QuestionnaireConstants
-                                      .dateButtonBorderWidth,
-                                  color: AppThemeConstants.textColor,
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
+                // shared progress bar and budget information
+                BudgetProgressView(
+                  dailyBudget: dailyBudget,
+                  taskBudget: taskBudget,
+                  bufferTime: bufferTime,
+                  taskDuration: taskDuration,
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
-
-                // displays the planned task time, remaining task time and remianing buffertime below the bar
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '${_formatDuration(taskDuration)} / '
-                      '${_formatDuration(taskBudget)} '
-                      '${QuestionnaireConstants.taskLabel}',
-                      style: const TextStyle(
-                        fontSize:
-                            QuestionnaireConstants.bufferwarningTextFontSize,
-                      ),
-                    ),
-                    Text(
-                      '${_formatDuration(taskRemaining)} '
-                      '${QuestionnaireConstants.timeLeftLabel}',
-                      style: const TextStyle(
-                        fontSize:
-                            QuestionnaireConstants.bufferwarningTextFontSize,
-                      ),
-                    ),
-                    Text(
-                      '${_formatDuration(bufferRemaining)} '
-                      '${QuestionnaireConstants.bufferLeftLabel}',
-                      style: const TextStyle(
-                        fontSize:
-                            QuestionnaireConstants.bufferwarningTextFontSize,
-                      ),
-                    ),
-                  ],
-                ),
-
-                // displays warning when the task budget is exceeded
-                if (taskTimeExceeded) ...[
-                  const SizedBox(
-                    height: AppThemeConstants.spacingSmall,
-                  ),
-                  Text(
-                    // displays another warning the buffer has been completely exceeded
-                    bufferExceeded
-                        ? '${QuestionnaireConstants.orangeWarningText}'
-                            '${_formatDuration(bufferExceededMinutes)}. '
-                            '${QuestionnaireConstants.orangeWarningSuffix}'
-                        : QuestionnaireConstants.redWarningText,
-                    style: TextStyle(
-                      color: bufferExceeded
-                          ? QuestionnaireConstants.bufferExceededColor
-                          : QuestionnaireConstants.bufferProgressColor,
-                      fontWeight: AppThemeConstants.subtitleFontWeight,
-                    ),
-                  ),
-                ],
               ],
             ],
           ),

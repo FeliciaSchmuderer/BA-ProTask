@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/todo_screen_constants.dart';
-import 'package:protask_app/helpers/daily_budget_picker.dart';
 import 'package:protask_app/provider/daily_budget_provider.dart';
 import 'package:protask_app/toDoList_startscreen/todo_list.dart';
 import 'package:protask_app/todo_questionnaire/todo_questionnaire_route.dart';
-import 'package:protask_app/widgets/todoBudgetTag.dart';
+import 'package:protask_app/widgets/budget_details_dialog.dart';
+
 import 'package:protask_app/widgets/app_input_field.dart';
+import 'package:protask_app/widgets/todo_budget_tag.dart';
 import 'package:provider/provider.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 
@@ -50,9 +51,52 @@ class _TodoScreenState extends State<TodoScreen> {
     }
 
     final today = DateTime.now();
+
     return date.year == today.year &&
         date.month == today.month &&
         date.day == today.day;
+  }
+
+  // opens budget details popup when clicked on the budget tag
+  void _showBudgetDetails(
+    BuildContext context,
+    DailyBudgetProvider budgetProvider,
+    TodoProvider todoProvider,
+  ) {
+    final today = DateTime.now();
+
+    final dailyBudget = budgetProvider.getBudget(today);
+    final taskBudget = budgetProvider.getTaskBudget(today);
+    final bufferTime = budgetProvider.getBufferTime(today);
+
+    // calculates planned task duration for the day
+    final taskDuration = [
+      ...todoProvider.openTodos,
+      ...todoProvider.completedTodos,
+    ].where((todo) {
+      return _isToday(todo.scheduledDate);
+    }).fold<int>(
+      0,
+      (total, todo) {
+        if (todo.isChecked && todo.actualDuration > 0) {
+          return total + todo.actualDuration;
+        }
+
+        return total + (todo.estimatedDuration ?? 0);
+      },
+    );
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return BudgetDetailsDialog(
+          dailyBudget: dailyBudget,
+          taskBudget: taskBudget,
+          bufferTime: bufferTime,
+          taskDuration: taskDuration,
+        );
+      },
+    );
   }
 
   @override
@@ -68,6 +112,22 @@ class _TodoScreenState extends State<TodoScreen> {
     // budget tag
     final budgetProvier = context.watch<DailyBudgetProvider>();
     final dailyBudget = budgetProvier.getBudget(DateTime.now());
+    final taskBudget = budgetProvier.getTaskBudget(DateTime.now());
+
+    // calculates task duration using estimated or actual durations
+    final taskDuration = [
+      ...todoProvider.openTodos,
+      ...todoProvider.completedTodos,
+    ].where((todo) {
+      return _isToday(todo.scheduledDate);
+    }).fold<int>(0, (total, todo) {
+      if (todo.isChecked && todo.actualDuration > 0) {
+        return total + todo.actualDuration;
+      }
+      return total + (todo.estimatedDuration ?? 0);
+    });
+
+    final timeLeft = (taskBudget - taskDuration).clamp(0, taskBudget);
 
     return Scaffold(
       // title "Today" and date below
@@ -105,12 +165,13 @@ class _TodoScreenState extends State<TodoScreen> {
             ),
 
             // budget tag display
-            Todobudgettag(
+            TodoBudgetTag(
               budget: dailyBudget,
-              onPressed: () => pickDailyBudget(
+              timeLeft: timeLeft,
+              onPressed: () => _showBudgetDetails(
                 context,
                 budgetProvier,
-                DateTime.now(),
+                todoProvider,
               ),
             ),
             const SizedBox(

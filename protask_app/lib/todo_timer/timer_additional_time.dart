@@ -42,14 +42,14 @@ class _TimerAdditionalTimeState extends State<TimerAdditionalTime> {
           alignment: Alignment.centerLeft,
           child: IconButton(
             onPressed: widget.onBack,
-            icon: const Icon(Icons.arrow_back_ios),
+            icon: const Icon(TimerConstants.backIcon),
             color: AppThemeConstants.textColor,
-            tooltip: 'Back',
+            tooltip: TimerConstants.backText,
           ),
         ),
 
         const Text(
-          'How much more time do you need?',
+          TimerConstants.additionalTimeQuestion,
           textAlign: TextAlign.center,
         ),
         const SizedBox(
@@ -59,7 +59,7 @@ class _TimerAdditionalTimeState extends State<TimerAdditionalTime> {
           children: [
             Expanded(
               child: TimerControlButton(
-                label: '+5',
+                label: TimerConstants.additionalFiveMinutes,
                 selected: _selectedMinutes == 5,
                 onPressed: () => _selectTime(5),
               ),
@@ -69,7 +69,7 @@ class _TimerAdditionalTimeState extends State<TimerAdditionalTime> {
             ),
             Expanded(
               child: TimerControlButton(
-                label: '+10',
+                label: TimerConstants.additionalTenMinutes,
                 selected: _selectedMinutes == 10,
                 onPressed: () => _selectTime(10),
               ),
@@ -79,7 +79,7 @@ class _TimerAdditionalTimeState extends State<TimerAdditionalTime> {
             ),
             Expanded(
               child: TimerControlButton(
-                label: '+15',
+                label: TimerConstants.additionalFifteenMinutes,
                 selected: _selectedMinutes == 15,
                 onPressed: () => _selectTime(15),
               ),
@@ -95,7 +95,7 @@ class _TimerAdditionalTimeState extends State<TimerAdditionalTime> {
           children: [
             Expanded(
               child: TimerControlButton(
-                label: '+20',
+                label: TimerConstants.additionalTwentyMinutes,
                 selected: _selectedMinutes == 20,
                 onPressed: () => _selectTime(20),
               ),
@@ -105,7 +105,7 @@ class _TimerAdditionalTimeState extends State<TimerAdditionalTime> {
             ),
             Expanded(
               child: TimerControlButton(
-                label: '+30',
+                label: TimerConstants.additionalThirtyMinutes,
                 selected: _selectedMinutes == 30,
                 onPressed: () => _selectTime(30),
               ),
@@ -115,12 +115,14 @@ class _TimerAdditionalTimeState extends State<TimerAdditionalTime> {
             ),
             Expanded(
               child: TimerControlButton(
-                label: 'Pick',
+                label: TimerConstants.additionaCustomTime,
                 selected: _selectedMinutes != null &&
-                ![5, 10, 15, 20, 30].contains(_selectedMinutes),
+                    ![5, 10, 15, 20, 30].contains(_selectedMinutes),
                 onPressed: () async {
-                  final selectedDuration = await AppDurationPicker.selectDuration(context, 
-                  _selectedMinutes,
+                  final selectedDuration =
+                      await AppDurationPicker.selectDuration(
+                    context,
+                    _selectedMinutes,
                   );
 
                   if (selectedDuration == null || selectedDuration == 0) {
@@ -139,8 +141,8 @@ class _TimerAdditionalTimeState extends State<TimerAdditionalTime> {
         ),
         // start button
         TimerControlButton(
-          icon: Icons.play_arrow,
-          label: 'Start',
+          icon: TimerConstants.startIcon,
+          label: TimerConstants.startText,
           fullWidth: true,
 
           // diabled until a duration has been selected

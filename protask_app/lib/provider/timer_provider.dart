@@ -266,8 +266,7 @@ class TimerProvider extends ChangeNotifier {
 
   // handles timer expiration
   void _handleExpiration() {
-    // vibrates if time has run up
-    HapticFeedback.mediumImpact();
+    _vibrateOnExpiration();
 
     if (_startedAt != null) {
       final now = DateTime.now();
@@ -287,6 +286,19 @@ class TimerProvider extends ChangeNotifier {
     _state = TodoTimerState.expired;
 
     notifyListeners();
+  }
+
+  // vibrates when time expired
+  void _vibrateOnExpiration() {
+    HapticFeedback.heavyImpact();
+
+    Timer(const Duration(seconds: 1), () {
+      HapticFeedback.heavyImpact();
+    });
+
+    Timer(const Duration(seconds: 2), () {
+      HapticFeedback.heavyImpact();
+    });
   }
 
   // stops the seconds ticker
