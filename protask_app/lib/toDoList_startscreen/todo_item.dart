@@ -34,7 +34,7 @@ class TodoItem {
   // estimated duration in minutes
   int? estimatedDuration;
 
-  // actual time worked on this todo in seconds
+  // actual time worked on this todo in minutes
   int actualDuration;
 
   int additionalDuration = 0;

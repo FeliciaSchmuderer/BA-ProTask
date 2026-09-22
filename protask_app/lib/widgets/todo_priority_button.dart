@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/questionnaire_constants.dart';
-import 'package:protask_app/toDoList_startscreen/todo_item.dart';
+import 'package:protask_app/todoList_startscreen/todo_item.dart';
 
 class TodoPriorityButton extends StatelessWidget {
   final TodoPriority priority;

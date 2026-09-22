@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
+import 'package:protask_app/todoList_startscreen/todo_item.dart';
 import 'package:protask_app/todo_questionnaire/todo_questionnaire_screen.dart';
 
 // navigation animation for TodoQuestionnaire
 class TodoQuestionnaireRoute {
-  static Route<void> create() {
+  static Route<void> create({TodoItem? todo}) {
     return PageRouteBuilder(
       // animation
       transitionDuration: const Duration(milliseconds: 250),
@@ -12,13 +13,15 @@ class TodoQuestionnaireRoute {
 
       // builds questionnaire screen with rounded corners
       pageBuilder: (context, animation, secondaryAnimation) {
-        return const Material(
+        return Material(
           color: AppThemeConstants.backgroundColor,
           child: ClipRRect(
-            borderRadius: BorderRadius.vertical(
+            borderRadius: const BorderRadius.vertical(
               top: Radius.circular(40),
             ),
-            child: TodoQuestionnaireScreen(),
+            child: TodoQuestionnaireScreen(
+              todo: todo,
+            ),
           ),
         );
       },

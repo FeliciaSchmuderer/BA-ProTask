@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/todo_screen_constants.dart';
 import 'package:protask_app/provider/daily_budget_provider.dart';
-import 'package:protask_app/toDoList_startscreen/todo_list.dart';
+import 'package:protask_app/todoList_startscreen/todo_list.dart';
 import 'package:protask_app/todo_questionnaire/todo_questionnaire_route.dart';
 import 'package:protask_app/widgets/budget_details_dialog.dart';
-
 import 'package:protask_app/widgets/app_input_field.dart';
 import 'package:protask_app/widgets/todo_budget_tag.dart';
 import 'package:provider/provider.dart';
@@ -181,23 +180,28 @@ class _TodoScreenState extends State<TodoScreen> {
             // displays todo list in the middle of the screen and handles checkbox changes
             // keeps todo list between the header and the input field
             Expanded(
-              child: TodoList(
-                openTodos: openTodos,
-                completedTodos: completedTodos,
-                onChanged: (value, todo) {
-                  context.read<TodoProvider>().toggleTodo(todo, value!);
-                },
-                onDelete: (todo) {
-                  context.read<TodoProvider>().deleteTodo(todo);
-                },
-                onReorder: (oldIndex, newIndex) {
-                  context.read<TodoProvider>().reorderTodo(
-                        oldIndex,
-                        newIndex,
-                      );
-                },
-              ),
-            ),
+                child: TodoList(
+              openTodos: openTodos,
+              completedTodos: completedTodos,
+              onChanged: (value, todo) {
+                context.read<TodoProvider>().toggleTodo(todo, value!);
+              },
+              onDelete: (todo) {
+                context.read<TodoProvider>().deleteTodo(todo);
+              },
+              onReorder: (oldIndex, newIndex) {
+                context.read<TodoProvider>().reorderTodo(
+                      oldIndex,
+                      newIndex,
+                    );
+              },
+              onEdit: (todo) {
+                Navigator.push(
+                  context,
+                  TodoQuestionnaireRoute.create(todo: todo),
+                );
+              },
+            )),
 
             const SizedBox(
               height: AppThemeConstants.spacingSmall,

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/questionnaire_constants.dart';
 import 'package:protask_app/constants/todo_constants.dart';
-import 'package:protask_app/toDoList_startscreen/todo_item.dart';
+import 'package:protask_app/todoList_startscreen/todo_item.dart';
+
 import 'package:protask_app/todo_timer/timer_dialog.dart';
 import 'package:protask_app/widgets/todo_deadline_tag.dart';
 import 'package:protask_app/widgets/todo_duration_tag.dart';
@@ -12,6 +13,7 @@ class TodoTile extends StatelessWidget {
   final TodoItem todo;
   final Function(bool?) onChanged;
   final VoidCallback onDelete;
+  final VoidCallback? onEdit;
 
   // colors for priority markers
   Color _getPriorityColor() {
@@ -34,6 +36,7 @@ class TodoTile extends StatelessWidget {
     required this.todo,
     required this.onChanged,
     required this.onDelete,
+    this.onEdit,
   });
 
   @override
@@ -83,14 +86,17 @@ class TodoTile extends StatelessWidget {
 
               // displays todo title
               Expanded(
-                child: Text(
-                  todo.title,
-                  style: TextStyle(
-                    fontSize: AppThemeConstants.bodyFontSize,
-                    decoration: todo.isChecked
-                        ? TextDecoration.lineThrough
-                        : TextDecoration.none,
-                    decorationColor: AppThemeConstants.textColor,
+                child: InkWell(
+                  onTap: onEdit,
+                  child: Text(
+                    todo.title,
+                    style: TextStyle(
+                      fontSize: AppThemeConstants.bodyFontSize,
+                      decoration: todo.isChecked
+                          ? TextDecoration.lineThrough
+                          : TextDecoration.none,
+                      decorationColor: AppThemeConstants.textColor,
+                    ),
                   ),
                 ),
               ),

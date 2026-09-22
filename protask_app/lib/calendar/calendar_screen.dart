@@ -6,8 +6,9 @@ import 'package:protask_app/constants/todo_constants.dart';
 import 'package:protask_app/helpers/daily_budget_picker.dart';
 import 'package:protask_app/provider/daily_budget_provider.dart';
 import 'package:protask_app/provider/todo_provider.dart';
-import 'package:protask_app/toDoList_startscreen/todo_item.dart';
-import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
+import 'package:protask_app/todoList_startscreen/todo_item.dart';
+import 'package:protask_app/todoList_startscreen/todo_tile.dart';
+import 'package:protask_app/todo_questionnaire/todo_questionnaire_route.dart';
 import 'package:protask_app/widgets/todo_budget_tag.dart';
 
 import 'package:provider/provider.dart';
@@ -131,14 +132,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
             (todo) => Padding(
               padding: TodoConstants.todoTileBottomSpacing,
               child: TodoTile(
-                todo: todo,
-                onChanged: (value) {
-                  context.read<TodoProvider>().toggleTodo(todo, value!);
-                },
-                onDelete: () {
-                  context.read<TodoProvider>().deleteTodo(todo);
-                },
-              ),
+                  todo: todo,
+                  onChanged: (value) {
+                    context.read<TodoProvider>().toggleTodo(todo, value!);
+                  },
+                  onDelete: () {
+                    context.read<TodoProvider>().deleteTodo(todo);
+                  },
+                  onEdit: () {
+                    Navigator.push(
+                      context,
+                      TodoQuestionnaireRoute.create(todo: todo),
+                    );
+                  }),
             ),
           ),
 

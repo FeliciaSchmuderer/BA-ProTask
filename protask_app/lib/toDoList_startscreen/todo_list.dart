@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/constants/todo_constants.dart';
 import 'package:protask_app/constants/todo_screen_constants.dart';
-import 'package:protask_app/toDoList_startscreen/todo_item.dart';
-import 'package:protask_app/toDoList_startscreen/todo_tile.dart';
+import 'package:protask_app/todoList_startscreen/todo_item.dart';
+import 'package:protask_app/todoList_startscreen/todo_tile.dart';
 
 class TodoList extends StatelessWidget {
   final List<TodoItem> openTodos;
@@ -14,6 +14,8 @@ class TodoList extends StatelessWidget {
   // called when an open todo is reordered
   final Function(int, int) onReorder;
 
+  final void Function(TodoItem todo) onEdit;
+
   const TodoList({
     super.key,
     required this.openTodos,
@@ -21,6 +23,7 @@ class TodoList extends StatelessWidget {
     required this.onChanged,
     required this.onDelete,
     required this.onReorder,
+    required this.onEdit,
   });
 
   @override
@@ -57,6 +60,7 @@ class TodoList extends StatelessWidget {
                   onDelete: () {
                     onDelete(todo);
                   },
+                  onEdit: () => onEdit(todo),
                 ),
               ),
             );
@@ -95,6 +99,7 @@ class TodoList extends StatelessWidget {
                   onDelete: () {
                     onDelete(todo);
                   },
+                  onEdit: () => onEdit(todo),
                 ),
               );
             },

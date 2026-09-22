@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/accomplishments/accomplishments_screen.dart';
 import 'package:protask_app/calendar/calendar_screen.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
-import 'package:protask_app/toDoList_startscreen/todo_screen.dart';
+import 'package:protask_app/todoList_startscreen/todo_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
@@ -60,7 +60,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           backgroundColor: AppThemeConstants.appBarColor,
           type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
-            // ToDoList Startscreen
+            // TodoList Startscreen
             BottomNavigationBarItem(
                 icon: Icon(AppThemeConstants.todayIcon),
                 label: AppThemeConstants.todayLabel),

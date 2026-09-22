@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:protask_app/toDoList_startscreen/todo_item.dart';
+import 'package:protask_app/todoList_startscreen/todo_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // central state logic for all todos
@@ -110,6 +110,26 @@ class TodoProvider extends ChangeNotifier {
         estimatedDuration: estimatedDuration,
       ),
     );
+    await _saveTodos();
+    notifyListeners();
+  }
+
+  Future<void> updateTodo(
+    TodoItem todo, {
+    required String title,
+    DateTime? scheduledDate,
+    DateTime? deadlineDate,
+    TimeOfDay? deadlineTime,
+    TodoPriority? priority,
+    int? estimatedDuration,
+  }) async {
+    todo.title = title.trim();
+    todo.scheduledDate = scheduledDate;
+    todo.deadlineDate = deadlineDate;
+    todo.deadlineTime = deadlineTime;
+    todo.priority = priority;
+    todo.estimatedDuration = estimatedDuration;
+
     await _saveTodos();
     notifyListeners();
   }

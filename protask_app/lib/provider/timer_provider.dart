@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:protask_app/toDoList_startscreen/todo_item.dart';
+import 'package:protask_app/todoList_startscreen/todo_item.dart';
 
 // current state of todotimer
 enum TodoTimerState {

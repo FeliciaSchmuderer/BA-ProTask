@@ -10,6 +10,7 @@ class QuestionnaireConstants {
   static const String bufferTitle = 'Buffer';
 
   static const String createTodoText = 'Create';
+  static const String saveTodoText = 'Save';
 
   // general
   static const double buttonBorderRadius = 8;

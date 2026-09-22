@@ -5,7 +5,7 @@ import 'package:protask_app/helpers/app_date_picker.dart';
 import 'package:protask_app/helpers/app_duration_picker.dart';
 import 'package:protask_app/helpers/app_time_picker.dart';
 import 'package:protask_app/provider/todo_provider.dart';
-import 'package:protask_app/toDoList_startscreen/todo_item.dart';
+import 'package:protask_app/todoList_startscreen/todo_item.dart';
 import 'package:protask_app/widgets/todo_date_button.dart';
 import 'package:protask_app/widgets/todo_deadline_button.dart';
 import 'package:protask_app/widgets/todo_duration_button.dart';
@@ -14,7 +14,12 @@ import 'package:provider/provider.dart';
 import 'package:protask_app/widgets/buffer_section.dart';
 
 class TodoQuestionnaireScreen extends StatefulWidget {
-  const TodoQuestionnaireScreen({super.key});
+  final TodoItem? todo;
+
+  const TodoQuestionnaireScreen({
+    super.key,
+    this.todo,
+  });
 
   @override
   State<TodoQuestionnaireScreen> createState() =>
@@ -25,13 +30,26 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
   final TextEditingController _controller = TextEditingController();
 
   TodoPriority? _selectedPriority;
-
   DateTime? _selectedScheduledDate;
-
   DateTime? _selectedDeadlineDate;
   TimeOfDay? _selectedDeadlineTime;
-
   int? _selectedDuration;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final todo = widget.todo;
+
+    if (todo != null) {
+      _controller.text = todo.title;
+      _selectedPriority = todo.priority;
+      _selectedScheduledDate = todo.scheduledDate;
+      _selectedDeadlineDate = todo.deadlineDate;
+      _selectedDeadlineTime = todo.deadlineTime;
+      _selectedDuration = todo.estimatedDuration;
+    }
+  }
 
   // checks if two date represent the same calendar day
   bool _isSameDay(DateTime? first, DateTime second) {
@@ -132,21 +150,36 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
     });
   }
 
-  void createTodo() {
+  Future<void> saveTodo() async {
     if (_controller.text.trim().isEmpty) {
       return;
     }
 
-    context.read<TodoProvider>().addTodo(
-          _controller.text,
-          priority: _selectedPriority,
-          scheduledDate: _selectedScheduledDate,
-          deadlineDate: _selectedDeadlineDate,
-          deadlineTime: _selectedDeadlineTime,
-          estimatedDuration: _selectedDuration,
-        );
+    final todoProvider = context.read<TodoProvider>();
 
-    Navigator.pop(context);
+    if (widget.todo == null) {
+      await todoProvider.addTodo(
+        _controller.text.trim(),
+        scheduledDate: _selectedScheduledDate,
+        deadlineDate: _selectedDeadlineDate,
+        deadlineTime: _selectedDeadlineTime,
+        priority: _selectedPriority,
+        estimatedDuration: _selectedDuration,
+      );
+    } else {
+      await todoProvider.updateTodo(
+        widget.todo!,
+        title: _controller.text.trim(),
+        scheduledDate: _selectedScheduledDate,
+        deadlineDate: _selectedDeadlineDate,
+        deadlineTime: _selectedDeadlineTime,
+        priority: _selectedPriority,
+        estimatedDuration: _selectedDuration,
+      );
+    }
+    if (mounted) {
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -234,7 +267,6 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                             },
                           ),
                         ),
-                        
                         Expanded(
                           child: TodoDateButton(
                             title: QuestionnaireConstants.dateTextTomorrow,
@@ -256,7 +288,6 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                             },
                           ),
                         ),
-                        
                         Expanded(
                           child: TodoDateButton(
                             title: QuestionnaireConstants.dateTextPick,
@@ -447,7 +478,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                 // create button
                 Center(
                   child: ElevatedButton(
-                    onPressed: createTodo,
+                    onPressed: saveTodo,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueGrey,
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -459,12 +490,13 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadiusGeometry.circular(
                             QuestionnaireConstants.createButtonRadius),
-                            
                       ),
                     ),
-                    child: const Text(
-                      QuestionnaireConstants.createTodoText,
-                      style: TextStyle(
+                    child: Text(
+                      widget.todo == null
+                          ? QuestionnaireConstants.createTodoText
+                          : QuestionnaireConstants.saveTodoText,
+                      style: const TextStyle(
                         fontSize: QuestionnaireConstants.createButtonFontSize,
                         // color: AppThemeConstants.accentColor,
                       ),

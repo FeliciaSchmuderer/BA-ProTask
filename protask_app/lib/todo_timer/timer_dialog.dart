@@ -6,7 +6,7 @@ import 'package:protask_app/constants/timer_constants.dart';
 
 import 'package:protask_app/provider/timer_provider.dart';
 import 'package:protask_app/provider/todo_provider.dart';
-import 'package:protask_app/toDoList_startscreen/todo_item.dart';
+import 'package:protask_app/todoList_startscreen/todo_item.dart';
 import 'package:protask_app/todo_timer/timer_additional_time.dart';
 import 'package:protask_app/todo_timer/timer_clock.dart';
 import 'package:protask_app/todo_timer/timer_controls.dart';
