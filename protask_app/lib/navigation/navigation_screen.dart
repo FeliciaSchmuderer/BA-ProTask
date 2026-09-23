@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:protask_app/accomplishments/accomplishments_screen.dart';
 import 'package:protask_app/calendar/calendar_screen.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
+import 'package:protask_app/eisenhower_matrix/eisenhower_screen.dart';
 import 'package:protask_app/todoList_startscreen/todo_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -25,13 +26,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
     const AccomplishmentsScreen(),
     // const GoalsScreen(),
 
-    const Center(
+   /* const Center(
       child: Text("Goals"),
-    ),
-    // const PriorityScreen(),
-    const Center(
-      child: Text("Priority"),
-    ),
+    ),*/
+
+    const EisenhowerScreen(),
   ];
 
   // list of widgets for bottom navigation items
@@ -73,11 +72,16 @@ class _NavigationScreenState extends State<NavigationScreen> {
             BottomNavigationBarItem(
                 icon: Icon(AppThemeConstants.accomplishmentIcon),
                 label: AppThemeConstants.accomplishmentLabel),
-            // graphic view screen
+         
+
+         /*   // graphic view screen
             BottomNavigationBarItem(
                 icon: Icon(AppThemeConstants.graphicIcon),
                 label: AppThemeConstants.graphicLabel),
-            // Eisenhowermatrix but optinal still
+                */
+
+
+            // Eisenhowermatrix
             BottomNavigationBarItem(
                 icon: Icon(AppThemeConstants.priorityIcon),
                 label: AppThemeConstants.priorityLabel),

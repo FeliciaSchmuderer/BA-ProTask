@@ -58,6 +58,7 @@ class AppTheme {
         if (states.contains(WidgetState.selected)) {
           return AppThemeConstants.accentColor;
         }
+        return Colors.transparent;
       }),
       checkColor: WidgetStateProperty.all(
         AppThemeConstants.textColor,

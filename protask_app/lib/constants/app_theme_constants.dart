@@ -46,7 +46,6 @@ class AppThemeConstants {
   static String get currentDate =>
       DateFormat('EEEE, dd.MM.yyyy', 'de_DE').format(DateTime.now());
 
-  
   // icons
   static const IconData todayIcon = Icons.wb_sunny_rounded;
   static const IconData calendarIcon = Icons.calendar_month;
@@ -66,4 +65,8 @@ class AppThemeConstants {
     topLeft: Radius.elliptical(15, 5),
     topRight: Radius.elliptical(15, 5),
   );
+
+  // chevrons
+  static const IconData leftChevronIcon = Icons.chevron_left;
+  static const IconData rightChevronIcon = Icons.chevron_right;
 }
