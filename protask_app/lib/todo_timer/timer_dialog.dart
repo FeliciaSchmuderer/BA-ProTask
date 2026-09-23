@@ -68,7 +68,7 @@ class _TimerDialogContentState extends State<TimerDialogContent> {
 
   // finishes todo and stores the actual worked time
   Future<void> _finishTodo(
-    BuildContext context,
+    
     TimerProvider timerProvider,
   ) async {
     // makes sure current running time is added
@@ -92,6 +92,9 @@ class _TimerDialogContentState extends State<TimerDialogContent> {
       widget.todo,
       true,
     );
+    if (!mounted) {
+      return;
+    }
 
     Navigator.of(context).pop();
   }
@@ -230,7 +233,7 @@ class _TimerDialogContentState extends State<TimerDialogContent> {
                                       // finishes todo timer
                                       onFinish: () {
                                         _finishTodo(
-                                          context,
+                                          
                                           timerProvider,
                                         );
                                       },
@@ -241,11 +244,11 @@ class _TimerDialogContentState extends State<TimerDialogContent> {
                                   todo: widget.todo,
                                   onFinish: () {
                                     _finishTodo(
-                                      context,
+                                      
                                       timerProvider,
                                     );
                                   }),
-                        )
+                        ),
                       ],
                     ),
                   ),
