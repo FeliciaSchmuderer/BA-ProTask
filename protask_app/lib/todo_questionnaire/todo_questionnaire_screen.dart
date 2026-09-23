@@ -220,9 +220,10 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                       ),
                     ),
                     focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                      color: AppThemeConstants.textColor,
-                    )),
+                      borderSide: BorderSide(
+                        color: AppThemeConstants.textColor,
+                      ),
+                    ),
                   ),
                 ),
 
@@ -248,9 +249,7 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                     ),
 
                     // Today - Tomorrow - Pick Date
-                    Wrap(
-                      spacing: AppThemeConstants.spacingSmall,
-                      runSpacing: AppThemeConstants.spacingSmall,
+                    Row(
                       children: [
                         Expanded(
                           child: TodoDateButton(
@@ -266,6 +265,9 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                               });
                             },
                           ),
+                        ),
+                        const SizedBox(
+                          width: AppThemeConstants.spacingMini,
                         ),
                         Expanded(
                           child: TodoDateButton(
@@ -287,6 +289,9 @@ class _TodoQuestionnaireScreenState extends State<TodoQuestionnaireScreen> {
                               });
                             },
                           ),
+                        ),
+                        const SizedBox(
+                          width: AppThemeConstants.spacingMini,
                         ),
                         Expanded(
                           child: TodoDateButton(

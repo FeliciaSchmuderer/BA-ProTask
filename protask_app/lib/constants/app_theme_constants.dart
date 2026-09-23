@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 // constants for the basic app design
 class AppThemeConstants {
   // text
-  static const String appBarTitle = "proGres";
+  static const String appBarTitle = 'proGres';
 
 // colors - backgrounds
   static const Color backgroundColor = Color(0xff1e1e1e);

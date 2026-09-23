@@ -67,7 +67,7 @@ class TodoTile extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 8,
-            vertical: 8,
+            vertical: 1,
           ),
           // checkbox - todo item
           child: Row(
@@ -77,11 +77,6 @@ class TodoTile extends StatelessWidget {
               Checkbox(
                 value: todo.isChecked,
                 onChanged: onChanged,
-              ),
-
-              // space between checkbox and title
-              const SizedBox(
-                width: AppThemeConstants.spacingSmall,
               ),
 
               // displays todo title
