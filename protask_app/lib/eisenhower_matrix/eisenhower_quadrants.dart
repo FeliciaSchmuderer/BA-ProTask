@@ -64,48 +64,70 @@ class EisenhowerQuadrants extends StatelessWidget {
           // diplays the todos of the quadrants
           ...todos.map(
             (todo) => Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: Row(
+              padding: const EdgeInsets.only(bottom: 1),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // checkbox
-                  Checkbox(
-                    value: todo.isChecked,
-                    onChanged: (value) {
-                      if (value != null) {
-                        todoProvider.toggleTodo(todo, value);
-                      }
-                    },
-                  ),
-
-                  const SizedBox(
-                    width: 4,
-                  ),
-
-                  // todo title
-                  Expanded(
-                    child: Text(
-                      todo.title,
-                      style: const TextStyle(
-                        fontSize: AppThemeConstants.bodyFontSize,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Checkbox(
+                        value: todo.isChecked,
+                        onChanged: (value) {
+                          if (value != null) {
+                            todoProvider.toggleTodo(todo, value);
+                          }
+                        },
                       ),
-                    ),
+
+                      // todo title
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 12),
+                          child: Text(
+                            todo.title,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
 
                   // estimated duration
-                  if (todo.estimatedDuration != null) ...[
-                    TodoDurationTag(
-                      duration: todo.estimatedDuration!,
-                    ),
-                    const SizedBox(
-                      width: AppThemeConstants.spacingSmall,
-                    ),
-                  ],
+                  if (todo.estimatedDuration != null ||
+                      todo.deadlineDate != null ||
+                      todo.deadlineTime != null)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 40),
+                      child: Row(
+                        children: [
+                          // estimated duration
+                          if (todo.estimatedDuration != null)
+                            TodoDurationTag(
+                              duration: todo.estimatedDuration!,
+                            ),
 
-                  // deadline
-                  if (todo.deadlineDate != null || todo.deadlineTime != null)
-                    TodoDeadlineTag(
-                      date: todo.deadlineDate,
-                      time: todo.deadlineTime,
+                          // spacing between tags
+                          if (todo.estimatedDuration != null &&
+                              (todo.deadlineDate != null ||
+                                  todo.deadlineTime != null))
+                            const SizedBox(
+                              width: AppThemeConstants.spacingMini,
+                            ),
+
+                          // deadline
+                          if (todo.deadlineDate != null ||
+                              todo.deadlineTime != null)
+                            TodoDeadlineTag(
+                              date: todo.deadlineDate,
+                              time: todo.deadlineTime,
+                            ),
+                        ],
+                      ),
                     ),
                 ],
               ),

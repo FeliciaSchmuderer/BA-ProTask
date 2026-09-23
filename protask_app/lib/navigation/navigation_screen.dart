@@ -26,9 +26,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
     const AccomplishmentsScreen(),
     // const GoalsScreen(),
 
-    const Center(
+   /* const Center(
       child: Text("Goals"),
-    ),
+    ),*/
 
     const EisenhowerScreen(),
   ];
@@ -72,10 +72,15 @@ class _NavigationScreenState extends State<NavigationScreen> {
             BottomNavigationBarItem(
                 icon: Icon(AppThemeConstants.accomplishmentIcon),
                 label: AppThemeConstants.accomplishmentLabel),
-            // graphic view screen
+         
+         
+         /*   // graphic view screen
             BottomNavigationBarItem(
                 icon: Icon(AppThemeConstants.graphicIcon),
                 label: AppThemeConstants.graphicLabel),
+                */
+
+
             // Eisenhowermatrix but optinal still
             BottomNavigationBarItem(
                 icon: Icon(AppThemeConstants.priorityIcon),
