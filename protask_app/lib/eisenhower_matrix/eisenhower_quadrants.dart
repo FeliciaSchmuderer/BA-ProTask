@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
+import 'package:protask_app/constants/eisenhower_constants.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/todoList_startscreen/todo_item.dart';
 import 'package:protask_app/widgets/todo_deadline_tag.dart';
@@ -24,12 +25,13 @@ class EisenhowerQuadrants extends StatelessWidget {
 
     return Container(
       constraints: const BoxConstraints(
-        minHeight: 180,
+        minHeight: EisenhowerConstants.quadrantMinHeight,
       ),
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(EisenhowerConstants.quadrantPadding),
       decoration: BoxDecoration(
         border: Border.all(),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius:
+            BorderRadius.circular(EisenhowerConstants.quadrantBorderRadius),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,8 +51,8 @@ class EisenhowerQuadrants extends StatelessWidget {
 
               // priority marker
               Container(
-                width: 14,
-                height: 14,
+                width: EisenhowerConstants.priorityMarkerSize,
+                height: EisenhowerConstants.priorityMarkerSize,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: priorityColor,
@@ -59,78 +61,83 @@ class EisenhowerQuadrants extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 10),
+          const SizedBox(
+            height: EisenhowerConstants.quadrantPadding,
+          ),
 
           // diplays the todos of the quadrants
           ...todos.map(
-            (todo) => Padding(
-              padding: const EdgeInsets.only(bottom: 1),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // checkbox
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Checkbox(
-                        value: todo.isChecked,
-                        onChanged: (value) {
-                          if (value != null) {
-                            todoProvider.toggleTodo(todo, value);
-                          }
-                        },
-                      ),
+            (todo) => Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // checkbox
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      value: todo.isChecked,
+                      onChanged: (value) {
+                        if (value != null) {
+                          todoProvider.toggleTodo(todo, value);
+                        }
+                      },
+                      visualDensity: VisualDensity.compact,
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
 
-                      // todo title
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 12),
-                          child: Text(
-                            todo.title,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
+                    const SizedBox(
+                      width: 2,
+                    ),
+                    // todo title
+                    Expanded(
+                      child: Text(
+                        todo.title,
+                        style: const TextStyle(
+                          fontSize: EisenhowerConstants.todoFontSize,
+                          fontWeight: EisenhowerConstants.todoFontWeight,
                         ),
                       ),
-                    ],
-                  ),
-
-                  // estimated duration
-                  if (todo.estimatedDuration != null ||
-                      todo.deadlineDate != null ||
-                      todo.deadlineTime != null)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 40),
-                      child: Row(
-                        children: [
-                          // estimated duration
-                          if (todo.estimatedDuration != null)
-                            TodoDurationTag(
-                              duration: todo.estimatedDuration!,
-                            ),
-
-                          // spacing between tags
-                          if (todo.estimatedDuration != null &&
-                              (todo.deadlineDate != null ||
-                                  todo.deadlineTime != null))
-                            const SizedBox(
-                              width: AppThemeConstants.spacingMini,
-                            ),
-
-                          // deadline
-                          if (todo.deadlineDate != null ||
-                              todo.deadlineTime != null)
-                            TodoDeadlineTag(
-                              date: todo.deadlineDate,
-                              time: todo.deadlineTime,
-                            ),
-                        ],
-                      ),
                     ),
-                ],
-              ),
+                  ],
+                ),
+
+                // estimated duration
+                if (todo.estimatedDuration != null ||
+                    todo.deadlineDate != null ||
+                    todo.deadlineTime != null)
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: EisenhowerConstants.todoTagsLeftPadding),
+                    child: Wrap(
+                      spacing: AppThemeConstants.spacingMini,
+                      runSpacing: EisenhowerConstants.tagRunSpacing,
+                      children: [
+                        // estimated duration
+                        if (todo.estimatedDuration != null)
+                          TodoDurationTag(
+                            duration: todo.estimatedDuration!,
+                          ),
+
+                        // spacing between tags
+                        if (todo.estimatedDuration != null &&
+                            (todo.deadlineDate != null ||
+                                todo.deadlineTime != null))
+                          const SizedBox(
+                            width: AppThemeConstants.spacingMini,
+                          ),
+
+                        // deadline
+                        if (todo.deadlineDate != null ||
+                            todo.deadlineTime != null)
+                          TodoDeadlineTag(
+                            date: todo.deadlineDate,
+                            time: todo.deadlineTime,
+                          ),
+                      ],
+                    ),
+                  ),
+              ],
             ),
           ),
         ],

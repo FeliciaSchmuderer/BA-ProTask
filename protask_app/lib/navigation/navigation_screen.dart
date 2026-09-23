@@ -73,7 +73,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 icon: Icon(AppThemeConstants.accomplishmentIcon),
                 label: AppThemeConstants.accomplishmentLabel),
          
-         
+
          /*   // graphic view screen
             BottomNavigationBarItem(
                 icon: Icon(AppThemeConstants.graphicIcon),
@@ -81,7 +81,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 */
 
 
-            // Eisenhowermatrix but optinal still
+            // Eisenhowermatrix
             BottomNavigationBarItem(
                 icon: Icon(AppThemeConstants.priorityIcon),
                 label: AppThemeConstants.priorityLabel),

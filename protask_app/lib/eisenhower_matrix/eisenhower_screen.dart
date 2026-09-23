@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
+import 'package:protask_app/constants/eisenhower_constants.dart';
 import 'package:protask_app/constants/questionnaire_constants.dart';
 import 'package:protask_app/eisenhower_matrix/eisenhower_quadrants.dart';
 import 'package:protask_app/provider/todo_provider.dart';
@@ -71,13 +72,13 @@ class _EisenhowerScreenState extends State<EisenhowerScreen> {
         .toList();
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(EisenhowerConstants.screenPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // tile
           const Text(
-            'Eisenhower Matrix',
+            EisenhowerConstants.screenTitle,
             style: TextStyle(
               fontSize: AppThemeConstants.titleFontSize,
               fontWeight: AppThemeConstants.titleFontWeight,
@@ -94,7 +95,7 @@ class _EisenhowerScreenState extends State<EisenhowerScreen> {
             children: [
               IconButton(
                 onPressed: _previousDay,
-                icon: const Icon(Icons.chevron_left),
+                icon: const Icon(AppThemeConstants.leftChevronIcon),
               ),
               Text(
                 '${_selectedDate.day}.${_selectedDate.month}.${_selectedDate.year}',
@@ -105,7 +106,7 @@ class _EisenhowerScreenState extends State<EisenhowerScreen> {
               ),
               IconButton(
                 onPressed: _nextDay,
-                icon: Icon(Icons.chevron_right),
+                icon: const Icon(AppThemeConstants.rightChevronIcon),
               ),
             ],
           ),
@@ -115,54 +116,56 @@ class _EisenhowerScreenState extends State<EisenhowerScreen> {
           ),
 
           // the four Eisenhower quadrants
-          LayoutBuilder(builder: (context, constraints) {
-            final width = constraints.maxWidth;
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final width = constraints.maxWidth;
 
-            // two quadrants next to each other
-            const columnCount = 2;
+              // two quadrants next to each other
+              const columnCount = EisenhowerConstants.columnCount;
 
-            // calculates the width of each quadrant
-            final itemWidth = (width - 12) / columnCount;
+              // calculates the width of each quadrant
+              final itemWidth = (width - 12) / columnCount;
 
-            return Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: [
-                SizedBox(
-                  width: itemWidth,
-                  child: EisenhowerQuadrants(
-                    title: 'Important & Urgent',
-                    todos: priorityATodos,
-                    priorityColor: QuestionnaireConstants.priorityAColor,
+              return Wrap(
+                spacing: EisenhowerConstants.quadrantSpacing,
+                runSpacing: EisenhowerConstants.quadrantSpacing,
+                children: [
+                  SizedBox(
+                    width: itemWidth,
+                    child: EisenhowerQuadrants(
+                      title: EisenhowerConstants.quadrantA,
+                      todos: priorityATodos,
+                      priorityColor: QuestionnaireConstants.priorityAColor,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: itemWidth,
-                  child: EisenhowerQuadrants(
-                    title: 'Important & Not Urgent',
-                    todos: priorityBTodos,
-                    priorityColor: QuestionnaireConstants.priorityBColor,
+                  SizedBox(
+                    width: itemWidth,
+                    child: EisenhowerQuadrants(
+                      title: EisenhowerConstants.quadrantB,
+                      todos: priorityBTodos,
+                      priorityColor: QuestionnaireConstants.priorityBColor,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: itemWidth,
-                  child: EisenhowerQuadrants(
-                    title: 'Not Important & Urgent',
-                    todos: priorityCTodos,
-                    priorityColor: QuestionnaireConstants.priorityCColor,
+                  SizedBox(
+                    width: itemWidth,
+                    child: EisenhowerQuadrants(
+                      title: EisenhowerConstants.quadrantC,
+                      todos: priorityCTodos,
+                      priorityColor: QuestionnaireConstants.priorityCColor,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: itemWidth,
-                  child: EisenhowerQuadrants(
-                    title: 'Not Important & Not Urgent',
-                    todos: priorityDTodos,
-                    priorityColor: QuestionnaireConstants.priorityDColor,
+                  SizedBox(
+                    width: itemWidth,
+                    child: EisenhowerQuadrants(
+                      title: EisenhowerConstants.quadrantD,
+                      todos: priorityDTodos,
+                      priorityColor: QuestionnaireConstants.priorityDColor,
+                    ),
                   ),
-                ),
-              ],
-            );
-          })
+                ],
+              );
+            },
+          ),
         ],
       ),
     );
