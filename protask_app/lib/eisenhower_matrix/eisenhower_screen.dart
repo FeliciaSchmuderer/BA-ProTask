@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:protask_app/constants/accomplishments_constants.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
+import 'package:protask_app/constants/questionnaire_constants.dart';
 import 'package:protask_app/eisenhower_matrix/eisenhower_quadrants.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/todoList_startscreen/todo_item.dart';
@@ -133,6 +133,7 @@ class _EisenhowerScreenState extends State<EisenhowerScreen> {
                   child: EisenhowerQuadrants(
                     title: 'Important & Urgent',
                     todos: priorityATodos,
+                    priorityColor: QuestionnaireConstants.priorityAColor,
                   ),
                 ),
                 SizedBox(
@@ -140,6 +141,7 @@ class _EisenhowerScreenState extends State<EisenhowerScreen> {
                   child: EisenhowerQuadrants(
                     title: 'Important & Not Urgent',
                     todos: priorityBTodos,
+                    priorityColor: QuestionnaireConstants.priorityBColor,
                   ),
                 ),
                 SizedBox(
@@ -147,6 +149,7 @@ class _EisenhowerScreenState extends State<EisenhowerScreen> {
                   child: EisenhowerQuadrants(
                     title: 'Not Important & Urgent',
                     todos: priorityCTodos,
+                    priorityColor: QuestionnaireConstants.priorityCColor,
                   ),
                 ),
                 SizedBox(
@@ -154,6 +157,7 @@ class _EisenhowerScreenState extends State<EisenhowerScreen> {
                   child: EisenhowerQuadrants(
                     title: 'Not Important & Not Urgent',
                     todos: priorityDTodos,
+                    priorityColor: QuestionnaireConstants.priorityDColor,
                   ),
                 ),
               ],
