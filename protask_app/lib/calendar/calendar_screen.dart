@@ -3,6 +3,7 @@ import 'package:protask_app/calendar/calendar_widget.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/calendar_constants.dart';
 import 'package:protask_app/constants/todo_constants.dart';
+import 'package:protask_app/helpers/daily_budget_picker.dart';
 import 'package:protask_app/provider/daily_budget_provider.dart';
 import 'package:protask_app/provider/todo_provider.dart';
 import 'package:protask_app/todoList_startscreen/todo_item.dart';
@@ -36,14 +37,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
   // opens budget details popup when clicked on the budget tag
   void _showBudgetDetails(
     BuildContext context,
-    DailyBudgetProvider budgetProvider,
     TodoProvider todoProvider,
   ) {
     final selectedDate = _selectedDate!;
-
-    final dailyBudget = budgetProvider.getBudget(selectedDate);
-    final taskBudget = budgetProvider.getTaskBudget(selectedDate);
-    final bufferTime = budgetProvider.getBufferTime(selectedDate);
 
     // calculates planned task duration for the day
     final taskDuration = [
@@ -67,9 +63,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
       context: context,
       builder: (context) {
         return BudgetDetailsDialog(
-          dailyBudget: dailyBudget,
-          taskBudget: taskBudget,
-          bufferTime: bufferTime,
           taskDuration: taskDuration,
           selectedDate: selectedDate,
         );
@@ -148,11 +141,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 TodoBudgetTag(
                   budget: budgetProvider.getBudget(_selectedDate!),
                   timeLeft: budgetProvider.getTaskBudget(_selectedDate!),
-                  onPressed: () => _showBudgetDetails(
-                    context,
-                    budgetProvider,
-                    todoProvider,
-                  ),
+                  onPressed: () async {
+                    if (budgetProvider.getBudget(_selectedDate!) == null) {
+                      await pickDailyBudget(
+                        context,
+                        budgetProvider,
+                        _selectedDate!,
+                      );
+                    } else {
+                      _showBudgetDetails(
+                        context,
+                        todoProvider,
+                      );
+                    }
+                  },
                 ),
               ],
             ),
@@ -176,19 +178,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
             (todo) => Padding(
               padding: TodoConstants.todoTileBottomSpacing,
               child: TodoTile(
-                  todo: todo,
-                  onChanged: (value) {
-                    context.read<TodoProvider>().toggleTodo(todo, value!);
-                  },
-                  onDelete: () {
-                    context.read<TodoProvider>().deleteTodo(todo);
-                  },
-                  onEdit: () {
-                    Navigator.push(
-                      context,
-                      TodoQuestionnaireRoute.create(todo: todo),
-                    );
-                  }),
+                todo: todo,
+                onChanged: (value) {
+                  context.read<TodoProvider>().toggleTodo(todo, value!);
+                },
+                onDelete: () {
+                  context.read<TodoProvider>().deleteTodo(todo);
+                },
+                onEdit: () {
+                  Navigator.push(
+                    context,
+                    TodoQuestionnaireRoute.create(todo: todo),
+                  );
+                },
+              ),
             ),
           ),
 

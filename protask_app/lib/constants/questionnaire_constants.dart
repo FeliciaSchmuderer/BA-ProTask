@@ -105,7 +105,7 @@ class QuestionnaireConstants {
 
   static const String bufferSelectionText =
       'Select your time budget for this day';
-  static const String bufferSelectionTextShort = 'Set budget';
+  static const String bufferSelectionTextShort = 'Set daily budget';
   static const String taskLabel = 'tasks';
   static const String timeLeftLabel = 'left';
   static const String bufferLeftLabel = 'buffer left';

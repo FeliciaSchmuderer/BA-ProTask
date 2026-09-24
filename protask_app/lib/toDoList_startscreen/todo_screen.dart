@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:protask_app/constants/app_theme_constants.dart';
 import 'package:protask_app/constants/todo_screen_constants.dart';
+import 'package:protask_app/helpers/daily_budget_picker.dart';
 import 'package:protask_app/provider/daily_budget_provider.dart';
 import 'package:protask_app/todoList_startscreen/todo_list.dart';
 import 'package:protask_app/todo_questionnaire/todo_questionnaire_route.dart';
@@ -59,14 +60,9 @@ class _TodoScreenState extends State<TodoScreen> {
   // opens budget details popup when clicked on the budget tag
   void _showBudgetDetails(
     BuildContext context,
-    DailyBudgetProvider budgetProvider,
     TodoProvider todoProvider,
   ) {
     final today = DateTime.now();
-
-    final dailyBudget = budgetProvider.getBudget(today);
-    final taskBudget = budgetProvider.getTaskBudget(today);
-    final bufferTime = budgetProvider.getBufferTime(today);
 
     // calculates planned task duration for the day
     final taskDuration = [
@@ -89,9 +85,6 @@ class _TodoScreenState extends State<TodoScreen> {
       context: context,
       builder: (context) {
         return BudgetDetailsDialog(
-          dailyBudget: dailyBudget,
-          taskBudget: taskBudget,
-          bufferTime: bufferTime,
           taskDuration: taskDuration,
           selectedDate: DateTime.now(),
         );
@@ -110,9 +103,9 @@ class _TodoScreenState extends State<TodoScreen> {
     final completedTodos = todoProvider.completedTodos;
 
     // budget tag
-    final budgetProvier = context.watch<DailyBudgetProvider>();
-    final dailyBudget = budgetProvier.getBudget(DateTime.now());
-    final taskBudget = budgetProvier.getTaskBudget(DateTime.now());
+    final budgetProvider = context.watch<DailyBudgetProvider>();
+    final dailyBudget = budgetProvider.getBudget(DateTime.now());
+    final taskBudget = budgetProvider.getTaskBudget(DateTime.now());
 
     // calculates task duration using estimated or actual durations
     final taskDuration = [
@@ -168,12 +161,22 @@ class _TodoScreenState extends State<TodoScreen> {
             TodoBudgetTag(
               budget: dailyBudget,
               timeLeft: timeLeft,
-              onPressed: () => _showBudgetDetails(
-                context,
-                budgetProvier,
-                todoProvider,
-              ),
+              onPressed: () async {
+                if (dailyBudget == null) {
+                  await pickDailyBudget(
+                    context,
+                    budgetProvider,
+                    DateTime.now(),
+                  );
+                } else {
+                  _showBudgetDetails(
+                    context,
+                    todoProvider,
+                  );
+                }
+              },
             ),
+
             const SizedBox(
               height: AppThemeConstants.spacingMedium,
             ),

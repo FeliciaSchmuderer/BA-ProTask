@@ -8,28 +8,25 @@ import 'package:protask_app/widgets/todo_duration_button.dart';
 import 'package:provider/provider.dart';
 
 class BudgetDetailsDialog extends StatelessWidget {
-  final int? dailyBudget;
-  final int taskBudget;
-  final int bufferTime;
   final int taskDuration;
   final DateTime selectedDate;
 
   const BudgetDetailsDialog({
     super.key,
-    required this.dailyBudget,
-    required this.taskBudget,
-    required this.bufferTime,
     required this.taskDuration,
     required this.selectedDate,
   });
 
   // changes or sets new daily budget
-  Future<void> _changeProvider(BuildContext context) async {
+  Future<void> _changeBudget(BuildContext context) async {
     final budgetProvider = context.read<DailyBudgetProvider>();
+
+    // always get the current budget from the provider
+    final currenBudget = budgetProvider.getBudget(selectedDate);
 
     final selectedBudget = await AppDurationPicker.selectDuration(
       context,
-      dailyBudget,
+      currenBudget,
     );
 
     if (selectedBudget == null) {
@@ -38,20 +35,29 @@ class BudgetDetailsDialog extends StatelessWidget {
 
     if (selectedBudget == 0) {
       await budgetProvider.removeBudget(selectedDate);
-    } else {
-      await budgetProvider.setBudget(
-        selectedDate,
-        selectedBudget,
-      );
+
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
+      return;
     }
 
-    if (context.mounted) {
-      Navigator.of(context).pop();
-    }
+    await budgetProvider.setBudget(
+      selectedDate,
+      selectedBudget,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    // dialog rebuilds whenever the budget changes
+    final budgetProvider = context.watch<DailyBudgetProvider>();
+
+    // always use the current values from the provider
+    final dailyBudget = budgetProvider.getBudget(selectedDate);
+    final taskBudget = budgetProvider.getTaskBudget(selectedDate);
+    final bufferTime = budgetProvider.getBufferTime(selectedDate);
+
     return Dialog(
       backgroundColor: AppThemeConstants.surfaceColor,
       shape: RoundedRectangleBorder(
@@ -81,7 +87,7 @@ class BudgetDetailsDialog extends StatelessWidget {
             // shows an option to set the budget if none is set up
             if (dailyBudget == null)
               InkWell(
-                onTap: () => _changeProvider(context),
+                onTap: () => _changeBudget(context),
                 child: const Text(
                   BudgetConstants.setBudgetText,
                   style: TextStyle(
@@ -89,12 +95,14 @@ class BudgetDetailsDialog extends StatelessWidget {
                   ),
                 ),
               )
+
+            // budget exists
             else ...[
               SizedBox(
                 width: double.infinity,
                 child: TodoDurationButton(
-                  duration: dailyBudget!,
-                  onPressed: () => _changeProvider(context),
+                  duration: dailyBudget,
+                  onPressed: () => _changeBudget(context),
                 ),
               ),
 
@@ -104,7 +112,7 @@ class BudgetDetailsDialog extends StatelessWidget {
 
               // displays progress of the task budget and buffer
               BudgetProgressView(
-                dailyBudget: dailyBudget!,
+                dailyBudget: dailyBudget,
                 taskBudget: taskBudget,
                 bufferTime: bufferTime,
                 taskDuration: taskDuration,

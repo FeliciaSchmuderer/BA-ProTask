@@ -40,6 +40,12 @@ class AppTheme {
       ),
     ),
 
+    // text selection / cursor
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: AppThemeConstants.textColor,
+      selectionHandleColor: AppThemeConstants.hintTextColor,
+    ),
+
     // textbutton
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(

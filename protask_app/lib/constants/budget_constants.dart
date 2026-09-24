@@ -8,8 +8,8 @@ class BudgetConstants {
   static const double spacingSmall = 8;
 
   // texts
-  static const String budgetText = 'Budget';
-  static const String setBudgetText = 'Set Budget';
+  static const String budgetText = 'Daily Budget';
+  static const String setBudgetText = 'Set Daily Budget';
   static const String closeBudgetText = 'Close';
 
   static const double budgetFontSize = 20;

@@ -54,7 +54,7 @@ class TodoBudgetTag extends StatelessWidget {
         ),
         child: Text(
           hasBudget
-              ? 'Budget: ${_formatDuration(budget!)}'
+              ? 'Daily budget: ${_formatDuration(budget!)}'
                   ' / ${_formatDuration(timeLeft ?? 0)} left'
               : QuestionnaireConstants.bufferSelectionTextShort,
           style: const TextStyle(
