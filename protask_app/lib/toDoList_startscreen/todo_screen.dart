@@ -62,7 +62,6 @@ class _TodoScreenState extends State<TodoScreen> {
     BuildContext context,
     TodoProvider todoProvider,
   ) {
-    final today = DateTime.now();
 
     // calculates planned task duration for the day
     final taskDuration = [
